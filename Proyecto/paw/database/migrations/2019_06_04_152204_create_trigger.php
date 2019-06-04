@@ -91,6 +91,25 @@ class CreateTrigger extends Migration
             END IF;
           END
         ');
+        DB::unprepared('
+          CREATE TRIGGER trg_buproducto BEFORE UPDATE
+          ON productos
+          FOR EACH ROW
+          BEGIN
+            IF(new.precio_compra > new.precio_venta OR new.precio_compra <= 0 OR new.precio_venta <= 0) THEN
+                SIGNAL sqlstate "45001" set message_text = "El precio de compra debe ser menor al precio de venta!";
+            END IF;
+            IF(new.stock < 0) THEN
+              SIGNAL sqlstate "45001" set message_text = "El stock no puede ser negativo!";
+            END IF;
+            IF(NOT EXISTS (SELECT 1 FROM talles WHERE id = new.talle_id AND estado = "A") OR
+               NOT EXISTS (SELECT 1 FROM tipos WHERE id = new.tipo_id AND estado = "A"))
+            THEN
+              SIGNAL sqlstate "45001" set message_text = "El tipo/talle debe existir!";
+            END IF;
+            SET new.id = old.id;
+          END
+        ');
 
 
     }
