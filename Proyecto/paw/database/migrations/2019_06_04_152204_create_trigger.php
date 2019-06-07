@@ -13,14 +13,6 @@ class CreateTrigger extends Migration
      */
     public function up()
     {
-        DB::unprepared('
-          CREATE TRIGGER trg_budetalle BEFORE UPDATE ON detalles
-          FOR EACH ROW
-
-          BEGIN
-            SIGNAL sqlstate "45001" set message_text = "No way ! You cannot do this !";
-          END
-        ');
 
         DB::unprepared('
           CREATE TRIGGER trg_bidetalle BEFORE INSERT
@@ -59,6 +51,7 @@ class CreateTrigger extends Migration
           ON detalles
           FOR EACH ROW
           BEGIN
+
             UPDATE facturas SET importe = (importe - old.cantidad * old.precio_unidad) WHERE id = old.factura_id;
             UPDATE productos SET stock = (stock + old.cantidad) WHERE id = old.producto_id;
           END
@@ -110,8 +103,57 @@ class CreateTrigger extends Migration
             SET new.id = old.id;
           END
         ');
+        DB::unprepared('
+          CREATE TRIGGER trg_budetalle BEFORE UPDATE ON detalles
+          FOR EACH ROW
 
+          BEGIN
+            IF(EXISTS (SELECT 1 FROM facturas WHERE id = old.factura_id AND estado in ("A","F"))) THEN
+              SIGNAL sqlstate "45001" set message_text = "No se puede modificar el detalle de una factura FINALIZADA/ANULADA";
+            END IF;
+            SET new.id = old.id;
+            SET new.precio_unidad = old.precio_unidad;
+            SET new.factura_id = old.factura_id;
+            SET new.producto_id = old.producto_id;
 
+          END
+        ');
+
+        DB::unprepared('
+          CREATE TRIGGER trg_bddetalle BEFORE DELETE
+          ON detalles
+          FOR EACH ROW
+          BEGIN
+            IF(EXISTS (SELECT 1 FROM facturas WHERE id = old.factura_id AND estado in ("F"))) THEN
+              SIGNAL sqlstate "45001" set message_text = "No se puede BORRAR el detalle de una factura FINALIZADA";
+            END IF;
+          END
+        ');
+        DB::unprepared('
+          CREATE TRIGGER trg_bufactura BEFORE UPDATE
+          ON facturas
+          FOR EACH ROW
+          BEGIN
+            IF (old.estado like "F" OR old.estado like "A") THEN
+              SIGNAL sqlstate "45001" set message_text = "No se puede modificar una factura FINALIZADA/ANULADA";
+            END IF;
+            SET new.id = old.id;
+            SET new.importe = old.importe;
+            SET new.fecha_creacion = old.fecha_creacion;
+            SET new.empleado_id = old.empleado_id;
+            SET new.cliente_id = old.cliente_id;
+
+          END
+        ');
+        DB::unprepared('
+          CREATE TRIGGER trg_audetalle AFTER UPDATE
+          ON detalles
+          FOR EACH ROW
+          BEGIN
+            UPDATE facturas SET importe = (importe + (old.cantidad - new.cantidad) * new.precio_unidad) WHERE id = new.factura_id;
+            UPDATE productos SET stock = (stock - (new.cantidad - old.cantidad)) WHERE id = new.producto_id;
+          END
+        ');
     }
 
     /**
@@ -127,6 +169,10 @@ class CreateTrigger extends Migration
       DB::unprepared('drop trigger trg_bifactura');
       DB::unprepared('drop trigger trg_addetalle');
       DB::unprepared('drop trigger trg_bifactura');
+      DB::unprepared('drop trigger trg_biproducto');
+
+      DB::unprepared('drop trigger trg_audetalle');
+      DB::unprepared('drop trigger trg_bufactura');
       DB::unprepared('drop trigger trg_biproducto');
     }
 }
