@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException as AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // si no es logueado lo envio al login
+        if($exception instanceof AuthenticationException){
+            return redirect('/');
+        }
+        
         return parent::render($request, $exception);
     }
 }

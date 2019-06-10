@@ -1,5 +1,4 @@
 <?php
-use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,20 +10,13 @@ use App\User;
 |
 */
 
-Route::get('/', function () {
-    $user = User::find(1);
-    echo $user->empleado->tipoDocumento;
-    echo '<br>';
-    if($user->hasRole('admin')){
-		echo 'Tiene el rol';
-    }else{
-    	echo 'no tiene el rol';
-    }
-    echo '<br>';
-    if($user->can('crear_usuarios')){
-    	echo 'Tiene el permiso';
-    }else{
-    	echo 'No tiene el permiso';
-    }
+/*Llamadas al controlador Login*/
+Route::get('/', 'Auth\LoginController@showLogin')->name('auth.login'); // Mostrar login
+Route::get('login', 'Auth\LoginController@showLogin')->name('auth.login'); // Mostrar login
+Route::post('login', 'Auth\LoginController@postLogin')->name('auth.login'); // Verificar datos
+Route::post('logout', 'Auth\LoginController@postLogout')->name('auth.logout'); // Finalizar sesión
 
-});
+/*Rutas para usuarios logueados*/
+Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
+        Route::get('inicio', 'InicioController@index')->name('in.inicio');
+});    

@@ -17,8 +17,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // si esta logueado lo envia al inicio
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect('in/inicio');
         }
 
         return $next($request);
