@@ -18,5 +18,22 @@ Route::post('logout', 'Auth\LoginController@postLogout')->name('auth.logout'); /
 
 /*Rutas para usuarios logueados*/
 Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
+
+		// pagina para mostrar cuando no se tiene acceso a un lugar
+        Route::get('sinpermisos', ['as' => 'in.sinpermisos.sinpermisos', function () {
+            return view('in.sinpermisos.sinpermisos');
+        }]);
+
+        //Ruta para redirección cuando no tiene permiso.
+        Route::get('/', ['as' => 'in', function () {
+            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
+                return redirect()->route('in.reporte.index');
+            }else if(Auth::user()->hasRole('vendedor')) {
+                return redirect()->route('in.venta.index');
+            }else if(Auth::user()->hasRole('repositor')){
+                return redirect()->route('in.inventario.index');
+            }
+        }]);
+
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
 });    

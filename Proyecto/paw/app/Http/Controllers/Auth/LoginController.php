@@ -34,12 +34,19 @@ class LoginController extends Controller
 
     public function postLogin(){
         $credentials = $this->validate(request(), [
-            $this->username() => 'email|required|string',
-            'password' => 'required|string'
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'estado' => 'A'
         ]);
 
         if(Auth::attempt($credentials)){
-            return redirect()->route('in.inicio');
+            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
+                return redirect()->route('in.inicio');
+            }else if(Auth::user()->hasRole('vendedor')) {
+                return redirect()->route('in.venta.index');
+            }else if(Auth::user()->hasRole('repositor')){
+                return redirect()->route('in.inventario.index');
+            }
         }else{
             return back()
                 ->withErrors([$this->username() => trans('auth.failed')])
@@ -53,6 +60,6 @@ class LoginController extends Controller
     }
 
         public function username(){
-        return 'email';
+        return 'name';
     }
 }

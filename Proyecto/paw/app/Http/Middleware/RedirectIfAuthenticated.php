@@ -17,9 +17,15 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // si esta logueado lo envia al inicio
+        // si esta logueado lo envia al inicio correspondiente
         if (Auth::guard($guard)->check()) {
-            return redirect('in/inicio');
+            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
+                return redirect()->route('in.inicio');
+            }else if(Auth::user()->hasRole('vendedor')) {
+                return redirect()->route('in.venta.index');
+            }else if(Auth::user()->hasRole('repositor')){
+                return redirect()->route('in.inventario.index');
+            }
         }
 
         return $next($request);

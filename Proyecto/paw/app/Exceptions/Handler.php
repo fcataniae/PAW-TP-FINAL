@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // si no es logueado lo envio al login
+        // si no esta logueado lo envio al login
         if($exception instanceof AuthenticationException){
             return redirect('/');
         }

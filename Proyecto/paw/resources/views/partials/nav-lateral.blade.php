@@ -1,0 +1,1 @@
+nav-lateral.blade.php
