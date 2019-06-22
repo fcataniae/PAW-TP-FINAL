@@ -26,7 +26,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         //Ruta para redirección cuando no tiene permiso.
         Route::get('/', ['as' => 'in', function () {
-            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
+            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
                 return redirect()->route('in.reporte.index');
             }else if(Auth::user()->hasRole('vendedor')) {
                 return redirect()->route('in.venta.index');
