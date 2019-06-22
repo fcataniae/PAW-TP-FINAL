@@ -43,16 +43,16 @@ class LoginController extends Controller
             if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
                 return redirect()->route('in.inicio');
             }else if(Auth::user()->hasRole('vendedor')) {
-                return redirect()->route('in.venta.index');
+                return redirect()->route('in.inicio');
             }else if(Auth::user()->hasRole('repositor')){
-                return redirect()->route('in.inventario.index');
+                return redirect()->route('in.inicio');
             }
         }else{
             return back()
                 ->withErrors([$this->username() => trans('auth.failed')])
                 ->withInput(request([$this->username()]));
         }
-    } 
+    }
 
     public function postLogout(){
         Auth::logout();

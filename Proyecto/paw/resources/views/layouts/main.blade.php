@@ -3,12 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title> @yield('head-title','Default') </title>
-		
-		@yield('head-css') 
+
+		@yield('head-css')
 	</head>
 	<body>
 	    <header class="header"> @yield('body-header') </header>
-	    <main> @yield('body-main') </main>
+	    <main style="display:inline-block;"> @yield('body-main') </main>
 	    <footer> @yield('body-footer') </footer>
 	</body>
 </html>

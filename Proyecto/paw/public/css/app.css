@@ -5,7 +5,9 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
-
+header{
+	background-color:  #111;
+}
 ul {
   margin: 0;
   padding: 0;
@@ -16,12 +18,48 @@ a {
 	color: #34495e;
 	text-decoration: none;
 }
+.sidenav {
+	padding:2px;
+  margin-top:11vh;
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+	display:inline-block;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 200px;
+}
 
 .header {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	height: 12vh;
+	max-height: 12vh;
+	width: 100%;
+	min-width: 100%;
+	top: 0;
+  left: 0;
+	padding:7px;
+	position: absolute;
 	border: 1px solid #a2a2a2;
-	background-color: #f4f4f4;
+	background-color: #111;
 }
 
 .main-nav a {
@@ -52,7 +90,7 @@ a {
 .main-nav li:hover > ul {
 	display:block;
 }
-			
+
 .main-nav li ul li {
 	position:relative;
 	border: 1px solid #a2a2a2;

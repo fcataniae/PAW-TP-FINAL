@@ -36,4 +36,4 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         }]);
 
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
-});    
+});
