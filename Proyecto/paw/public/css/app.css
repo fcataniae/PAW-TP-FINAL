@@ -85,15 +85,18 @@ a {
 .main-nav li ul {
 	display:none;
 	position:absolute;
+	padding-top: 3vh;
+
 }
 .main-nav li:hover > ul {
 	display:block;
 }
 
-.main-nav li ul li {
-	position:relative;
-	border: 1px solid #a2a2a2;
-	background-color: #f4f4f4;
+.main-nav li ul li, .main-nav li ul li a{
+	position: relative;
+	background-color: #111;
+	text-align: left;
+	padding: 5px;
 }
 
 
@@ -146,7 +149,7 @@ a {
 	 color: #818181;
 	}
 	.main{
-		margin-left: 5vw;
+		margin-left: 7vw;
 	}
 }
 
