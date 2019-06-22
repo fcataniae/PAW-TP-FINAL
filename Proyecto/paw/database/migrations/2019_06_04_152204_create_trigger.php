@@ -71,7 +71,7 @@ class CreateTrigger extends Migration
           ON productos
           FOR EACH ROW
           BEGIN
-            IF(new.precio_compra > new.precio_venta OR new.precio_compra <= 0 OR new.precio_venta <= 0) THEN
+            IF(new.precio_costo > new.precio_venta OR new.precio_costo < 0 OR new.precio_venta <= 0) THEN
                 SIGNAL sqlstate "45001" set message_text = "El precio de compra debe ser menor al precio de venta!";
             END IF;
             IF(new.stock < 0) THEN
@@ -89,7 +89,7 @@ class CreateTrigger extends Migration
           ON productos
           FOR EACH ROW
           BEGIN
-            IF(new.precio_compra > new.precio_venta OR new.precio_compra <= 0 OR new.precio_venta <= 0) THEN
+            IF(new.precio_costo > new.precio_venta OR new.precio_costo < 0 OR new.precio_venta <= 0) THEN
                 SIGNAL sqlstate "45001" set message_text = "El precio de compra debe ser menor al precio de venta!";
             END IF;
             IF(new.stock < 0) THEN

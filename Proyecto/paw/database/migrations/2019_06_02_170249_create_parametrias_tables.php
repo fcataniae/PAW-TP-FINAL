@@ -22,14 +22,18 @@ class CreateParametriasTables extends Migration
 
         Schema::create('categorias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion', 75)->unique();
+            $table->string('descripcion', 75);
+            $table->integer('genero_id')->unsigned();
+            $table->foreign('genero_id')->references('id')->on('generos');
             $table->enum('estado', ['A','I']);
             $table->timestamps();
         });
 
         Schema::create('tipos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('descripcion', 75)->unique();
+            $table->string('descripcion', 75);
+            $table->integer('categoria_id')->unsigned();
+            $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->enum('estado', ['A','I']);
             $table->timestamps();
         });
@@ -43,9 +47,10 @@ class CreateParametriasTables extends Migration
 
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id')->start_from(1000);
+            $table->string('codigo', 15)->unique();
             $table->string('descripcion', 75)->unique();
             $table->integer('stock');
-            $table->decimal('precio_compra', 10, 2);
+            $table->decimal('precio_costo', 10, 2);
             $table->decimal('precio_venta', 10, 2);
             $table->integer('talle_id')->unsigned();
             $table->foreign('talle_id')->references('id')->on('talles');
