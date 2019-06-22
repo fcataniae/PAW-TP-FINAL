@@ -8,10 +8,10 @@ use Auth;
 class InventarioController extends Controller
 {
     public function index(){
-    	if(Auth::user()->can('roles_repositor')){
+    	if(Auth::user()->can('permisos_repositor')){
     		return view('in.inventario.index');
     	}else{
     		return redirect()->route('in.sinpermisos.sinpermisos');
     	}
-    }   
+    }
 }

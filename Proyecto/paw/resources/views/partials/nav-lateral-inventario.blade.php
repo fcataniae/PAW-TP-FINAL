@@ -1,12 +1,12 @@
 <nav class="sidenav">
 	<span class="expand">&#9776;</span>
-	
+
 	<ul class="unshow">
-		@if(Entrust::can('roles_repositor'))
+		@if(Entrust::can('permisos_repositor'))
 			<li ><a href="#">Control Stock</a></li>
 		@endif
 
-		@if(Entrust::can('roles_repositor'))
+		@if(Entrust::can('permisos_repositor'))
 			<li><a href="#">Reponer Stock</a></li>
 		@endif
 

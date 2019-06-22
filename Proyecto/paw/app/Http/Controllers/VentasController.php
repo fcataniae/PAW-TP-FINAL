@@ -8,7 +8,7 @@ use Auth;
 class VentasController extends Controller
 {
     public function index(){
-    	if(Auth::user()->can('roles_vendedor')){
+    	if(Auth::user()->can('permisos_vendedor')){
     		return view('in.ventas.index');
     	}else{
     		return redirect()->route('in.sinpermisos.sinpermisos');

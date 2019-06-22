@@ -108,7 +108,9 @@ a {
 	.sidenav{
 		margin-top: 99px;
 	}
-
+	.main{
+		margin-top:105px;
+	}
 }
 @media screen and (min-width: 500px) and (max-width: 799px) {
 
@@ -156,6 +158,8 @@ a {
 	.header,
 	.main-nav {
 		display: flex;
+	}
+	.main-nav{
 	}
 	.header {
 		flex-direction: row;
