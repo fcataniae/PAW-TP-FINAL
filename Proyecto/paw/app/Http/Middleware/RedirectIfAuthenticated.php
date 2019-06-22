@@ -20,11 +20,11 @@ class RedirectIfAuthenticated
         // si esta logueado lo envia al inicio correspondiente
         if (Auth::guard($guard)->check()) {
             if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
-                return redirect()->route('in.inicio');
+                return redirect()->route('in.reportes');
             }else if(Auth::user()->hasRole('vendedor')) {
-                return redirect()->route('in.venta.index');
+                return redirect()->route('in.ventas');
             }else if(Auth::user()->hasRole('repositor')){
-                return redirect()->route('in.inventario.index');
+                return redirect()->route('in.inventario');
             }
         }
 

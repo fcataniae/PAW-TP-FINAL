@@ -27,13 +27,16 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         //Ruta para redirección cuando no tiene permiso.
         Route::get('/', ['as' => 'in', function () {
             if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
-                return redirect()->route('in.reporte.index');
+                return redirect()->route('in.reportes');
             }else if(Auth::user()->hasRole('vendedor')) {
-                return redirect()->route('in.venta.index');
+                return redirect()->route('in.ventas');
             }else if(Auth::user()->hasRole('repositor')){
-                return redirect()->route('in.inventario.index');
+                return redirect()->route('in.inventario');
             }
         }]);
 
+        Route::get('ventas', 'VentasController@index')->name('in.ventas');
+        Route::get('inventario', 'InventarioController@index')->name('in.inventario');
+        Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
 });
