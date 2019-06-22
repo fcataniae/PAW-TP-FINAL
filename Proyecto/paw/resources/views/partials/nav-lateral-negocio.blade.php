@@ -1,5 +1,5 @@
 <nav>
-	<ul>
+	<ul class="sidenav">
 		@if(Entrust::can('roles_administrador'))
 			<li><a href="#">Roles</a></li>
 		@endif
@@ -7,7 +7,7 @@
 		@if(Entrust::can('roles_administrador'))
 			<li><a href="#">Permisos</a></li>
 		@endif
-		
+
 		@if(Entrust::can('roles_administrador'))
 			<li><a href="#">Usuarios</a></li>
 		@endif
