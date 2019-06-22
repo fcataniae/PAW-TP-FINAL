@@ -8,7 +8,7 @@
 	</head>
 	<body>
 	    <header class="header"> @yield('body-header') </header>
-	    <main style="display:inline-block;"> @yield('body-main') </main>
+	    <main > @yield('body-main') </main>
 	    <footer> @yield('body-footer') </footer>
 	</body>
 </html>
