@@ -1,5 +1,5 @@
-<nav>
-	<ul class="sidenav">
+<nav class="sidenav">
+	<ul >
 		@if(Entrust::can('roles_repositor'))
 			<li><a href="#">Control Stock</a></li>
 		@endif

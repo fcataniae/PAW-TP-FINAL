@@ -99,22 +99,36 @@ a {
 	background-color: #f4f4f4;
 }
 
-@media (min-width: 700px) {
+@media screen and (min-width: 500px) and (max-width: 800px) {
+
+	.main-nav {
+		display: flex;
+		align-items: flex-end;
+	}
+	.header {
+		display: flex;
+		flex-direction: column;
+	}
+	.sidenav > ul{
+		display: none;
+	}
+	.sidenav > ul: hover{
+		width: 200px;
+	}
+	.main{
+		margin-left: 5vw;
+	}
+}
+
+@media screen and (min-width: 700px) {
+
 	.header,
 	.main-nav {
 		display: flex;
 	}
 	.header {
-		flex-direction: column;
-		align-items: center;
-	}
-
-}
-
-@media (min-width: 1000px) {
-	.header {
 		flex-direction: row;
-		justify-content: space-between;
+		align-items: center;
 	}
 
 }

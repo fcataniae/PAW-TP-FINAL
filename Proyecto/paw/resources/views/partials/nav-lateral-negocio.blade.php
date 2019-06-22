@@ -1,5 +1,6 @@
-<nav>
-	<ul class="sidenav">
+<nav class="sidenav">
+
+	<ul >
 		@if(Entrust::can('roles_administrador'))
 			<li><a href="#">Roles</a></li>
 		@endif
