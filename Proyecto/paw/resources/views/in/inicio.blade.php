@@ -3,6 +3,9 @@
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
 @endsection
+@section('head-js')
+	<script src="{{asset('js/utils.js')}}"></script>
+@endsection
 
 @section('body-header')
 	<h1 class="logo"><a href="#">Logo Tienda</a></h1>

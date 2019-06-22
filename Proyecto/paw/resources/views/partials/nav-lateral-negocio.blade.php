@@ -1,6 +1,7 @@
 <nav class="sidenav">
+	<span class="expand">&#9776;</span>
 
-	<ul >
+	<ul class="unshow">
 		@if(Entrust::can('roles_administrador'))
 			<li><a href="#">Roles</a></li>
 		@endif

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title> @yield('head-title','Default') </title>
-
+		@yield('head-js')
 		@yield('head-css')
 	</head>
 	<body>
