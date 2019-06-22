@@ -40,7 +40,7 @@ class LoginController extends Controller
         ]);
 
         if(Auth::attempt($credentials)){
-            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('super_usuario')) {
+            if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
                 return redirect()->route('in.inicio');
             }else if(Auth::user()->hasRole('vendedor')) {
                 return redirect()->route('in.inicio');
