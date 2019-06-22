@@ -9,7 +9,7 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral')
+	@include('partials.nav-lateral-negocio')
 	<div class="main">
 		<p>Bienvenido {{auth()->user()->name }}</p>
 		<form style="margin-left:200px;" method="POST" action="{{ route('auth.logout') }}">
