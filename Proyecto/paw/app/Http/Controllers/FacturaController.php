@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class FacturaController extends Controller
 {
@@ -12,6 +13,25 @@ class FacturaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        //
+    }
+
+    public function crear()
+    {
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.ventas.iniciar-venta');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    public function avanzar(Request $request)
+    {
+        //
+    }
+
+    public function finalizar(Request $request)
     {
         //
     }

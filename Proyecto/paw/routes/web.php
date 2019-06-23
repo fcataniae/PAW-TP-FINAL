@@ -35,7 +35,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
             }
         }]);
 
-        Route::get('ventas', 'VentasController@index')->name('in.ventas');
+        Route::get('ventas/crear', 'FacturaController@crear')->name('in.ventas');
         Route::get('inventario', 'InventarioController@index')->name('in.inventario');
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
