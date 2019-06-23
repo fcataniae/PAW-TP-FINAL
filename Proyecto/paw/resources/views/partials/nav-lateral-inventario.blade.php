@@ -7,7 +7,7 @@
 		@endif
 
 		@if(Entrust::can('permisos_repositor'))
-			<li><a href={{ route('in.inventario.stock') }}>Reponer Stock</a></li>
+			<li><a href={{ route('in.inventario.reposicion') }}>Reponer Stock</a></li>
 		@endif
 
 	</ul>
