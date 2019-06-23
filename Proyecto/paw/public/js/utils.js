@@ -73,7 +73,7 @@ function sidenavNegocio(){
     sidenav.classList.add('open');
   }
 }
-function sidenavNegocio(){
+function sidenavVenta(){
   let sidenav = document.querySelector('nav.sidenav.venta.close');
 
   if(!sidenav){
