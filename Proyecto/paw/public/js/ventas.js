@@ -1,9 +1,12 @@
+var window = window || {},
+    document = document || {},
+    console = console || {};
+
 nroDetalle = 0;
 
 function addDetalles(){
 	var buscar_por = document.getElementById("buscar_por");
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
-	console.log(valor_a_buscar);
 	if(buscar_por[buscar_por.selectedIndex].id == 1){
 		ajaxGet("/in/productos/" + valor_a_buscar , addCamposDetalles);
 	}else{
@@ -18,6 +21,8 @@ function addCamposDetalles(respuesta) {
 	nroDetalle++;
 	var fieldset = document.createElement('fieldset');
 	fieldset.id = "detalleNro_" + nroDetalle;
+	fieldset.name = "detalle";
+	fieldset.setAttribute("data-nroDetalle", nroDetalle);
 
 	var labelDescripcion = document.createElement('label');
 	labelDescripcion.innerHTML = "Descripcion: ";
@@ -25,11 +30,9 @@ function addCamposDetalles(respuesta) {
 	inputDescripcion.type = "text";
     inputDescripcion.name = "descripcion_" + nroDetalle;
     inputDescripcion.readOnly = true;
-
     inputDescripcion.value = producto.categoria + "," + producto.tipo +"," + producto.descripcion;
 
 /*
-
 	var labelPrecio = document.createElement('label');
 	labelPrecio.innerHTML = "Precio: ";
 	var inputPrecio = document.createElement('input');
@@ -63,6 +66,7 @@ function addCamposDetalles(respuesta) {
 	labelPrecio.innerHTML = "Precio: ";
 	var inputPrecio = document.createElement('input');
 	inputPrecio.type = "number";
+	inputPrecio.id = "precio_" + nroDetalle;
 	inputPrecio.name = "precio_" + nroDetalle;
 	inputPrecio.readOnly = true;
 	inputPrecio.value = producto.precio_venta;
@@ -81,18 +85,23 @@ function addCamposDetalles(respuesta) {
 	labelCantidad.innerHTML = "Cantidad: ";
 	var inputCantidad = document.createElement('input');
 	inputCantidad.type = "number";
+	inputCantidad.id = "cantidad_" + nroDetalle;
 	inputCantidad.name = "cantidad_" + nroDetalle;
 	inputCantidad.min = 0;
-	inputCantidad.value = "1";
+	inputCantidad.value = 1;
+	inputCantidad.addEventListener("change", calcularSubtotal);
+
 
 	var labelSubtotal= document.createElement('label');
 	labelSubtotal.innerHTML = "Subtotal: ";
 	var inputSubtotal = document.createElement('input');
 	inputSubtotal.type = "number";
+	inputSubtotal.id = "subtotal_" + nroDetalle;
 	inputSubtotal.name = "subtotal_" + nroDetalle;
 	inputSubtotal.min = 0;
 	inputSubtotal.readOnly = true;
 	inputSubtotal.value = producto.precio_venta;
+	inputCantidad.addEventListener("change", calcularTotal);
 
 	var buttonEliminar = document.createElement("button");
 	buttonEliminar.type = "button";
@@ -113,21 +122,40 @@ function addCamposDetalles(respuesta) {
 	fieldset.appendChild(labelSubtotal);
 	fieldset.appendChild(inputSubtotal);
 	fieldset.appendChild(buttonEliminar);
-
 	document.getElementById('formulario').appendChild(fieldset);
+	
+	calcularTotal();
 }
 
 function deleteDetalle(event){
 	var detalle = document.getElementById(event.path[1].id);
 	document.getElementById('formulario').removeChild(detalle);
+	calcularTotal();
 }
+
+function calcularSubtotal(event){
+	var nroDetalle = document.getElementById(event.path[1].id).getAttribute("data-nroDetalle");
+	var cantidad = document.getElementById("cantidad_" + nroDetalle).value;
+	var precio = document.getElementById("precio_" + nroDetalle).value;
+	document.getElementById("subtotal_" + nroDetalle).value = cantidad * precio;
+}
+
+function calcularTotal(){
+	var detalles = document.getElementsByName("detalle");
+	var total = 0;
+	for(var i = 0; i < detalles.length; i++){
+		nroDetalle = detalles[i].getAttribute("data-nroDetalle");
+		total = total + parseInt(document.getElementById("subtotal_" + nroDetalle).value);
+	}
+	document.getElementById("total").value = total;
+}
+
 
 function ajaxGet(url, callback) {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
   req.addEventListener("load", function() {
     if (req.status >= 200 && req.status < 400) {
-      // Llamada ala funci�n callback pas�ndole la respuesta
       callback(req.responseText);
     } else {
       console.error(req.status + " " + req.statusText);
@@ -137,12 +165,4 @@ function ajaxGet(url, callback) {
     console.error("Error de red");
   });
   req.send();
-}
-
-function mostrar(respuesta) {
-    console.log(respuesta);
-}
-
-function getProducto(){
-	ajaxCall("GET","/in/productos/1", mostrar);
 }

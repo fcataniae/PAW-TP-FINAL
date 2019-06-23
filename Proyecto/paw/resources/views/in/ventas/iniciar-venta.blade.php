@@ -16,6 +16,7 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
+	@include('partials.nav-lateral-negocio')
 	@include('partials.nav-lateral-ventas')
 	<section class="main">
 		<form action="/ejemplo/save" method="POST">
@@ -38,7 +39,7 @@
 			<fieldset name="Total">
 				<legend>Total</legend>
 				<label for="total">Total ($): </label>
-				<input type="number" name="total" min="0" readonly>
+				<input type="number" id="total" name="total" min="0" readonly value="0">
 			</fieldset>
 			<br>
 			<input type="submit" value="Enviar">
