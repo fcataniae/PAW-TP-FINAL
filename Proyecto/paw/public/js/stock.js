@@ -2,8 +2,11 @@ var window = window || {},
     document = document || {},
     console = console || {};
 
+const labels = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
+
 var stock = {};
 var stockFiltrado = {};
+var timeout;
 window.onload = function(){
   onloadwindow();
   ajaxCall("GET","productos",generateTable);
@@ -11,9 +14,9 @@ window.onload = function(){
 
 function generateTable(res){
 
+    createFilters();
     stock = JSON.parse(res);
     var table,thead,tbody,th,tr,td;
-    var tablehead = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
     var container = document.querySelector('section.main div.container-table');
 
     table = document.createElement('table');
@@ -23,9 +26,10 @@ function generateTable(res){
     table.appendChild(thead);
     table.appendChild(tbody);
 
-    for(let i = 0; i< tablehead.length; i++){
+    for(let i = 0; i< labels.length; i++){
       th = document.createElement('th');
-      th.innerHTML = tablehead[i];
+      th.innerHTML = labels[i];
+      th.classList.add('th');
       thead.appendChild(th);
     }
 
@@ -58,7 +62,37 @@ function generateTable(res){
       tbody.appendChild(tr);
     }
 
+    table.classList.add('table');
 
     container.appendChild(table);
+
+}
+
+function createFilters(){
+
+  var container = document.querySelector('section.main');
+  var table = document.querySelector('section.main div.container-table')
+  var div = document.createElement('div');
+  div.classList.add('search-filters');
+  var input;
+
+  for(let i = 0; i < labels.length; i++){
+    input = document.createElement('input');
+    input.classList.add('input-search');
+    input.id = labels[i];
+    input.placeholder = labels[i];
+    input.type = 'text';
+    input.addEventListener('input',reloadTable);
+    div.appendChild(input);
+  }
+
+  container.insertBefore(div,table);
+
+}
+function reloadTable(){
+  clearTimeout(timeout);
+  timeout = setTimeout(doFilters , 2000);
+}
+function doFilters(){
 
 }

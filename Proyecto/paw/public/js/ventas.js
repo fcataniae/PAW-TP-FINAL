@@ -25,17 +25,10 @@ function addCamposDetalles(respuesta) {
 	inputDescripcion.type = "text";
     inputDescripcion.name = "descripcion_" + nroDetalle;
     inputDescripcion.readOnly = true;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     inputDescripcion.value = producto.categoria + "," + producto.tipo +"," + producto.descripcion;
-	
+
 /*
-=======
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
 
 	var labelPrecio = document.createElement('label');
 	labelPrecio.innerHTML = "Precio: ";
@@ -45,7 +38,6 @@ function addCamposDetalles(respuesta) {
 	inputPrecio.readOnly = true;
 
 
->>>>>>> fb09eb42fb3ba3994090a1947ca24612699021a2
 	var labelTalle = document.createElement('label');
 	labelTalle.innerHTML = "Talle: ";
 	var selectTalle = document.createElement("select");
@@ -130,15 +122,12 @@ function deleteDetalle(event){
 	document.getElementById('formulario').removeChild(detalle);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 function ajaxGet(url, callback) {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
   req.addEventListener("load", function() {
     if (req.status >= 200 && req.status < 400) {
-      // Llamada ala función callback pasándole la respuesta
+      // Llamada ala funciï¿½n callback pasï¿½ndole la respuesta
       callback(req.responseText);
     } else {
       console.error(req.status + " " + req.statusText);
@@ -149,11 +138,6 @@ function ajaxGet(url, callback) {
   });
   req.send();
 }
-=======
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
 
 function mostrar(respuesta) {
     console.log(respuesta);
@@ -162,10 +146,3 @@ function mostrar(respuesta) {
 function getProducto(){
 	ajaxCall("GET","/in/productos/1", mostrar);
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> fb09eb42fb3ba3994090a1947ca24612699021a2
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
-=======
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
