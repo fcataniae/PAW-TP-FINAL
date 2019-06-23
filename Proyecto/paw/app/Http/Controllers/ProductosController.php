@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Producto;
 use Illuminate\Http\Request;
 
 class ProductosController extends Controller
@@ -47,6 +48,20 @@ class ProductosController extends Controller
     {
         //
     }
+
+      /**
+       * Display the specified resource.
+       *
+       * @return \Illuminate\Http\Response
+       */
+      public function showAll()
+      {
+        
+          $array = Producto::all();
+
+
+          return json_encode($array);
+      }
 
     /**
      * Show the form for editing the specified resource.

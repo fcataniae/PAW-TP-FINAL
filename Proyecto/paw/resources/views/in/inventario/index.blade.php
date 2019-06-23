@@ -13,7 +13,7 @@
 @endsection
 @section('body-main')
 	@include('partials.nav-lateral-negocio')
-	<section>
+	<section class="main">
 		<p>Bienvenido al apartado de INVENTARIO {{auth()->user()->name }}</p>
 	</section>
 @endsection

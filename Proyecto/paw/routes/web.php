@@ -31,7 +31,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
             }else if(Auth::user()->hasRole('vendedor')) {
                 return redirect()->route('in.ventas');
             }else if(Auth::user()->hasRole('repositor')){
-                return redirect()->route('in.inventario');
+                return redirect()->route('in.inventario.stock');
             }
         }]);
 
@@ -39,4 +39,9 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inventario', 'InventarioController@index')->name('in.inventario');
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
+
+        Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario');
+        Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
+
+
 });

@@ -14,4 +14,11 @@ class InventarioController extends Controller
     		return redirect()->route('in.sinpermisos.sinpermisos');
     	}
     }
+    public function stock(){
+      if(Auth::user()->can('permisos_repositor')){
+        return view('in.inventario.stock');
+      }else{
+        return redirect()->route('in.sinpermisos.sinpermisos');
+      }
+    }
 }
