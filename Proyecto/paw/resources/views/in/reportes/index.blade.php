@@ -13,6 +13,8 @@
 @endsection
 @section('body-main')
 	@include('partials.nav-lateral-negocio')
+	@include('partials.nav-lateral-ventas')
+	@include('partials.nav-lateral-inventario')
 	<section class="main">
 		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
 		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>

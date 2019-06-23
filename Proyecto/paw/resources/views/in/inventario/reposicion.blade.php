@@ -14,7 +14,8 @@
 @endsection
 @section('body-main')
 	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-inventario')
+  @include('partials.nav-lateral-inventario')
+	@include('partials.nav-lateral-ventas')
 
 	<section class="main">
 		<p><strong>Reposicion de Stock</strong></p>

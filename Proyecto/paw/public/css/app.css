@@ -148,7 +148,6 @@ p{
 }
 
 .main {
-  margin-left: 200px;
 	margin-top: 12vh;
 	padding: 10px;
 }
@@ -166,7 +165,9 @@ p{
 	position: fixed;
 	background-color: #257EAF;
 }
-
+.margin-main{
+	margin-left: 200px;
+}
 .main-nav a {
 	color: #000000;
 }
@@ -255,7 +256,7 @@ p{
 	 padding: 5px;
 	 color: #000000;
 	}
-	.main{
+	.margin-main{
 		margin-left: 7vw;
 	}
 }
