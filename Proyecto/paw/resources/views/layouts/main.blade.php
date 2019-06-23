@@ -10,6 +10,6 @@
 	<body>
 	    <header class="header"> @yield('body-header') </header>
 	    <main> @yield('body-main') </main>
-	    <footer> @yield('body-footer') </footer>
+	    <footer class="main"> @yield('body-footer') </footer>
 	</body>
 </html>
