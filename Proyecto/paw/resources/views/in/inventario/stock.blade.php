@@ -18,7 +18,8 @@
 	@include('partials.nav-lateral-inventario')
 
 	<section class="main">
-		<p>Bienvenido al apartado de INVENTARIO STOCK{{auth()->user()->name }}</p>
+		<p><strong>Control de Stock</strong></p>
+		<span><strong>Filtros de busqueda:</strong></span>
 		<div class="container-table">
 
 		</div>

@@ -74,6 +74,32 @@ a {
 	color: #000000;
 	text-decoration: none;
 }
+.search-filters{
+	width: 100%;
+}
+.input-search{
+	width: 10%;
+	display: inline;
+	border-radius: 4px;
+	min-width: 100px;
+	padding: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+p{
+	text-align: center;
+}
+.button-clean{
+	min-width: 100px;
+	border-radius: 4px;
+	width: 10%;
+	display: inline;
+	margin-left: 10px;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
 .table {
   border-collapse: collapse;
   width: 100%;
