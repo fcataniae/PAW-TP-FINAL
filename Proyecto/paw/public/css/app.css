@@ -1,3 +1,59 @@
+body,html{
+  	margin:0;
+  	padding:0;
+}
+
+body{
+  	display:flex;
+  	flex-direction: column;
+  	width:100%;
+  	min-height: 100vh;
+}
+
+header{
+ 	overflow:hidden;
+	background:orange;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+}
+
+main{
+	background:red;
+	flex-grow:1;
+  	display: flex;
+	flex-wrap: wrap;
+}
+
+ main section {
+ 	padding: 1%;
+	width: 78%;
+	background-color: white;
+ }
+
+ main nav {
+ 	padding: 1%;
+	width: 18%;
+ 	background-color: pink;
+ }
+
+footer{
+  	background:blue;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+	color: #34495e;
+	text-decoration: none;
+}
+
+/*
 *{
 	box-sizing: border-box;
 }
@@ -169,3 +225,4 @@ a {
 		display: none;
 	}
 }
+*/

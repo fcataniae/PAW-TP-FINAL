@@ -26,8 +26,13 @@
 	        <ul>
 	        	<li><a href={{ route('in.inicio') }}>Datos Personales</a></li>
 	            <li><a href={{ route('in.inicio') }}>Configurar Cuenta</a></li>
-	            <li><a href={{ route('auth.logout') }}>Logout</a></li>
+	            <li><a href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    Logout</a></li>
 	        </ul>
 	    </li>
 	</ul>
 </nav>
+
+<form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+    {{ csrf_field() }}
+</form>

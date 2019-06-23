@@ -13,12 +13,19 @@
 @endsection
 @section('body-main')
 	@include('partials.nav-lateral-negocio')
-	<div class="main">
+	<section>
 		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
-		<form style="margin-left:200px;" method="POST" action="{{ route('auth.logout') }}">
-			{{csrf_field()}}
-				<button type="submit">Logout</button>
-		  	</div>
-		</form>
-	</div>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+		<p>Bienvenido al apartado de REPORTES {{auth()->user()->name }}</p>
+	</section>
+@endsection
+
+@section('body-footer')
+	<address>Guerrero, Pedro</address>
+	<address>Telefono: 11235687</address>
 @endsection
