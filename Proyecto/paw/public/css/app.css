@@ -62,7 +62,7 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 header{
-	background-color:  #111;
+	background-color:  #257EAF;
 }
 ul {
   margin: 0;
@@ -71,18 +71,18 @@ ul {
 }
 
 a {
-	color: #34495e;
+	color: #000000;
 	text-decoration: none;
 }
 .sidenav {
-  margin-top:12vh;
+  margin-top:6vh;
   height: 100%;
   width: 200px;
   position: fixed;
   top: 0;
   left: 0;
 	display:inline-block;
-  background-color: #111;
+  background-color: #257EAF;
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -90,8 +90,8 @@ a {
 .sidenav a {
   padding: 6px 6px 6px 32px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  font-size: 15px;
+  color: #000000;
   display: block;
 }
 
@@ -106,23 +106,23 @@ a {
 }
 
 .header {
-	height: 12.5vh;
-	max-height: 12.5vh;
+	height: 6vh;
+	max-height: 6vh;
 	width: 100%;
 	min-width: 100%;
 	top: 0;
   left: 0;
 	padding:10px;
 	position: absolute;
-	background-color: #111;
+	background-color: #257EAF;
 }
 
 .main-nav a {
-	color: #34495e;
+	color: #000000;
 }
 
 .main-nav a:hover {
-	color: #718daa;
+	color: #f1f1f1;
 }
 
 .logo {
@@ -141,8 +141,6 @@ a {
 .main-nav li ul {
 	display:none;
 	position:absolute;
-	padding-top: 3vh;
-
 }
 .main-nav li:hover > ul {
 	display:block;
@@ -150,7 +148,7 @@ a {
 
 .main-nav li ul li, .main-nav li ul li a{
 	position: relative;
-	background-color: #111;
+	background-color: #257EAF;
 	text-align: left;
 	padding: 5px;
 }
@@ -158,17 +156,17 @@ a {
 
 @media screen and (min-height: 200px) and (max-height: 700px) {
 	.header{
-		height: 101px;
-		max-height: 101px;
+		height: 50px;
+		max-height: 50px;
 	}
 	.sidenav{
-		margin-top: 101px;
+		margin-top: 50px;
 	}
 	.main{
-		margin-top:105px;
+		margin-top:60px;
 	}
 }
-@media screen and (min-width: 500px) and (max-width: 799px) {
+@media screen and (min-width: 0px) and (max-width: 799px) {
 
 	.main-nav {
 		display: flex;
@@ -177,14 +175,15 @@ a {
 	.header {
 		display: flex;
 		flex-direction: column;
+		height: 75px;
+		max-height: 75px;
 	}
 	.sidenav ul{
-	    margin:0;
-	    padding:0;
 	    list-style:none inside;
 	}
 	.sidenav{
-		width: 50px;
+		width: 30px;
+		margin-top: 75px;
 	}
 	.show{
 		display: inline-block;
@@ -195,14 +194,16 @@ a {
 	.sidenav-200{
 		width: 200px;
 	}
-
+	.main-nav li ul {
+		bottom:-114px;
+	}
 	.expand{
 		align-content: center;
 	 cursor:pointer;
 	 vertical-align: center;
-	 font-size: 40px;
+	 font-size: 25px;
 	 padding: 5px;
-	 color: #818181;
+	 color: #000000;
 	}
 	.main{
 		margin-left: 7vw;
