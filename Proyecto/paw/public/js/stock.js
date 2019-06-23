@@ -5,27 +5,12 @@ var window = window || {},
 var stock = {};
 var stockFiltrado = {};
 window.onload = function(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-  sidenav();
-=======
   onloadwindow();
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
-=======
-  onloadwindow();
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
   ajaxCall("GET","productos",generateTable);
 }
 
 function generateTable(res){
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
-=======
-
->>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
     stock = JSON.parse(res);
     var table,thead,tbody,th,tr,td;
     var tablehead = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
