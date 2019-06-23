@@ -43,5 +43,29 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
 
+        Route::resource('generos','GenerosController');
 
+        Route::resource('categorias','CategoriasController');
+
+        Route::resource('tipos','TiposController');
+
+        Route::resource('talles','TallesController');
+
+        Route::resource('productos','ProductosController');
+
+        Route::resource('facturas','FacturaController');
+
+        Route::resource('detalles','DetallesController');
+
+        Route::resource('forma_pago','FormaPagoController');
+
+        Route::resource('clientes','DetallesController');
+
+        Route::resource('empleados','EmpleadosController');
+
+        Route::resource('users','UsersController');
+
+        Route::resource('roles','RolesController');
+
+        Route::resource('permissions','PermissionsController');
 });

@@ -24,7 +24,7 @@
 				    <option>ID: </option>
 				    <option>CODIGO: </option>
 				</select>
-				<input type="text" name="nombre_1" required="true">
+				<input type="text" name="nombre_1">
 				<input type="button" onClick="addDetalles()" value="+">
 			</fieldset>
 			<br>
