@@ -5,7 +5,7 @@ var window = window || {},
 var stock = {};
 var stockFiltrado = {};
 window.onload = function(){
-
+  sidenav();
   var xhttp = new XMLHttpRequest();
 
 
@@ -19,11 +19,6 @@ window.onload = function(){
         generateTable();
       }
     }
-
-
-
-
-
 }
 
 function generateTable(){
