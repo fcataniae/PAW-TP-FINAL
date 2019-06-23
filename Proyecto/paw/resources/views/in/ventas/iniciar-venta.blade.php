@@ -3,6 +3,8 @@
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/ventas.js')}}"></script>
+	<script src="{{asset('js/ajax.js')}}"></script>
+	
 @endsection
 
 @section('head-css')
@@ -19,12 +21,12 @@
 		<form action="/ejemplo/save" method="POST">
 			<fieldset name="Buscador">
 				<legend>Buscador</legend>
-				<label for="id_producto">BUSCAR POR </label>
-				<select name="id_producto" id="id_producto">
-				    <option>ID: </option>
-				    <option>CODIGO: </option>
+				<label for="buscar_por">BUSCAR POR </label>
+				<select id="buscar_por" name="buscar_por">
+				    <option id="1" value="ID">ID: </option>
+				    <option id="2" value="CODIGO">CODIGO: </option>
 				</select>
-				<input type="text" name="nombre_1">
+				<input type="text" id="valor_a_buscar" name="valor_a_buscar">
 				<input type="button" onClick="addDetalles()" value="+">
 			</fieldset>
 			<br>

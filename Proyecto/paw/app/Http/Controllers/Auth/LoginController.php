@@ -45,7 +45,7 @@ class LoginController extends Controller
             }else if(Auth::user()->hasRole('vendedor')) {
                 return redirect()->route('in.ventas');
             }else if(Auth::user()->hasRole('repositor')){
-                return redirect()->route('in.inventario');
+                return redirect()->route('in.inventario.index');
             }
         }else{
             return back()

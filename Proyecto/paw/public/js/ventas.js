@@ -1,11 +1,20 @@
 nroDetalle = 0;
 
 function addDetalles(){
-	getProducto();
-	addCamposDetalles();
+	var buscar_por = document.getElementById("buscar_por");
+	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
+	console.log(valor_a_buscar);
+	if(buscar_por[buscar_por.selectedIndex].id == 1){
+		ajaxGet("/in/productos/" + valor_a_buscar , addCamposDetalles);
+	}else{
+		ajaxGet("/in/productos/codigo/" + valor_a_buscar , addCamposDetalles);
+	}
 }
 
-function addCamposDetalles() {
+
+function addCamposDetalles(respuesta) {
+	console.log(respuesta);
+	var producto = JSON.parse(respuesta);
 	nroDetalle++;
 	var fieldset = document.createElement('fieldset');
 	fieldset.id = "detalleNro_" + nroDetalle;
@@ -16,7 +25,18 @@ function addCamposDetalles() {
 	inputDescripcion.type = "text";
     inputDescripcion.name = "descripcion_" + nroDetalle;
     inputDescripcion.readOnly = true;
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    inputDescripcion.value = producto.categoria + "," + producto.tipo +"," + producto.descripcion;
 	
+/*
+=======
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
+
 	var labelPrecio = document.createElement('label');
 	labelPrecio.innerHTML = "Precio: ";
 	var inputPrecio = document.createElement('input');
@@ -25,6 +45,7 @@ function addCamposDetalles() {
 	inputPrecio.readOnly = true;
 
 
+>>>>>>> fb09eb42fb3ba3994090a1947ca24612699021a2
 	var labelTalle = document.createElement('label');
 	labelTalle.innerHTML = "Talle: ";
 	var selectTalle = document.createElement("select");
@@ -37,6 +58,32 @@ function addCamposDetalles() {
 	    option.text = array[i];
 	    selectTalle.appendChild(option);
 	}
+*/
+	var labelTalle = document.createElement('label');
+	labelTalle.innerHTML = "Talle: ";
+	var inputTalle = document.createElement('input');
+	inputTalle.type = "text";
+	inputTalle.name = "talle_" + nroDetalle;
+	inputTalle.readOnly = true;
+	inputTalle.value = producto.talle;
+
+	var labelPrecio = document.createElement('label');
+	labelPrecio.innerHTML = "Precio: ";
+	var inputPrecio = document.createElement('input');
+	inputPrecio.type = "number";
+	inputPrecio.name = "precio_" + nroDetalle;
+	inputPrecio.readOnly = true;
+	inputPrecio.value = producto.precio_venta;
+
+
+	var labelStock = document.createElement('label');
+	labelStock.innerHTML = "Stock: ";
+	var inputStock = document.createElement('input');
+	inputStock.type = "number";
+	inputStock.name = "stock_" + nroDetalle;
+	inputStock.min = 0;
+	inputStock.readOnly = true;
+	inputStock.value = producto.stock;
 
 	var labelCantidad= document.createElement('label');
 	labelCantidad.innerHTML = "Cantidad: ";
@@ -44,6 +91,7 @@ function addCamposDetalles() {
 	inputCantidad.type = "number";
 	inputCantidad.name = "cantidad_" + nroDetalle;
 	inputCantidad.min = 0;
+	inputCantidad.value = "1";
 
 	var labelSubtotal= document.createElement('label');
 	labelSubtotal.innerHTML = "Subtotal: ";
@@ -52,7 +100,7 @@ function addCamposDetalles() {
 	inputSubtotal.name = "subtotal_" + nroDetalle;
 	inputSubtotal.min = 0;
 	inputSubtotal.readOnly = true;
-	inputSubtotal.value = 0;
+	inputSubtotal.value = producto.precio_venta;
 
 	var buttonEliminar = document.createElement("button");
 	buttonEliminar.type = "button";
@@ -62,16 +110,18 @@ function addCamposDetalles() {
 
 	fieldset.appendChild(labelDescripcion);
 	fieldset.appendChild(inputDescripcion);
+	fieldset.appendChild(labelTalle);
+	fieldset.appendChild(inputTalle);
 	fieldset.appendChild(labelPrecio);
 	fieldset.appendChild(inputPrecio);
-	fieldset.appendChild(labelTalle);
-	fieldset.appendChild(selectTalle);
+	fieldset.appendChild(labelStock);
+	fieldset.appendChild(inputStock);
 	fieldset.appendChild(labelCantidad);
 	fieldset.appendChild(inputCantidad);
 	fieldset.appendChild(labelSubtotal);
 	fieldset.appendChild(inputSubtotal);
 	fieldset.appendChild(buttonEliminar);
-	
+
 	document.getElementById('formulario').appendChild(fieldset);
 }
 
@@ -80,15 +130,9 @@ function deleteDetalle(event){
 	document.getElementById('formulario').removeChild(detalle);
 }
 
-
-function mostrar(respuesta) {
-    console.log(respuesta);
-}
-
-function getProducto(){
-	ajaxGet("/in/productos/1", mostrar);
-}
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 function ajaxGet(url, callback) {
   var req = new XMLHttpRequest();
   req.open("GET", url, true);
@@ -105,3 +149,23 @@ function ajaxGet(url, callback) {
   });
   req.send();
 }
+=======
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
+
+function mostrar(respuesta) {
+    console.log(respuesta);
+}
+
+function getProducto(){
+	ajaxCall("GET","/in/productos/1", mostrar);
+}
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> fb09eb42fb3ba3994090a1947ca24612699021a2
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
+=======
+>>>>>>> f74943893f5a1eba695776f71ada96c0c6a7f41b
