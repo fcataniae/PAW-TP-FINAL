@@ -115,6 +115,7 @@ p{
 .table tr:hover {background-color: #ddd;}
 
 .table th {
+	cursor: pointer;
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;

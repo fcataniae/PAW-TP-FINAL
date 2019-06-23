@@ -4,8 +4,8 @@ var window = window || {},
 
 const labels = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
 
-var stock = {};
-var stockFiltrado = {};
+var stock = [];
+var stockFiltrado = [];
 var timeout;
 window.onload = function(){
   onloadwindow();
@@ -16,6 +16,7 @@ function generateTable(res){
 
     createFilters();
     stock = JSON.parse(res);
+    stockFiltrado = stock;
     var table,thead,tbody,th,tr,td;
     var container = document.querySelector('section.main div.container-table');
 
@@ -30,6 +31,7 @@ function generateTable(res){
       th = document.createElement('th');
       th.innerHTML = labels[i];
       th.classList.add('th');
+      th.addEventListener('click',sort);
       thead.appendChild(th);
     }
 
@@ -62,8 +64,8 @@ function generateTable(res){
       tbody.appendChild(tr);
     }
 
-    table.classList.add('table');
 
+    table.classList.add('table');
     container.appendChild(table);
 
 }
@@ -171,4 +173,46 @@ function limpiarFiltros(){
 
   stockFiltrado = stock;
   regenerateTable();
+}
+
+function sort($event){
+  console.log($event.srcElement.innerHTML);
+  let th = $event.srcElement;
+  let column = th.innerHTML;
+  let sortup =  th.classList.contains('sort-up');
+  let sortdown =  th.classList.contains('sort-down');
+  stockFiltrado = intersect(stock,stockFiltrado);
+  if(!sortup || !sortdown){
+    if(sortdown){
+      th.classList.add('sort-up');
+      th.classList.remove('sort-down');
+    }else{
+      th.classList.remove('sort-up');
+      th.classList.add('sort-down');
+    }
+    stockFiltrado = stockFiltrado.sort(function(a,b){
+      if(column == 'id'){
+        return (sortup ? a.id-b.id: b.id-a.id);
+      }else if (column == 'descripcion'){
+        return (sortup ? a.descripcion.localeCompare(b.descripcion): b.descripcion.localeCompare(a.descripcion));
+      }else if (column == 'estado'){
+        return (sortup ? a.estado.localeCompare(b.estado): b.estado.localeCompare(a.estado));
+      }else if (column == 'codigo'){
+        return (sortup ? a.codigo.localeCompare(b.codigo): b.codigo.localeCompare(a.codigo));
+      }else if (column == 'talle'){
+        return (sortup ? a.talle_id-b.talle_id: b.talle_id-a.talle_id);
+      }else if (column == 'precio costo'){
+        return (sortup ?  parseFloat(a.precio_costo)- parseFloat(b.precio_costo): parseFloat(b.precio_costo)-  parseFloat(a.precio_costo));
+      }else if (column == 'stock'){
+        return (sortup ? a.stock-b.stock: b.stock-a.stock);
+      }else if (column == 'precio venta'){
+        return (sortup ?  parseFloat(a.precio_venta)- parseFloat(b.precio_venta):  parseFloat(b.precio_venta)- parseFloat(a.precio_venta));
+      }
+    });
+  }
+  regenerateTable();
+}
+
+function intersect(a, b) {
+      return a.filter(value => b.includes(value));
 }
