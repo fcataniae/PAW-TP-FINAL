@@ -5,11 +5,12 @@ var window = window || {},
 var stock = {};
 var stockFiltrado = {};
 window.onload = function(){
-  sidenav();
+  onloadwindow();
   ajaxCall("GET","productos",generateTable);
 }
 
 function generateTable(res){
+
     stock = JSON.parse(res);
     var table,thead,tbody,th,tr,td;
     var tablehead = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];

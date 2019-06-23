@@ -104,7 +104,9 @@ a {
 	margin-top: 12vh;
 	padding: 10px;
 }
-
+.close{
+	display: none;
+}
 .header {
 	height: 6vh;
 	max-height: 6vh;
@@ -113,7 +115,7 @@ a {
 	top: 0;
   left: 0;
 	padding:10px;
-	position: absolute;
+	position: fixed;
 	background-color: #257EAF;
 }
 

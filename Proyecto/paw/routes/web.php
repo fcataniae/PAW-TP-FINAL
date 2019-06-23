@@ -40,7 +40,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
 
-        Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario');
+        Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario.stock');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
 
         Route::resource('generos','GenerosController');
