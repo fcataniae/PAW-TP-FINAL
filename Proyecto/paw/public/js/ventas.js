@@ -16,7 +16,7 @@ function addCamposDetalles() {
 	inputDescripcion.type = "text";
     inputDescripcion.name = "descripcion_" + nroDetalle;
     inputDescripcion.readOnly = true;
-	
+
 	var labelPrecio = document.createElement('label');
 	labelPrecio.innerHTML = "Precio: ";
 	var inputPrecio = document.createElement('input');
@@ -71,7 +71,7 @@ function addCamposDetalles() {
 	fieldset.appendChild(labelSubtotal);
 	fieldset.appendChild(inputSubtotal);
 	fieldset.appendChild(buttonEliminar);
-	
+
 	document.getElementById('formulario').appendChild(fieldset);
 }
 
@@ -86,22 +86,5 @@ function mostrar(respuesta) {
 }
 
 function getProducto(){
-	ajaxGet("/in/productos/1", mostrar);
-}
-
-function ajaxGet(url, callback) {
-  var req = new XMLHttpRequest();
-  req.open("GET", url, true);
-  req.addEventListener("load", function() {
-    if (req.status >= 200 && req.status < 400) {
-      // Llamada ala función callback pasándole la respuesta
-      callback(req.responseText);
-    } else {
-      console.error(req.status + " " + req.statusText);
-    }
-  });
-  req.addEventListener("error", function(){
-    console.error("Error de red");
-  });
-  req.send();
+	ajaxCall("GET","/in/productos/1", mostrar);
 }

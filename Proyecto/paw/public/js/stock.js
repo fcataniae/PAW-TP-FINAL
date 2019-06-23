@@ -6,23 +6,11 @@ var stock = {};
 var stockFiltrado = {};
 window.onload = function(){
   sidenav();
-  var xhttp = new XMLHttpRequest();
-
-
-    xhttp.open("GET","productos",true);
-    xhttp.send();
-
-    xhttp.onreadystatechange = function(){
-      if (this.readyState == 4 && this.status == 200) {
-        stock = JSON.parse(this.responseText);
-        console.log(stock);
-        generateTable();
-      }
-    }
+  ajaxCall("GET","productos",generateTable);
 }
 
-function generateTable(){
-
+function generateTable(res){
+    stock = JSON.parse(res);
     var table,thead,tbody,th,tr,td;
     var tablehead = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
     var container = document.querySelector('section.main div.container-table');

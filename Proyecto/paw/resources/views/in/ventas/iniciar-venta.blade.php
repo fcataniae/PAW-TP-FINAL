@@ -3,6 +3,8 @@
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/ventas.js')}}"></script>
+	<script src="{{asset('js/ajax.js')}}"></script>
+	
 @endsection
 
 @section('head-css')
