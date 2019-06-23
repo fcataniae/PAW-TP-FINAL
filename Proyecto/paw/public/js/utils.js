@@ -73,3 +73,15 @@ function sidenavNegocio(){
     sidenav.classList.add('open');
   }
 }
+function sidenavNegocio(){
+  let sidenav = document.querySelector('nav.sidenav.venta.close');
+
+  if(!sidenav){
+    sidenav = document.querySelector('nav.sidenav.venta');
+    sidenav.classList.remove('open');
+    sidenav.classList.add('close');
+  }else{
+    sidenav.classList.remove('close');
+    sidenav.classList.add('open');
+  }
+}
