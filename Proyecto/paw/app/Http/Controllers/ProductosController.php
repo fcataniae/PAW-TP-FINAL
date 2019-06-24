@@ -65,7 +65,7 @@ class ProductosController extends Controller
        */
       public function showAll()
       {
-        
+
           $array = Producto::all();
 
 

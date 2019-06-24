@@ -41,8 +41,9 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
 
         Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario.stock');
-        Route::get('inventario/reposicion', 'InventarioController@reposicion')->name('in.inventario.reposicion');
+        Route::get('inventario/actualizar', 'InventarioController@reposicion')->name('in.inventario.reposicion');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
+        Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
 
         Route::resource('generos','GenerosController');
 

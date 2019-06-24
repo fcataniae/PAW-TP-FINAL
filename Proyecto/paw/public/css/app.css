@@ -74,6 +74,48 @@ a {
 	color: #000000;
 	text-decoration: none;
 }
+.form-input{
+	width: 100%;
+	display: block;
+	border: none;
+	border-bottom: 1px solid black;
+	min-width: 100px;
+	padding: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 40px;
+}
+.form-group{
+	display: inline-block;
+	margin-left: 5%;
+	width: 35%;
+	padding: 10px;
+}
+.form-input: focus{
+	border: 2px solid blue;
+}
+.form-submit{
+	display: block;
+	min-width: 100px;
+	padding: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 20%;
+	border-radius: 4px;
+  cursor: pointer;
+}
+.form{
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+
+}
+.form-input: invalid{
+	border-color: red;
+	border: 2px;
+}
 .search-filters{
 	width: 100%;
 }
