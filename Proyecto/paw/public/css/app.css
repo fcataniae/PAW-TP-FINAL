@@ -151,7 +151,43 @@ p{
   border: 1px solid #ddd;
   padding: 8px;
 }
+.open{
+	animation: openanimation;
+	animation-duration: 1s;
+}
+@keyframes openanimation{
+	from{
+		width: 0px;
+	}
+	to{
+		width: 200px;
+	}
+}
+@keyframes closeanimation{
+	from{
+		width: 200px;
+	}
+	to{
+		width: 0px;
+	}
+}
 
+@keyframes marginoanimation{
+	from{
+		margin-left: 0px;
+	}
+	to{
+		margin-left: 200px;
+	}
+}
+@keyframes margincanimation{
+	from{
+		margin-left: 200px;
+	}
+	to{
+		margin-left: 0px;
+	}
+}
 .table tr:nth-child(even){background-color: #f2f2f2;}
 
 .table tr:hover {background-color: #ddd;}
@@ -167,7 +203,7 @@ p{
 .sidenav {
   margin-top:6vh;
   height: 100%;
-  width: 200px;
+	width: 200px;
   position: fixed;
   top: 0;
   left: 0;
@@ -192,9 +228,13 @@ p{
 .main {
 	margin-top: 12vh;
 	padding: 10px;
+	animation: margincanimation;
+	animation-duration: 1s;
 }
 .close{
-	display: none;
+	animation: closeanimation;
+	animation-duration: 1s;
+	width: 0px;
 }
 .header {
 	height: 6vh;
@@ -209,6 +249,8 @@ p{
 }
 .margin-main{
 	margin-left: 200px;
+	animation: marginoanimation;
+	animation-duration: 1s;
 }
 .main-nav a {
 	color: #000000;
