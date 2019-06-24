@@ -24,7 +24,7 @@ class InventarioController extends Controller
     }
     public function update(){
       if(Auth::user()->can('permisos_repositor')){
-        return redirect()->route('in.inventario');
+        return redirect()->route('in.inventario.stock');
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }
