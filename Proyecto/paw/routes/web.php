@@ -35,7 +35,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
             }
         }]);
 
-        Route::get('ventas/crear', 'FacturaController@crear')->name('in.ventas');
+        
         Route::get('inventario', 'InventarioController@index')->name('in.inventario.index');
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
@@ -53,9 +53,17 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::resource('talles','TallesController');
 
         Route::resource('productos','ProductosController');
+        Route::get('productos/id/{id}','ProductosController@findById')
+            ->name('in.producto.findById');
+        Route::get('productos/codigo/{codigo}','ProductosController@findByCodigo')
+            ->name('in.producto.findByCodigo');
 
         Route::resource('facturas','FacturaController');
-
+        Route::get('ventas/crear', 'FacturaController@crear')
+            ->name('in.ventas');
+        Route::post('ventas/avanzar','FacturaController@avanzar')
+            ->name('in.ventas.avanzar');
+        
         Route::resource('detalles','DetallesController');
 
         Route::resource('forma_pago','FormaPagoController');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Factura as Factura;
+use App\Detalle as Detalle;
+use Carbon\Carbon;
 
 class FacturaController extends Controller
 {
@@ -28,7 +31,34 @@ class FacturaController extends Controller
 
     public function avanzar(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $nueva_factura = new Factura();
+            $nueva_factura->importe = $request->total;
+            $nueva_factura->fecha_creacion = Carbon::now();
+            $nueva_factura->estado = "C";
+            $nueva_factura->empleado_id = Auth::user()->empleado->id;
+            $nueva_factura->cliente_id = null;
+            $nueva_factura->forma_pago_id = null;
+            if($nueva_factura->save()){
+                $detalles = (count($request->all()) - 4) / 7;
+                for($i = 1; $i <= $detalles; $i++){
+                    $nuevo_detalle = new Detalle();
+                    $nuevo_detalle->factura_id = $nueva_factura->id;;
+                    $nuevo_detalle->producto_id = $request["id_" . $i];
+                    $nuevo_detalle->cantidad = $request["cantidad_" . $i];
+                    $nuevo_detalle->precio_unidad = $request["precio_" . $i];
+                    if($nuevo_detalle->save()){
+
+                    }else{
+                        //TO-DO retornar error
+                    }
+                }
+            }else{
+                //TO-DO retornar error
+            }
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     public function finalizar(Request $request)

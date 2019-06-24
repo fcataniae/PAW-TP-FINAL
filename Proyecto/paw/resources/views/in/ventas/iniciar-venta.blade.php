@@ -19,10 +19,11 @@
 	@include('partials.nav-lateral-negocio')
 	@include('partials.nav-lateral-ventas')
 	<section class="main">
-		<form action="/ejemplo/save" method="POST">
+		<form action="{{ route('in.ventas.avanzar') }}" method="POST">
+			{{ csrf_field() }}
 			<fieldset name="Buscador">
 				<legend>Buscador</legend>
-				<label for="buscar_por">BUSCAR POR </label>
+				<label for="buscar_por">Buscar por </label>
 				<select id="buscar_por" name="buscar_por">
 				    <option id="1" value="ID">ID: </option>
 				    <option id="2" value="CODIGO">CODIGO: </option>
@@ -42,8 +43,7 @@
 				<input type="number" id="total" name="total" min="0" readonly value="0">
 			</fieldset>
 			<br>
-			<input type="submit" value="Enviar">
-			<input type="reset" value="Limpiar">
+			<input type="submit" value="Avanzar">
 		</form>
 	</section>
 @endsection

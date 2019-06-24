@@ -19,9 +19,9 @@ class CreateFacturasTables extends Migration
             $table->date('fecha_creacion');
             $table->integer('empleado_id')->unsigned();
             $table->foreign('empleado_id')->references('id')->on('empleados');
-            $table->integer('cliente_id')->unsigned();
+            $table->integer('cliente_id')->nullable()->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->integer('forma_pago_id')->unsigned();
+            $table->integer('forma_pago_id')->nullable()->unsigned();
             $table->foreign('forma_pago_id')->references('id')->on('formas_pago');
             $table->enum('estado', ['C','R','F','A']);
             $table->timestamps();

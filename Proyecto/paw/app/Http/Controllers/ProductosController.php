@@ -38,6 +38,36 @@ class ProductosController extends Controller
         //
     }
 
+    public function findById($id)
+    {
+        $producto = Producto::find($id);
+
+        $array  = array(    'id' =>  $producto->id,
+                            'descripcion' => $producto->descripcion,
+                            'stock' => $producto->stock,
+                            'precio_venta' => $producto->precio_venta,
+                            'talle'=> $producto->talle->descripcion,
+                            'tipo' => $producto->tipo->descripcion,
+                            'categoria' => $producto->tipo->categoria->descripcion);
+
+        return json_encode($array);
+    }
+
+    public function findByCodigo($codigo)
+    {
+        $producto = Producto::where('codigo', '=', $codigo)->firstOrFail();
+
+        $array  = array(    'id' =>  $producto->id,
+                            'descripcion' => $producto->descripcion,
+                            'stock' => $producto->stock,
+                            'precio_venta' => $producto->precio_venta,
+                            'talle'=> $producto->talle->descripcion,
+                            'tipo' => $producto->tipo->descripcion,
+                            'categoria' => $producto->tipo->categoria->descripcion);
+
+        return json_encode($array);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -46,16 +76,7 @@ class ProductosController extends Controller
      */
     public function show($id)
     {
-        $producto = Producto::find($id);
-
-        $array  = array( 'descripcion' => $producto->descripcion,
-                            'stock' => $producto->stock,
-                            'precio_venta' => $producto->precio_venta,
-                            'talle'=> $producto->talle->descripcion,
-                            'tipo' => $producto->tipo->descripcion,
-                            'categoria' => $producto->tipo->categoria->descripcion);
-
-        return json_encode($array);
+        //
     }
 
       /**

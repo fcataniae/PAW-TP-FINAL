@@ -8,7 +8,7 @@ function addDetalles(){
 	var buscar_por = document.getElementById("buscar_por");
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
 	if(buscar_por[buscar_por.selectedIndex].id == 1){
-		ajaxGet("/in/productos/" + valor_a_buscar , addCamposDetalles);
+		ajaxGet("/in/productos/id/" + valor_a_buscar , addCamposDetalles);
 	}else{
 		ajaxGet("/in/productos/codigo/" + valor_a_buscar , addCamposDetalles);
 	}
@@ -17,12 +17,18 @@ function addDetalles(){
 
 function addCamposDetalles(respuesta) {
 	console.log(respuesta);
+
 	var producto = JSON.parse(respuesta);
 	nroDetalle++;
 	var fieldset = document.createElement('fieldset');
 	fieldset.id = "detalleNro_" + nroDetalle;
 	fieldset.name = "detalle";
 	fieldset.setAttribute("data-nroDetalle", nroDetalle);
+
+	var inputId = document.createElement('input');
+	inputId.type = "hidden";
+    inputId.name = "id_" + nroDetalle;
+    inputId.value = producto.id;
 
 	var labelDescripcion = document.createElement('label');
 	labelDescripcion.innerHTML = "Descripcion: ";
@@ -32,28 +38,6 @@ function addCamposDetalles(respuesta) {
     inputDescripcion.readOnly = true;
     inputDescripcion.value = producto.categoria + "," + producto.tipo +"," + producto.descripcion;
 
-/*
-	var labelPrecio = document.createElement('label');
-	labelPrecio.innerHTML = "Precio: ";
-	var inputPrecio = document.createElement('input');
-	inputPrecio.type = "number";
-	inputPrecio.name = "precio_" + nroDetalle;
-	inputPrecio.readOnly = true;
-
-
-	var labelTalle = document.createElement('label');
-	labelTalle.innerHTML = "Talle: ";
-	var selectTalle = document.createElement("select");
-	selectTalle.name = "talle_" + nroDetalle;
-
-	var array = ["S","M","X","XL"];
-	for (var i = 0; i < array.length; i++) {
-	    var option = document.createElement("option");
-	    option.value = array[i];
-	    option.text = array[i];
-	    selectTalle.appendChild(option);
-	}
-*/
 	var labelTalle = document.createElement('label');
 	labelTalle.innerHTML = "Talle: ";
 	var inputTalle = document.createElement('input');
@@ -61,6 +45,7 @@ function addCamposDetalles(respuesta) {
 	inputTalle.name = "talle_" + nroDetalle;
 	inputTalle.readOnly = true;
 	inputTalle.value = producto.talle;
+	inputTalle.style.width = "50px";
 
 	var labelPrecio = document.createElement('label');
 	labelPrecio.innerHTML = "Precio: ";
@@ -70,6 +55,7 @@ function addCamposDetalles(respuesta) {
 	inputPrecio.name = "precio_" + nroDetalle;
 	inputPrecio.readOnly = true;
 	inputPrecio.value = producto.precio_venta;
+	inputPrecio.style.width = "75px";
 
 
 	var labelStock = document.createElement('label');
@@ -80,6 +66,7 @@ function addCamposDetalles(respuesta) {
 	inputStock.min = 0;
 	inputStock.readOnly = true;
 	inputStock.value = producto.stock;
+	inputStock.style.width = "50px";
 
 	var labelCantidad= document.createElement('label');
 	labelCantidad.innerHTML = "Cantidad: ";
@@ -90,7 +77,7 @@ function addCamposDetalles(respuesta) {
 	inputCantidad.min = 0;
 	inputCantidad.value = 1;
 	inputCantidad.addEventListener("change", calcularSubtotal);
-
+	inputCantidad.style.width = "50px";
 
 	var labelSubtotal= document.createElement('label');
 	labelSubtotal.innerHTML = "Subtotal: ";
@@ -101,7 +88,7 @@ function addCamposDetalles(respuesta) {
 	inputSubtotal.min = 0;
 	inputSubtotal.readOnly = true;
 	inputSubtotal.value = producto.precio_venta;
-	inputCantidad.addEventListener("change", calcularTotal);
+	inputSubtotal.style.width = "75px";
 
 	var buttonEliminar = document.createElement("button");
 	buttonEliminar.type = "button";
@@ -109,6 +96,7 @@ function addCamposDetalles(respuesta) {
 	buttonEliminar.addEventListener("click", deleteDetalle);
 	buttonEliminar.innerHTML = "-";
 
+	fieldset.appendChild(inputId);
 	fieldset.appendChild(labelDescripcion);
 	fieldset.appendChild(inputDescripcion);
 	fieldset.appendChild(labelTalle);
@@ -138,6 +126,7 @@ function calcularSubtotal(event){
 	var cantidad = document.getElementById("cantidad_" + nroDetalle).value;
 	var precio = document.getElementById("precio_" + nroDetalle).value;
 	document.getElementById("subtotal_" + nroDetalle).value = cantidad * precio;
+	calcularTotal();
 }
 
 function calcularTotal(){
