@@ -14,21 +14,12 @@ function controls(){
   var venta = document.querySelector('ul.main-nav li.venta');
   var inventario = document.querySelector('ul.main-nav li.inventario');
   if(negocio){
-    let snegocio = document.querySelector('nav.sidenav.negocio');
-    if(snegocio)
-      snegocio.classList.add('close');
     negocio.addEventListener('click',sidenavNegocio);
   }
   if(venta){
-    let sventa = document.querySelector('nav.sidenav.venta');
-    if(sventa)
-      sventa.classList.add('close');
     venta.addEventListener('click',sidenavVenta);
   }
   if(inventario){
-    let sinventario = document.querySelector('nav.sidenav.inventario');
-    if(sinventario)
-      sinventario.classList.add('close');
     inventario.addEventListener('click',sidenavInventario);
   }
 }

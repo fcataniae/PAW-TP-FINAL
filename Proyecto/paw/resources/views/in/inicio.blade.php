@@ -12,6 +12,8 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
+	@include('partials.nav-lateral-ventas')
+	@include('partials.nav-lateral-inventario')
 	@include('partials.nav-lateral-negocio')
 	<div class="main">
 		<p>Bienvenido {{auth()->user()->name }}</p>

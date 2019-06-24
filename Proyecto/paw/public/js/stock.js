@@ -2,7 +2,7 @@ var window = window || {},
     document = document || {},
     console = console || {};
 
-const labels = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock'];
+const labels = ['id','descripcion','estado','codigo','precio costo','precio venta', 'talle', 'stock', 'actualizar'];
 
 var stock = [];
 var stockFiltrado = [];
@@ -60,6 +60,12 @@ function generateTable(res){
       tr.appendChild(td);
       td = document.createElement('td');
       td.innerHTML = stock[i].stock;
+      tr.appendChild(td);
+      td = document.createElement('td');
+      let a = document.createElement('a');
+      a.href = 'actualizar?id='+ stock[i].id;
+      a.innerHTML = 'actualizar stock';
+      td.appendChild(a);
       tr.appendChild(td);
       tbody.appendChild(tr);
     }
@@ -155,6 +161,12 @@ function regenerateTable(){
       tr.appendChild(td);
       td = document.createElement('td');
       td.innerHTML = stockFiltrado[i].stock;
+      tr.appendChild(td);
+      td = document.createElement('td');
+      let a = document.createElement('a');
+      a.href = 'actualizar?id='+ stock[i].id;
+      a.innerHTML = 'actualizar stock';
+      td.appendChild(a);
       tr.appendChild(td);
       tbody.appendChild(tr);
     }

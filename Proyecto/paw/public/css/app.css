@@ -74,6 +74,48 @@ a {
 	color: #000000;
 	text-decoration: none;
 }
+.form-input{
+	width: 100%;
+	display: block;
+	border: none;
+	border-bottom: 1px solid black;
+	min-width: 100px;
+	padding: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 40px;
+}
+.form-group{
+	display: inline-block;
+	margin-left: 5%;
+	width: 35%;
+	padding: 10px;
+}
+.form-input: focus{
+	border: 2px solid blue;
+}
+.form-submit{
+	display: block;
+	min-width: 100px;
+	padding: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 20%;
+	border-radius: 4px;
+  cursor: pointer;
+}
+.form{
+	width: 70%;
+	margin-left: 15%;
+	margin-right: 15%;
+
+}
+.form-input: invalid{
+	border-color: red;
+	border: 2px;
+}
 .search-filters{
 	width: 100%;
 }
@@ -109,7 +151,43 @@ p{
   border: 1px solid #ddd;
   padding: 8px;
 }
+.open{
+	animation: openanimation;
+	animation-duration: 1s;
+}
+@keyframes openanimation{
+	from{
+		width: 0px;
+	}
+	to{
+		width: 200px;
+	}
+}
+@keyframes closeanimation{
+	from{
+		width: 200px;
+	}
+	to{
+		width: 0px;
+	}
+}
 
+@keyframes marginoanimation{
+	from{
+		margin-left: 0px;
+	}
+	to{
+		margin-left: 200px;
+	}
+}
+@keyframes margincanimation{
+	from{
+		margin-left: 200px;
+	}
+	to{
+		margin-left: 0px;
+	}
+}
 .table tr:nth-child(even){background-color: #f2f2f2;}
 
 .table tr:hover {background-color: #ddd;}
@@ -125,7 +203,7 @@ p{
 .sidenav {
   margin-top:6vh;
   height: 100%;
-  width: 200px;
+	width: 200px;
   position: fixed;
   top: 0;
   left: 0;
@@ -150,9 +228,13 @@ p{
 .main {
 	margin-top: 12vh;
 	padding: 10px;
+	animation: margincanimation;
+	animation-duration: 1s;
 }
 .close{
-	display: none;
+	animation: closeanimation;
+	animation-duration: 1s;
+	width: 0px;
 }
 .header {
 	height: 6vh;
@@ -167,6 +249,8 @@ p{
 }
 .margin-main{
 	margin-left: 200px;
+	animation: marginoanimation;
+	animation-duration: 1s;
 }
 .main-nav a {
 	color: #000000;
@@ -205,7 +289,7 @@ p{
 }
 
 
-@media screen and (min-height: 200px) and (max-height: 700px) {
+@media screen and (min-height: 0px) and (max-height: 700px) {
 	.header{
 		height: 50px;
 		max-height: 50px;
