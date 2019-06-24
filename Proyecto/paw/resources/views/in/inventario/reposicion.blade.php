@@ -21,31 +21,37 @@
 
 		<p><strong>Reposicion de Stock</strong></p>
     <form class="form" action="{{ route('in.inventario.update') }}" method="POST">
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="descripcion">Descripcion del producto</label>
 				<input  disabled id="descripcion" class="form-input" type="text" name="descripcion" value={{$data['descripcion']}}>
 			</div>
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="stock">Stock</label>
 				<input id="stock" class="form-input" type="number" min={{$data['stock']}} pattern="^[0-9]+" name="stock" value={{$data['stock']}} required>
 			</div>
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="talle">Talle</label>
 				<input disabled  id="talle" class="form-input" type="text" name="talle" value={{$data['talle']}}>
 			</div>
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="tipo">Tipo de producto</label>
 				<input disabled  id="tipo" class="form-input" type="text" name="tipo" value={{$data['tipo']}}>
 			</div>
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="categoria">Categoria de producto</label>
 				<input disabled  id="categoria" class="form-input" type="text" name="categoria" value={{$data['categoria']}}>
 			</div>
+			{{csrf_field()}}
 			<div class="form-group">
 				<label for="precio">Precio de venta</label>
 				<input disabled id="precio" class="form-input" type="text" name="precio" value={{$data['precio_venta']}}>
 			</div>
-
+			{{csrf_field()}}
 			<input class="form-submit" type="submit" name="" value="Actualizar stock">
 		</form>
 	</section>
