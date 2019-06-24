@@ -43,7 +43,7 @@ class LoginController extends Controller
             if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
                 return redirect()->route('in.reportes');
             }else if(Auth::user()->hasRole('vendedor')) {
-                return redirect()->route('in.ventas');
+                return redirect()->route('in.facturas.crear');
             }else if(Auth::user()->hasRole('repositor')){
                 return redirect()->route('in.inventario.index');
             }

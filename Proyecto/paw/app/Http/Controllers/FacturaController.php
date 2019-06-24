@@ -10,16 +10,7 @@ use Carbon\Carbon;
 
 class FacturaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
+    
     public function crear()
     {
         if(Auth::user()->can('permisos_vendedor')){
@@ -29,7 +20,13 @@ class FacturaController extends Controller
         }
     }
 
-    public function avanzar(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmar(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
             $nueva_factura = new Factura();
@@ -48,20 +45,34 @@ class FacturaController extends Controller
                     $nuevo_detalle->cantidad = $request["cantidad_" . $i];
                     $nuevo_detalle->precio_unidad = $request["precio_" . $i];
                     if($nuevo_detalle->save()){
-
-                    }else{
-                        //TO-DO retornar error
+                        return view('in.ventas.confirmar-venta')
+                                    ->with('factura',$nueva_factura);
                     }
                 }
-            }else{
-                //TO-DO retornar error
             }
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
-    }
+    }  
+
+
 
     public function finalizar(Request $request)
+    {
+        //
+    }
+
+    public function reservas()
+    {
+        //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
         //
     }

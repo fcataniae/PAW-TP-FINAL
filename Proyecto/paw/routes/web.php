@@ -29,7 +29,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
             if(Auth::user()->hasRole('administrador') || Auth::user()->hasRole('superusuario')) {
                 return redirect()->route('in.reportes');
             }else if(Auth::user()->hasRole('vendedor')) {
-                return redirect()->route('in.ventas');
+                return redirect()->route('in.facturas.crear');
             }else if(Auth::user()->hasRole('repositor')){
                 return redirect()->route('in.inventario.index');
             }
@@ -59,11 +59,18 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('productos/codigo/{codigo}','ProductosController@findByCodigo')
             ->name('in.producto.findByCodigo');
 
-        Route::resource('facturas','FacturaController');
-        Route::get('ventas/crear', 'FacturaController@crear')
-            ->name('in.ventas');
-        Route::post('ventas/avanzar','FacturaController@avanzar')
-            ->name('in.ventas.avanzar');
+/*        Route::resource('facturas','FacturaController', [
+            'as' => 'in'
+        ]);
+        */
+        Route::get('facturas/crear', 'FacturaController@crear')
+            ->name('in.facturas.crear');
+        Route::post('facturas/confirmar','FacturaController@confirmar')
+            ->name('in.facturas.confirmar');
+        Route::post('facturas/finalizar','FacturaController@finalizar')
+            ->name('in.facturas.finalizar');
+        Route::get('facturas/reservas','FacturaController@reservas')
+            ->name('in.facturas.reservas');
         
         Route::resource('detalles','DetallesController');
 
