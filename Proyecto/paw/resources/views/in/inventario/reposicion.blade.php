@@ -20,7 +20,7 @@
 	<section class="main">
 
 		<p><strong>Reposicion de Stock</strong></p>
-    <form class="form" action={{ route('in.inventario.update') }} method="post">
+    <form class="form" action="{{ route('in.inventario.update') }}" method="POST">
 			<div class="form-group">
 				<label for="descripcion">Descripcion del producto</label>
 				<input  disabled id="descripcion" class="form-input" type="text" name="descripcion" value={{$data['descripcion']}}>
