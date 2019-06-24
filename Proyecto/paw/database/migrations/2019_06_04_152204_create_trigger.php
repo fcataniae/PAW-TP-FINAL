@@ -25,7 +25,7 @@ class CreateTrigger extends Migration
 
             IF (new.cantidad > (SELECT stock FROM productos WHERE id = new.producto_id) OR
                 new.cantidad <= 0 OR
-                NOT EXISTS(SELECT 1 FROM facturas WHERE factura_id = new.factura_id))
+                NOT EXISTS(SELECT 1 FROM facturas WHERE id = new.factura_id))
             THEN
                 SIGNAL sqlstate "45001" set message_text = "Stock no es suficiente";
             END IF;
