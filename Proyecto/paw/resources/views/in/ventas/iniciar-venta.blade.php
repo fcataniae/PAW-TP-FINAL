@@ -19,7 +19,7 @@
 	@include('partials.nav-lateral-negocio')
 	@include('partials.nav-lateral-ventas')
 	<section class="main">
-		<form action="{{ route('in.facturas.confirmar')}}" method="POST">
+		<form action="{{ route('in.facturas.continuar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Buscador">
 				<legend>Buscador</legend>
@@ -43,7 +43,7 @@
 				<input type="number" id="total" name="total" min="0" readonly value="0">
 			</fieldset>
 			<br>
-			<input type="submit" value="Avanzar">
+			<input type="submit" name="Crear" value="Crear">
 		</form>
 	</section>
 @endsection

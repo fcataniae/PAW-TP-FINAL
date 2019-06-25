@@ -65,10 +65,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         */
         Route::get('facturas/crear', 'FacturaController@crear')
             ->name('in.facturas.crear');
-        Route::post('facturas/confirmar','FacturaController@confirmar')
-            ->name('in.facturas.confirmar');
-        Route::post('facturas/finalizar','FacturaController@finalizar')
-            ->name('in.facturas.finalizar');
+        Route::post('facturas/continuar','FacturaController@continuar')
+            ->name('in.facturas.continuar');
         Route::get('facturas/reservas','FacturaController@reservas')
             ->name('in.facturas.reservas');
         

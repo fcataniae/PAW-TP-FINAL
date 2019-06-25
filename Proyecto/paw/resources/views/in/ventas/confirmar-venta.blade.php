@@ -15,12 +15,12 @@
 @endsection
 @section('body-main')
 	<section class="main">
-		<form action="{{ route('in.facturas.finalizar')}}" method="POST">
+		<form action="{{ route('in.facturas.continuar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Total">
 				<legend>Detalles de la compra</legend>
-				<label for="total">Nro Factura: </label>
-				<input type="number" id="total" name="total" min="0" readonly value= {{ $factura->id }}>
+				<label for="id">Nro Factura: </label>
+				<input type="number" id="id" name="id" min="0" readonly value= {{ $factura->id }}>
 				<label for="total">Total ($): </label>
 				<input type="number" id="total" name="total" min="0" readonly value= {{ $factura->importe }}>
 			</fieldset>
@@ -29,8 +29,8 @@
 				<legend>Cliente</legend>
 				<label for="es_cliente">Es cliente? </label>
 				<select id="es_cliente" name="es_cliente">
-				    <option id="1" value="SI">SI</option>
-				    <option id="2" value="NO">NO</option>
+				    <option id="1" value="NO" selected>NO</option>
+				    <option id="2" value="SI">SI</option>
 				</select>
 				<label for="nro_cliente"> Nro Cliente: </label>
 				<input type="number" id="nro_cliente" name="nro_cliente">
@@ -51,13 +51,22 @@
 				<div id="formulario"></div>
 				<label for="forma_pago">Forma de Pago: </label>
 				<select id="forma_pago" name="forma_pago">
-				    <option id="1">EFECTIVO</option>
+				    <option id="1" selected>EFECTIVO</option>
 				    <option id="2">TARJETA DEBIDO</option>
 				    <option id="3">TARJETA CREDITO</option>
 				</select>
+				<div id="debito">
+					
+				</div>
+				<div id="credito">
+					
+				</div>
 			</fieldset>
 			<br>
-			<input type="submit" value="Avanzar">
+			<input type="submit" name="Anular" value="Anular">
+			<input type="submit" name="Reservar" value="Reservar">
+			<input type="submit" name="Modificar" value="Modificar">
+			<input type="submit" name="Confirmar" value="Confirmar">
 		</form>
 		{{ $factura }}
 	</section>
