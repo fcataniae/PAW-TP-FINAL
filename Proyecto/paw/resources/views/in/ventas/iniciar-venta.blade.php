@@ -19,6 +19,7 @@
 	@include('partials.nav-lateral-negocio')
 	@include('partials.nav-lateral-ventas')
 	<section class="main">
+		@include('partials.alert-message')
 		<form action="{{ route('in.facturas.continuar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Buscador">

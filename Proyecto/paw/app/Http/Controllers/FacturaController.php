@@ -67,7 +67,11 @@ class FacturaController extends Controller
 
     private function confirmar(Request $request)
     {
-        //
+        $factura = Factura::find($request->id);
+        $factura->estado = "F";
+        if($factura->save()){
+            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido finalizada correctamente.');
+        }
     }
 
     private function modificar(Request $request)
@@ -80,7 +84,7 @@ class FacturaController extends Controller
         $factura = Factura::find($request->id);
         $factura->estado = "R";
         if($factura->save()){
-            return view('in.ventas.iniciar-venta');
+            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido reservada correctamente.');
         }
     }
 
@@ -89,7 +93,7 @@ class FacturaController extends Controller
         $factura = Factura::find($request->id);
         $factura->estado = "A";
         if($factura->save()){
-            return view('in.ventas.iniciar-venta');
+            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido anulada correctamente.');
         }
     }
 
