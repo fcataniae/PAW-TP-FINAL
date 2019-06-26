@@ -320,9 +320,19 @@ p{
 	.main{
 		margin-top:60px;
 	}
+
 }
 @media screen and (min-width: 0px) and (max-width: 799px) {
 
+	.main, .open, .close{
+		animation: none !important;
+	}
+	.open{
+		width: 100px;
+	}
+	.close{
+		display: none;
+	}
 	.main-nav {
 		display: flex;
 		align-items: flex-end;
