@@ -44,7 +44,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inventario/actualizar', 'InventarioController@reposicion')->name('in.inventario.reposicion');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
         Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
-
+        Route::get('filter/facturas','FacturaController@doFilter');
         Route::resource('generos','GenerosController');
 
         Route::resource('categorias','CategoriasController');

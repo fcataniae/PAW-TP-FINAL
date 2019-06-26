@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class FacturaController extends Controller
 {
-    
+
     public function crear()
     {
         if(Auth::user()->can('permisos_vendedor')){
@@ -22,7 +22,7 @@ class FacturaController extends Controller
     }
 
     public function gestionar(Request $request)
-    {   
+    {
         if(Auth::user()->can('permisos_vendedor')){
             if ($request->has('Crear')) {
                 return $this->iniciar($request);
@@ -85,7 +85,7 @@ class FacturaController extends Controller
         }else{
             $cliente = Cliente::find($request->nro_cliente);
             if($cliente == null){
-              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');  
+              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');
             }
         }
 
@@ -115,6 +115,10 @@ class FacturaController extends Controller
         return view('in.ventas.confirmar-venta')->with('factura',$factura);
     }
 
+
+    public function doFilter(Request $request){
+      dd($request);
+    }
     public function editar($id)
     {
         dd($id);
