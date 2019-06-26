@@ -22,9 +22,20 @@ class InventarioController extends Controller
         return redirect()->route('in.sinpermisos.sinpermisos');
       }
     }
-    public function update(){
+    public function update(Request $request){
       if(Auth::user()->can('permisos_repositor')){
-        return redirect()->route('in.inventario.stock');
+        $this->validate($request,[
+               'id' => 'required',
+               'stock' => 'required|numeric|min:0',
+               'comentario' => 'required',
+           ]);
+
+        $controller = new ProductosController();
+        if($controller->updateStock($request->post('id'),$request->post('stock'),$request->post('comentario'),Auth::user()->name)){
+          return redirect()->route('in.inventario.stock');
+        }else {
+          return redirect()->back()->withErrors("No se pudo actualizar el stock!");
+        }
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }
@@ -32,7 +43,7 @@ class InventarioController extends Controller
     public function reposicion(){
       if(Auth::user()->can('permisos_repositor')){
         $controller = new  ProductosController();
-        $producto = json_decode($controller->show(Input::get('id')),true);
+        $producto = json_decode($controller->findById(Input::get('id')),true);
         return view('in.inventario.reposicion')->with(['data'=>$producto]);
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');

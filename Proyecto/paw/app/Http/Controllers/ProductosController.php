@@ -2,46 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Producto;
+use App\Stock_log;
 use Illuminate\Http\Request;
 
 class ProductosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     public function findById($id)
     {
         $producto = Producto::find($id);
-
         $array  = array(    'id' =>  $producto->id,
                             'descripcion' => $producto->descripcion,
                             'stock' => $producto->stock,
@@ -74,9 +45,27 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function updateStock($id,$nuevoStock,$comentario,$user)
     {
-        //
+        $producto = Producto::find($id);
+
+        $stocklog = new Stock_log();
+        $stocklog->comentario_usuario = $comentario;
+        $stocklog->stock_anterior = $producto->stock;
+        $stocklog->stock_nuevo = $nuevoStock;
+        $stocklog->id_producto = $id;
+        $stocklog->usuario_modificacion = $user;
+        $stocklog->fecha_creacion = new DateTime();
+        if($stocklog->save()){
+          $producto->stock = $nuevoStock;
+          if($producto->save()){
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
     }
 
       /**
