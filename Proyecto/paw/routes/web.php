@@ -35,7 +35,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
             }
         }]);
 
-        
+
         Route::get('inventario', 'InventarioController@index')->name('in.inventario.index');
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         Route::get('inicio', 'InicioController@index')->name('in.inicio');
@@ -65,7 +65,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('facturas/{id}/editar','FacturaController@editar')->name('in.facturas.editar');
         Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
-        
+
         Route::resource('detalles','DetallesController');
 
         Route::resource('forma_pago','FormaPagoController');
