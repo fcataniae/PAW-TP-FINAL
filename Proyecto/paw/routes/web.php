@@ -59,16 +59,12 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('productos/codigo/{codigo}','ProductosController@findByCodigo')
             ->name('in.producto.findByCodigo');
 
-/*        Route::resource('facturas','FacturaController', [
-            'as' => 'in'
-        ]);
-        */
-        Route::get('facturas/crear', 'FacturaController@crear')
-            ->name('in.facturas.crear');
-        Route::post('facturas/continuar','FacturaController@continuar')
-            ->name('in.facturas.continuar');
-        Route::get('facturas/reservas','FacturaController@reservas')
-            ->name('in.facturas.reservas');
+        Route::get('facturas/crear', 'FacturaController@crear')->name('in.facturas.crear');
+        Route::post('facturas/gestionar','FacturaController@gestionar')->name('in.facturas.gestionar');
+        Route::get('facturas/{id}/confirmar','FacturaController@confirmar')->name('in.facturas.confirmar');
+        Route::get('facturas/{id}/editar','FacturaController@editar')->name('in.facturas.editar');
+        Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
+        Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
         
         Route::resource('detalles','DetallesController');
 

@@ -14,8 +14,11 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
+	@include('partials.nav-lateral-negocio')
+	@include('partials.nav-lateral-ventas')
 	<section class="main">
-		<form action="{{ route('in.facturas.continuar')}}" method="POST">
+		@include('partials.alert-message')
+		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Total">
 				<legend>Detalles de la compra</legend>
@@ -39,11 +42,11 @@
 				    <option id="1" value="DNI">DNI</option>
 				    <option id="2" value="CUIL">CUIL</option>
 				</select>
-				<input type="number" id="nro_documento" name="nro_documento" required="true">
+				<input type="number" id="nro_documento" name="nro_documento">
 				<label for="nombre"> Nombre: </label>
-				<input type="text" id="nombre" name="nombre" required="true">
+				<input type="text" id="nombre" name="nombre">
 				<label for="apellido"> Apellido: </label>
-				<input type="text" id="apellido" name="apellido" required="true">
+				<input type="text" id="apellido" name="apellido">
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">

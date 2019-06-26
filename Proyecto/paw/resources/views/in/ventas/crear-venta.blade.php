@@ -20,7 +20,7 @@
 	@include('partials.nav-lateral-ventas')
 	<section class="main">
 		@include('partials.alert-message')
-		<form action="{{ route('in.facturas.continuar')}}" method="POST">
+		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Buscador">
 				<legend>Buscador</legend>

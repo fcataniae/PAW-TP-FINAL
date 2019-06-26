@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Factura as Factura;
 use App\Detalle as Detalle;
+use App\Cliente AS Cliente;
 use Carbon\Carbon;
 
 class FacturaController extends Controller
@@ -14,19 +15,19 @@ class FacturaController extends Controller
     public function crear()
     {
         if(Auth::user()->can('permisos_vendedor')){
-            return view('in.ventas.iniciar-venta');
+            return view('in.ventas.crear-venta');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
     }
 
-    public function continuar(Request $request)
+    public function gestionar(Request $request)
     {   
         if(Auth::user()->can('permisos_vendedor')){
             if ($request->has('Crear')) {
                 return $this->iniciar($request);
             }else if ($request->has('Confirmar')) {
-                return $this->confirmar($request);
+                return $this->finalizar($request);
             }else if ($request->has('Modificar')) {
                 return $this->modificar($request);
             }else if ($request->has('Reservar')){
@@ -39,13 +40,12 @@ class FacturaController extends Controller
         }
     }
 
-    public function iniciar(Request $request)
+    private function iniciar(Request $request)
     {
-        
         $nueva_factura = new Factura();
-        $nueva_factura->importe = $request->total;
+        /*$nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();
-        $nueva_factura->estado = "C";
+        $nueva_factura->estado = "C";*/
         $nueva_factura->empleado_id = Auth::user()->empleado->id;
         $nueva_factura->cliente_id = null;
         $nueva_factura->forma_pago_id = null;
@@ -58,14 +58,13 @@ class FacturaController extends Controller
                 $nuevo_detalle->cantidad = $request["cantidad_" . $i];
                 $nuevo_detalle->precio_unidad = $request["precio_" . $i];
                 if($nuevo_detalle->save()){
-                    return view('in.ventas.confirmar-venta')
-                                ->with('factura',$nueva_factura);
+                    return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);
                 }
             }
         }
     }
 
-    private function confirmar(Request $request)
+    private function finalizar(Request $request)
     {
         $factura = Factura::find($request->id);
         $factura->estado = "F";
@@ -76,11 +75,20 @@ class FacturaController extends Controller
 
     private function modificar(Request $request)
     {
-        //
+        return redirect()->action('FacturaController@editar', ['id' => $request->id]);
     }
 
     private function reservar(Request $request)
     {
+        if($request->es_cliente == "NO"){
+            return redirect()->back()->with('error','Para poder reservar debe ser cliente.');
+        }else{
+            $cliente = Cliente::find($request->nro_cliente);
+            if($cliente == null){
+              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');  
+            }
+        }
+
         $factura = Factura::find($request->id);
         $factura->estado = "R";
         if($factura->save()){
@@ -97,8 +105,24 @@ class FacturaController extends Controller
         }
     }
 
-    private function reservas()
+    public function reservas()
     {
         //
     }
+
+    public function confirmar($id){
+        $factura = Factura::find($id);
+        return view('in.ventas.confirmar-venta')->with('factura',$factura);
+    }
+
+    public function editar($id)
+    {
+        dd($id);
+    }
+
+    public function actualizar(Request $request)
+    {
+        //
+    }
+
 }
