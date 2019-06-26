@@ -31,8 +31,11 @@ class InventarioController extends Controller
            ]);
 
         $controller = new ProductosController();
-        $controller->updateStock($request->post('id'),$request->post('stock'),$request->post('comentario'),Auth::user()->name);
-        return redirect()->route('in.inventario.stock');
+        if($controller->updateStock($request->post('id'),$request->post('stock'),$request->post('comentario'),Auth::user()->name)){
+          return redirect()->route('in.inventario.stock');
+        }else {
+          return redirect()->back()->withErrors("No se pudo actualizar el stock!");
+        }
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }

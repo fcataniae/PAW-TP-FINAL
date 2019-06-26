@@ -58,7 +58,13 @@ class ProductosController extends Controller
         $stocklog->fecha_creacion = new DateTime();
         if($stocklog->save()){
           $producto->stock = $nuevoStock;
-          $producto->save();
+          if($producto->save()){
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
         }
     }
 
