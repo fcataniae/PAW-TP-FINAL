@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Producto;
+use App\Stock_log;
 use Illuminate\Http\Request;
 
 class ProductosController extends Controller
@@ -43,14 +45,21 @@ class ProductosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateStock($id,$nuevoStock,$comentario)
+    public function updateStock($id,$nuevoStock,$comentario,$user)
     {
         $producto = Producto::find($id);
 
-        $producto->stock = $nuevoStock;
-
-        $producto->save();
-
+        $stocklog = new Stock_log();
+        $stocklog->comentario_usuario = $comentario;
+        $stocklog->stock_anterior = $producto->stock;
+        $stocklog->stock_nuevo = $nuevoStock;
+        $stocklog->id_producto = $id;
+        $stocklog->usuario_modificacion = $user;
+        $stocklog->fecha_creacion = new DateTime();
+        if($stocklog->save()){
+          $producto->stock = $nuevoStock;
+          $producto->save();
+        }
     }
 
       /**
