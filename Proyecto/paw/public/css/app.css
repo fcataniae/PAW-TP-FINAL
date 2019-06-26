@@ -86,6 +86,25 @@ a {
 	margin-bottom: 5px;
 	height: 40px;
 }
+.form-area{
+	margin-left:15%;
+	border-radius: 6px;
+}
+textarea.form-area : invalid{
+	border: 2px solid red;
+}
+.form-errors{
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 10%;
+}
+.form-error{
+	color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+		padding: 10px;
+		border-radius: 6px;
+}
 .form-group{
 	display: inline-block;
 	margin-left: 5%;
@@ -98,8 +117,9 @@ a {
 .form-submit{
 	display: block;
 	min-width: 100px;
+	max-width: 150px;
 	padding: 5px;
-	margin-left: 10px;
+	margin-left: 35%;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	width: 20%;
