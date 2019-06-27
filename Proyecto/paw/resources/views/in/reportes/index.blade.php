@@ -21,7 +21,8 @@
 		<div class="container-reportes">
 			<div class="search-filters">
 				<input class="input-search" id="id" placeholder="id" type="number">
-				<input class="input-search" id="importe" placeholder="importe" type="number" min="0">
+				<input class="input-search" id="importe_desde" placeholder="importe desde" type="number" min="0">
+				<input class="input-search" id="importe_hasta" placeholder="importe hasta" type="number" min="0">
 				<input class="input-search" id="fecha_desde" placeholder="fecha desde" type="date">
 				<input class="input-search" id="fecha_hasta" placeholder="fecha hasta" type="date">
 				<input class="input-search" id="empleado_id" placeholder="empleado id" type="text">

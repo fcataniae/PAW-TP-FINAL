@@ -4,7 +4,7 @@
 			<li class="negocio"><a href="#">Negocio</a></li>
 		    <li class="venta"><a href="#">Ventas</a></li>
 		    <li class="inventario"><a href="#">Inventario</a></li>
-		    <li class="reporte"><a href="#">Reporte</a></li>
+		    <li class="reporte"><a href="{{ route('in.reportes')}}">Reporte</a></li>
 	    @endif
 
 	    @if(Entrust::hasRole('administrador'))
