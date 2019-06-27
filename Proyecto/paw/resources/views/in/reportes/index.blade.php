@@ -2,6 +2,7 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+
 @endsection
 
 @section('head-js')
@@ -28,6 +29,7 @@
 									  placeholder="nro"
 										min="0"
 									  type="number">
+
 				</div>
 				<div class="form-group minified">
 						<label class="padding-top" for="importe_desde">Importe desde</label>
@@ -76,8 +78,10 @@
 						<label class="padding-top" for="forma_pago_id">Forma de pago</label>
 						<input  class="form-input minified"
 										id="forma_pago_id"
-										name="forma_pago_id"
+										name="forma_pago_id" list="forma_pago_data"
 										placeholder="forma pago" type="text">
+						<datalist id="forma_pago_data">
+						</datalist>
 				</div>
 				<div class="form-group minified">
 						<label class="padding-top" for="estaod">estado</label>

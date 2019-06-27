@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Forma_Pago;
 use Illuminate\Http\Request;
 
 class FormaPagoController extends Controller
@@ -57,6 +58,11 @@ class FormaPagoController extends Controller
     public function edit($id)
     {
         //
+    }
+
+
+    public function getAll(){
+      return json_encode(Forma_Pago::all());
     }
 
     /**

@@ -5,6 +5,7 @@ var window = window || {},
 window.onload = function(){
   onloadwindow();
   initWindow();
+  ajaxCall('GET','/in/forma_pago/all',completeFormaPago);
 }
 
 const filtros =  ['id','importe_desde','importe_hasta','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
@@ -93,10 +94,27 @@ function printTable(res){
   table.classList.add('table');
   container.appendChild(table);
 
+
 }
+
+function completeFormaPago(res){
+
+  let formas = JSON.parse(res);
+  let datalist = document.querySelector('datalist#forma_pago_data');
+  let option;
+  formas.forEach(f => {
+    option = document.createElement('option');
+    option.value = f.descripcion;
+    datalist.appendChild(option);
+  });
+
+}
+
+
 function sort(){
 
 }
 
 function showError(res,stat){
+  openErrorDialog(res);
 }

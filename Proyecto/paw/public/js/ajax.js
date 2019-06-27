@@ -17,11 +17,9 @@ function ajaxCall(method,url, callback) {
 
 function ajaxCallWParameters(method, url, params, callback, errorcalback){
   var req = new XMLHttpRequest();
-  console.log(params);
   for(let i = 0; i< params.length; i++){
       url +=  ((i==0)?'?':'&')+params[i].query +'='+ params[i].value;
   }
-  console.log(url);
 
   req.open(method, url, true);
   req.addEventListener("load", function() {
