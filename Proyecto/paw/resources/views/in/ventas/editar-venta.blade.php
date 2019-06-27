@@ -29,11 +29,12 @@
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
 			<label for="buscar_por">Buscar por </label>
-			<select id="buscar_por" name="buscar_por">
-			    <option id="1" value="ID">ID: </option>
-			    <option id="2" value="CODIGO">CODIGO: </option>
+			<select id="buscar_por" name="buscar_por" onchange="opcionesValoresABuscar()">
+			    <option id="1" value="CODIGO">CODIGO: </option>
+			    <option id="2" value="ID">DESCRIPCION: </option>
 			</select>
-			<input type="text" id="valor_a_buscar" name="valor_a_buscar">
+			<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data">
+			<datalist id="valor_a_buscar_data"></datalist>
 			<button onClick="buscar()"><i class="fa fa-search" aria-hidden="true"></i></button>
 			<br>
 			<br>

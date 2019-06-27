@@ -2,8 +2,9 @@ var window = window || {},
     document = document || {},
     console = console || {};
 
-var producto = {}
-var nroDetalle = 0;
+var producto = {},
+	productosAll ={},
+	nroDetalle = 0;
 
 /*
 function addDetalles(){
@@ -161,28 +162,47 @@ function ajaxGet(url, callback) {
 
 ////////////////////////// CAMBIOS PARA NUEVA PANTALLA CALCULO
 
+document.addEventListener("DOMContentLoaded", function () {
+	ajaxCall('GET','/in/productos/all',function(respuesta){
+		productosAll = JSON.parse(respuesta);
+		opcionesValoresABuscar();
+	});
+});
+
+function opcionesValoresABuscar(){
+	var datalist = document.getElementById("valor_a_buscar_data");
+	datalist.innerHTML = "";
+	if(buscar_por[buscar_por.selectedIndex].id == 1){
+		productosAll.forEach(p => {
+		    option = document.createElement('option');
+		    option.value =  p.codigo;
+		    option.innerHTML = p.codigo;
+		    datalist.appendChild(option);
+		});
+	}else{
+		productosAll.forEach(p => {
+		    option = document.createElement('option');
+		    option.value =  p.codigo;
+		    option.innerHTML = p.categoria + ", " + p.tipo + ", " + p.descripcion + ", " + p.talle;
+		    datalist.appendChild(option);
+		});
+	}
+};
+
 function buscar(){
 	var buscar_por = document.getElementById("buscar_por");
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
-	console.log(valor_a_buscar);
-	if(valor_a_buscar){
-		if(buscar_por[buscar_por.selectedIndex].id == 1){
-			ajaxCallWithParametersAndRequest("GET", "/in/productos/id/" + valor_a_buscar, null, null, cargarProducto, null);
-		}else{
-			ajaxCallWithParametersAndRequest("GET", "/in/productos/codigo/" + valor_a_buscar ,null, null, cargarProducto, null);
-		}
-	}
+	producto = productosAll.find(p => p.codigo == valor_a_buscar);
+	cargarProducto(producto);
 }
 
-function cargarProducto(respuesta) {
-	producto = JSON.parse(respuesta);
-	document.getElementById("descripcion").value = producto.categoria + "," + producto.tipo +"," + producto.descripcion;
+function cargarProducto(producto) {
+	document.getElementById("descripcion").value = producto.categoria + ", " + producto.tipo +", " + producto.descripcion;
 	document.getElementById("talle").value = producto.talle;
 	document.getElementById("precio").value = producto.precio_venta;
 	document.getElementById("stock").value = producto.stock;
 	document.getElementById("cantidad").value = 1;
 }
-
 
 function agregarDetalle(nuevaFactura){
 	var cantidad = document.getElementById("cantidad").value;
@@ -197,6 +217,7 @@ function agregarDetalle(nuevaFactura){
 			console.log("es modificacion solicitud");
 			insertarDetalle(producto);
 		}
+		limpiarCampos();
 	}
 }
 
@@ -409,4 +430,13 @@ function deshacerCambios(id){
 	document.getElementById("eliminar_" + id).style.display = "inline";
 	document.getElementById("guardar_" + id).style.display = "none";
 	document.getElementById("deshacer_" + id).style.display = "none";	
+}
+
+function limpiarCampos(){
+	document.getElementById("valor_a_buscar").value = null;
+	document.getElementById("descripcion").value = null;
+	document.getElementById("talle").value = null;
+	document.getElementById("precio").value = null;
+	document.getElementById("stock").value = null;
+	document.getElementById("cantidad").value = null;
 }

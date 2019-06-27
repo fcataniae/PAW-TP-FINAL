@@ -10,34 +10,26 @@ use Illuminate\Http\Request;
 class ProductosController extends Controller
 {
 
-    public function findById($id)
+    public function findAll()
     {
-        $producto = Producto::find($id);
-        $array  = array(    'id' =>  $producto->id,
-                            'descripcion' => $producto->descripcion,
-                            'stock' => $producto->stock,
-                            'precio_venta' => $producto->precio_venta,
-                            'talle'=> $producto->talle->descripcion,
-                            'tipo' => $producto->tipo->descripcion,
-                            'categoria' => $producto->tipo->categoria->descripcion,
-                            'genero' => $producto->tipo->categoria->genero->descripcion);
+        $productos = Producto::all();
 
-        return json_encode($array);
-    }
-
-    public function findByCodigo($codigo)
-    {
-        $producto = Producto::where('codigo', '=', $codigo)->firstOrFail();
-
-        $array  = array(    'id' =>  $producto->id,
-                            'descripcion' => $producto->descripcion,
-                            'stock' => $producto->stock,
-                            'precio_venta' => $producto->precio_venta,
-                            'talle'=> $producto->talle->descripcion,
-                            'tipo' => $producto->tipo->descripcion,
-                            'categoria' => $producto->tipo->categoria->descripcion,
-                            'genero' => $producto->tipo->categoria->genero->descripcion);
-
+        $array =array();
+        foreach($productos as $producto ){
+            array_push($array,array(
+                      'id' =>  $producto->id,
+                      'descripcion' => $producto->descripcion,
+                      'stock' => $producto->stock,
+                      'precio_costo' => $producto->precio_costo,
+                      'estado' => $producto->estado,
+                      'codigo' => $producto->codigo,
+                      'precio_venta' => $producto->precio_venta,
+                      'talle'=> $producto->talle->descripcion,
+                      'tipo' => $producto->tipo->descripcion,
+                      'categoria' => $producto->tipo->categoria->descripcion,
+                      'genero' => $producto->tipo->categoria->genero->descripcion)
+                      );
+        }
         return json_encode($array);
     }
 
