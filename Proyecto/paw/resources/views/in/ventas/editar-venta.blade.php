@@ -6,6 +6,7 @@
 	<script src="{{asset('js/ventas.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
 	<script>
+		var productosAll = '{!! $productos !!}';
 		var factura = '{!!$factura!!}';
 		var detalles = '{!!$detalles!!}';
 	</script>

@@ -8,6 +8,7 @@ use Auth;
 use App\Factura as Factura;
 use App\Detalle as Detalle;
 use App\Cliente AS Cliente;
+use App\Producto as Producto;
 use Carbon\Carbon;
 
 class FacturaController extends Controller
@@ -16,7 +17,8 @@ class FacturaController extends Controller
     public function crear()
     {
         if(Auth::user()->can('permisos_vendedor')){
-            return view('in.ventas.crear-venta');
+            $productos = $this->productosAll();
+            return view('in.ventas.crear-venta')->with('productos', $productos);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -118,7 +120,10 @@ class FacturaController extends Controller
 
     public function confirmar($id){
         $factura = Factura::find($id);
-        return view('in.ventas.confirmar-venta')->with('factura',$factura);
+        $clientes = Cliente::all();
+        return view('in.ventas.confirmar-venta')
+                ->with('factura',$factura)
+                ->with('clientes',$clientes);
     }
 
 
@@ -181,14 +186,37 @@ class FacturaController extends Controller
     {
         $factura = Factura::find($id);
         $detalles = Detalle::where('factura_id', '=', $factura->id)->orderBy('id','DESC')->get();
+        $productos = $this->productosAll();
         return view('in.ventas.editar-venta')
                 ->with('factura',$factura)
-                ->with('detalles',$detalles);
+                ->with('detalles',$detalles)
+                ->with('productos',$productos);
     }
 
     public function actualizar(Request $request)
     {
         //
+    }
+
+    private function productosAll(){
+        $productosAll = Producto::all();
+        $array =array();
+        foreach($productosAll as $producto ){
+            array_push($array,array(
+                    'id' =>  $producto->id,
+                    'descripcion' => $producto->descripcion,
+                    'stock' => $producto->stock,
+                    'precio_costo' => $producto->precio_costo,
+                    'estado' => $producto->estado,
+                    'codigo' => $producto->codigo,
+                    'precio_venta' => $producto->precio_venta,
+                    'talle'=> $producto->talle->descripcion,
+                    'tipo' => $producto->tipo->descripcion,
+                    'categoria' => $producto->tipo->categoria->descripcion,
+                    'genero' => $producto->tipo->categoria->genero->descripcion)
+                );
+            }
+        return json_encode($array);
     }
 
 }

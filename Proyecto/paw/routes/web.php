@@ -56,7 +56,6 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         Route::resource('talles','TallesController');
 
-        Route::get('productos/all','ProductosController@findAll')->name('in.producto.findAll');
         Route::get('facturas/crear', 'FacturaController@crear')->name('in.facturas.crear');
         Route::post('facturas/gestionar','FacturaController@gestionar')->name('in.facturas.gestionar');
         Route::get('facturas/{id}/confirmar','FacturaController@confirmar')->name('in.facturas.confirmar');

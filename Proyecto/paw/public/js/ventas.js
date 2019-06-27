@@ -3,7 +3,6 @@ var window = window || {},
     console = console || {};
 
 var producto = {},
-	productosAll ={},
 	nroDetalle = 0;
 
 /*
@@ -163,10 +162,8 @@ function ajaxGet(url, callback) {
 ////////////////////////// CAMBIOS PARA NUEVA PANTALLA CALCULO
 
 document.addEventListener("DOMContentLoaded", function () {
-	ajaxCall('GET','/in/productos/all',function(respuesta){
-		productosAll = JSON.parse(respuesta);
+		productosAll = JSON.parse(productosAll);
 		opcionesValoresABuscar();
-	});
 });
 
 function opcionesValoresABuscar(){
@@ -234,6 +231,7 @@ function insertarDetalle(producto){
 			document.getElementById("total").value = respuestaJson.importe_factura;
 		},
 		function(){		
+			indicarError("No se pudo agregar detalle.");
 	});
 }
 
@@ -385,6 +383,7 @@ function actualizarDetalle(id){
 			document.getElementById("eliminar_" + id).style.display = "inline";
 			document.getElementById("guardar_" + id).style.display = "none";
 			document.getElementById("deshacer_" + id).style.display = "none";		
+			indicarError("No se pudo actualizar detalle.");
 	});
 }
 
@@ -408,7 +407,8 @@ function borrarDetalle(id){
 			detalle.parentNode.removeChild(detalle);
 			document.getElementById("total").value = importe;
 		},
-		function(){		
+		function(){	
+			indicarError("No se pudo eliminar detalle.");	
 	});
 }
 
@@ -440,3 +440,7 @@ function limpiarCampos(){
 	document.getElementById("stock").value = null;
 	document.getElementById("cantidad").value = null;
 }
+
+function indicarError(msjError){
+	console.log(msjError);
+} 

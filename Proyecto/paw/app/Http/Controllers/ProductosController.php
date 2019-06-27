@@ -10,29 +10,6 @@ use Illuminate\Http\Request;
 class ProductosController extends Controller
 {
 
-    public function findAll()
-    {
-        $productos = Producto::all();
-
-        $array =array();
-        foreach($productos as $producto ){
-            array_push($array,array(
-                      'id' =>  $producto->id,
-                      'descripcion' => $producto->descripcion,
-                      'stock' => $producto->stock,
-                      'precio_costo' => $producto->precio_costo,
-                      'estado' => $producto->estado,
-                      'codigo' => $producto->codigo,
-                      'precio_venta' => $producto->precio_venta,
-                      'talle'=> $producto->talle->descripcion,
-                      'tipo' => $producto->tipo->descripcion,
-                      'categoria' => $producto->tipo->categoria->descripcion,
-                      'genero' => $producto->tipo->categoria->genero->descripcion)
-                      );
-        }
-        return json_encode($array);
-    }
-
     /**
      * Display the specified resource.
      *
