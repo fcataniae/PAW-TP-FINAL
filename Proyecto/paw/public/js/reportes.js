@@ -7,7 +7,7 @@ window.onload = function(){
   initWindow();
 }
 
-const filtros =  ['id','importe','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
+const filtros =  ['id','importe_desde','importe_hasta','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
 
 function initWindow(){
 
@@ -20,7 +20,7 @@ function doSearch(){
 
   for(let i = 0; i < filtros.length; i++){
     console.log(filtros[i]);
-    let value = document.querySelector('input.input-search#'+ filtros[i]).value;
+    let value = document.querySelector('input.form-input.minified#'+ filtros[i]).value;
     if(value && value.trim() != ''){
         let param = {
           'query' : filtros[i],

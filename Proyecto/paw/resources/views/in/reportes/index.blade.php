@@ -20,16 +20,75 @@
 	<section class="main">
 		<div class="container-reportes">
 			<div class="search-filters">
-				<input class="input-search" id="id" placeholder="id" type="number">
-				<input class="input-search" id="importe_desde" placeholder="importe desde" type="number" min="0">
-				<input class="input-search" id="importe_hasta" placeholder="importe hasta" type="number" min="0">
-				<input class="input-search" id="fecha_desde" placeholder="fecha desde" type="date">
-				<input class="input-search" id="fecha_hasta" placeholder="fecha hasta" type="date">
-				<input class="input-search" id="empleado_id" placeholder="empleado id" type="text">
-				<input class="input-search" id="cliente_id" placeholder="cliente id" type="text">
-				<input class="input-search" id="forma_pago_id" placeholder="forma pago" type="text">
-				<input class="input-search" id="estado" placeholder="estado" type="text">
-				<input type="submit" value="Realizar Busqueda" class="button-clean">
+				<div class="form-group minified">
+						<label class="padding-top" for="id">Nro</label>
+						<input  class="form-input minified"
+									  id="id"
+									  name="id"
+									  placeholder="nro"
+										min="0"
+									  type="number">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="importe_desde">Importe desde</label>
+						<input  class="form-input minified"
+										name="importe_desde"
+						 				id="importe_desde"
+										placeholder="importe desde"
+										type="number" min="0">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="importe_hasta">Importe hasta</label>
+						<input  class="form-input minified"
+										name="importe_hasta"
+										id="importe_hasta"
+										placeholder="importe hasta" type="number" min="0">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="fecha_desde">Fecha desde</label>
+						<input  class="form-input minified"
+										name="fecha_desde"
+										id="fecha_desde"
+										placeholder="fecha desde" type="date">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="fecha_hasta">Fecha hasta</label>
+						<input  class="form-input minified"
+										name="fecha_hasta"
+										id="fecha_hasta"
+										placeholder="fecha hasta" type="date">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="empleado_id">Empleado</label>
+						<input  class="form-input minified"
+										id="empleado_id"
+										name="empleado_id"
+										placeholder="empleado id" type="text">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="cliente_id">Cliente</label>
+						<input  class="form-input minified"
+										id="cliente_id"
+										name="cliente_id"
+										placeholder="cliente id" type="text">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="forma_pago_id">Forma de pago</label>
+						<input  class="form-input minified"
+										id="forma_pago_id"
+										name="forma_pago_id"
+										placeholder="forma pago" type="text">
+				</div>
+				<div class="form-group minified">
+						<label class="padding-top" for="estaod">estado</label>
+						<input  class="form-input minified"
+										id="estado"
+										name="estado"
+										placeholder="estado" type="text">
+				</div>
+				<div class="form-group minified">
+					<input  type="submit" value="Filtrar" class="button-clean">
+				</div>
 			</div>
 		</div>
 	</section>
