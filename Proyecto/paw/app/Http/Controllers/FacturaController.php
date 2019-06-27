@@ -127,6 +127,27 @@ class FacturaController extends Controller
     if(Input::get('empleado_id')){
       $facturas->where('empleado_id', '=', Input::get('empleado_id'));
     }
+    if(Input::get('importe_desde')){
+      $facturas->where('importe', '>', Input::get('importe_desde'));
+    }
+    if(Input::get('importe_hasta')){
+      $facturas->where('importe', '<', Input::get('importe_hasta'));
+    }
+    if(Input::get('fecha_desde')){
+      $facturas->where('fecha_creacion', '>', Input::get('fecha_desde'));
+    }
+    if(Input::get('fecha_hasta')){
+      $facturas->where('fecha_hasta', '<', Input::get('fecha_hasta'));
+    }
+    if(Input::get('cliente_id')){
+      $facturas->where('cliente_id', '=', Input::get('cliente_id'));
+    }
+    if(Input::get('forma_pago_id')){
+      $facturas->where('forma_pago_id', '=', Input::get('forma_pago_id'));
+    }
+    if(Input::get('estado_id')){
+      $facturas->where('estado_id', '=', Input::get('estado_id'));
+    }
 
       return json_encode($facturas->get());
     }
