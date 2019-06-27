@@ -46,6 +46,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
         Route::get('filter/facturas','FacturaController@doFilter');
         Route::get('forma_pago/all','FormaPagoController@getAll');
+        Route::get('empleados/all','EmpleadosController@getAll');
 
         Route::resource('generos','GenerosController');
 

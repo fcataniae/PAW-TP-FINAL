@@ -64,7 +64,11 @@ function generateTable(res){
       td = document.createElement('td');
       let a = document.createElement('a');
       a.href = 'actualizar?id='+ stock[i].id;
-      a.innerHTML = 'actualizar stock';
+      let i2 = document.createElement('i');
+      i2.classList.add('fa');
+      i2.classList.add('fa-pencil');
+      i2.hidden =true;
+      a.appendChild(i2);
       td.appendChild(a);
       tr.appendChild(td);
       tbody.appendChild(tr);
@@ -165,7 +169,11 @@ function regenerateTable(){
       td = document.createElement('td');
       let a = document.createElement('a');
       a.href = 'actualizar?id='+ stock[i].id;
-      a.innerHTML = 'actualizar stock';
+      let i2 = document.createElement('i');
+      i2.classList.add('fa');
+      i2.classList.add('fa-pencil');
+      i2.hidden =true;
+      a.appendChild(i2);
       td.appendChild(a);
       tr.appendChild(td);
       tbody.appendChild(tr);

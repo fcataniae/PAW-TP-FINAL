@@ -64,8 +64,10 @@
 						<label class="padding-top" for="empleado_id">Empleado</label>
 						<input  class="form-input minified"
 										id="empleado_id"
-										name="empleado_id"
+										name="empleado_id" list="empleados_data"
 										placeholder="empleado id" type="text">
+						<datalist id="empleados_data">
+						</datalist>
 				</div>
 				<div class="form-group minified">
 						<label class="padding-top" for="cliente_id">Cliente</label>
@@ -87,8 +89,14 @@
 						<label class="padding-top" for="estaod">estado</label>
 						<input  class="form-input minified"
 										id="estado"
-										name="estado"
+										name="estado" list="estado_data"
 										placeholder="estado" type="text">
+						<datalist id="estado_data">
+							<option value="A">Anulada</option>
+							<option value="C">Creada</option>
+							<option value="F">Facturada</option>
+							<option value="R">Reservada</option>
+						</datalist>
 				</div>
 				<div class="form-group minified">
 					<input  type="submit" value="Filtrar" class="button-clean">

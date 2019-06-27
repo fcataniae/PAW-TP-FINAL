@@ -69,11 +69,11 @@ function ajaxCallWithParametersAndRequest(method, url, params, request ,callback
     }
   });
 
-  var metas = document.getElementsByTagName('meta'); 
-  for (i=0; i<metas.length; i++) { 
-    if (metas[i].getAttribute("name") == "csrf-token") {  
+  var metas = document.getElementsByTagName('meta');
+  for (i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute("name") == "csrf-token") {
       req.setRequestHeader("X-CSRF-Token", metas[i].getAttribute("content"));
-    } 
+    }
   }
 
   if(request == null){

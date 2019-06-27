@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Empleado;
+
 
 class EmpleadosController extends Controller
 {
@@ -15,7 +17,11 @@ class EmpleadosController extends Controller
     {
         //
     }
+    public function getAll(){
+      $emp = Empleado::all();
 
+      return json_encode($emp);
+    }
     /**
      * Show the form for creating a new resource.
      *
