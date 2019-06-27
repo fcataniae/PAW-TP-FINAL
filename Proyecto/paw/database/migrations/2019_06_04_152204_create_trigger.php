@@ -149,7 +149,7 @@ class CreateTrigger extends Migration
           ON detalles
           FOR EACH ROW
           BEGIN
-            UPDATE facturas SET importe = (importe + (old.cantidad - new.cantidad) * new.precio_unidad) WHERE id = new.factura_id;
+            UPDATE facturas SET importe = (importe + (new.cantidad - old.cantidad) * new.precio_unidad) WHERE id = new.factura_id;
             UPDATE productos SET stock = (stock - (new.cantidad - old.cantidad)) WHERE id = new.producto_id;
           END
         ');

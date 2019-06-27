@@ -21,7 +21,7 @@
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Total">
-				<legend>Detalles de la compra</legend>
+				<legend>Factura</legend>
 				<label for="id">Nro Factura: </label>
 				<input type="number" id="id" name="id" min="0" readonly value= {{ $factura->id }}>
 				<label for="total">Total ($): </label>

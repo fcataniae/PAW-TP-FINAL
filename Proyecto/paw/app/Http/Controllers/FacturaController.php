@@ -60,10 +60,9 @@ class FacturaController extends Controller
                 $nuevo_detalle->producto_id = $request["id_" . $i];
                 $nuevo_detalle->cantidad = $request["cantidad_" . $i];
                 $nuevo_detalle->precio_unidad = $request["precio_" . $i];
-                if($nuevo_detalle->save()){
-                    return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);
-                }
+                $nuevo_detalle->save();
             }
+            return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);
         }
     }
 
