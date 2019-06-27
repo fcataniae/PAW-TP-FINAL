@@ -7,7 +7,6 @@
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
-	<script src="{{asset('js/reposicion.js')}}"></script>
 @endsection
 @section('body-header')
 	<h1 class="logo"><a href="#">Logo Tienda</a></h1>
