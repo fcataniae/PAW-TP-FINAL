@@ -5,6 +5,7 @@ var window = window || {},
 var producto = {}
 var nroDetalle = 0;
 
+/*
 function addDetalles(){
 	var buscar_por = document.getElementById("buscar_por");
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
@@ -156,6 +157,7 @@ function ajaxGet(url, callback) {
   });
   req.send();
 }
+*/
 
 ////////////////////////// CAMBIOS PARA NUEVA PANTALLA CALCULO
 
@@ -184,12 +186,13 @@ function cargarProducto(respuesta) {
 
 function agregarDetalle(nuevaFactura){
 	var cantidad = document.getElementById("cantidad").value;
-	if(cantidad && producto != {}){
+	if(cantidad){
 		producto.cantidad = cantidad;
 		if(nuevaFactura){
 			console.log("es nueva solicitud");
 			nroDetalle++;
 			agregarFila(producto,nroDetalle,true);
+			calcularTotal1();
 		}else{
 			console.log("es modificacion solicitud");
 			insertarDetalle(producto);
@@ -204,8 +207,10 @@ function insertarDetalle(producto){
 					"cantidad": producto.cantidad,
 					"precio_venta": producto.precio_venta };
 	ajaxCallWithParametersAndRequest('POST','/in/detalles', null, request,
-		function(nroDetalle){
-			agregarFila(producto,nroDetalle,false);
+		function(respuesta){
+			var respuestaJson = JSON.parse(respuesta);
+			agregarFila(producto, respuestaJson.nro_detalle, false);
+			document.getElementById("total").value = respuestaJson.importe_factura;
 		},
 		function(){		
 	});
@@ -213,7 +218,7 @@ function insertarDetalle(producto){
 
 
 function agregarFila(producto, nroDetalle, nuevaFactura){
-	var table  = document.getElementById("tabla_detalles");
+	var table  = document.getElementById("tabla_detalles").getElementsByTagName('tbody')[0];
 	var row = table.insertRow();
 	row.id = "nro_detalle_" + nroDetalle;
   	
@@ -232,6 +237,11 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	let descripcion = row.insertCell();
   	descripcion.id = "producto_" + nroDetalle; 
   	descripcion.innerHTML = producto.descripcion;
+  	var inputProducto = document.createElement('input');
+	inputProducto.type = "hidden";
+	inputProducto.name = "id_" + nroDetalle;
+	inputProducto.value = producto.id;
+	descripcion.appendChild(inputProducto);
   	
   	var talle = row.insertCell();
   	talle.id = "talle_" + nroDetalle; 
@@ -240,6 +250,11 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	var precio = row.insertCell();
   	precio.id = "precio_" + nroDetalle; 
   	precio.innerHTML = parseFloat(producto.precio_venta);
+  	var inputPrecio = document.createElement('input');
+	inputPrecio.type = "hidden";
+	inputPrecio.name = "precio_" + nroDetalle;
+	inputPrecio.value = parseFloat(producto.precio_venta);
+	descripcion.appendChild(inputPrecio);
   	
   	var stock = row.insertCell();
   	stock.id = "stock_" + nroDetalle; 
@@ -248,6 +263,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	var cantidad = row.insertCell(); 
   	var inputCantidad = document.createElement('input');
 	inputCantidad.type = "number";
+	inputCantidad.name = "cantidad_" + nroDetalle;
 	inputCantidad.id = "cantidad_" + nroDetalle;
 	inputCantidad.min = 0;
 	inputCantidad.value = producto.cantidad;
@@ -255,8 +271,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	cantidad.appendChild(inputCantidad);
 
   	var subtotal = row.insertCell();
-  	subtotal.id = "subtotal_" + nroDetalle; 
-  	subtotal.name = "subtotal";
+  	subtotal.id = "subtotal_" + nroDetalle;
   	subtotal.innerHTML = producto.cantidad * producto.precio_venta;
 
   	var accion = row.insertCell();
@@ -326,6 +341,13 @@ function guardarCambios(id, nuevaFactura){
 	document.getElementById("deshacer_" + id).style.display = "none";
 }
 
+function calcularSubtotal1(id){
+	var cantidad = document.getElementById("cantidad_" + id).value;
+	var precio = document.getElementById("precio_" + id).innerHTML;
+	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
+	calcularTotal1();
+}
+
 function actualizarDetalle(id){
 	var cantidad = document.getElementById("cantidad_" + id).value;
 	var precio = document.getElementById("precio_" + id).innerHTML;
@@ -358,7 +380,6 @@ function eliminarDetalle(id, nuevaFactura){
 	}
 }
 
-
 function borrarDetalle(id){
 	ajaxCallWithParametersAndRequest('DELETE','/in/detalles/' + id + '/destroy', null, null,
 		function(importe){
@@ -370,18 +391,13 @@ function borrarDetalle(id){
 	});
 }
 
-function calcularSubtotal1(id){
-	var cantidad = document.getElementById("cantidad_" + id).value;
-	var precio = document.getElementById("precio_" + id).innerHTML;
-	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
-	calcularTotal1();
-}
+
 
 function calcularTotal1(){
-	var subtotales = document.getElementsByName("subtotal");
+	var length = document.getElementById("tabla_detalles").rows.length;
 	var total = 0;
-	for(var i = 0; i < subtotales.length; i++){
-		total = total + parseInt(subtotales[i].innerHTML);
+	for(var i = 1; i < length; i++){
+		total = total + parseInt(document.getElementById("tabla_detalles").rows[i].cells[8].innerHTML);
 	}
 	document.getElementById("total").value = total;
 }

@@ -71,7 +71,6 @@
 			<input type="submit" name="Modificar" value="Modificar">
 			<input type="submit" name="Confirmar" value="Confirmar">
 		</form>
-		{{ $factura }}
 	</section>
 @endsection
 @section('body-footer')

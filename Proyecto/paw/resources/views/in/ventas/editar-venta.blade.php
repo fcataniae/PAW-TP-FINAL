@@ -55,7 +55,7 @@
 			<fieldset name="Buscador">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
-				<input type="text" id="nro_factura" value="{{ $factura->id }}" readonly>
+				<input type="text" id="nro_factura" name="nro_factura"  value="{{ $factura->id }}" readonly>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">
@@ -105,14 +105,13 @@
 			<fieldset name="Total">
 				<legend>Total</legend>
 				<label for="total">Total ($): </label>
-				<input type="number" id="total" name="total" min="0" readonly value="{{$factura->importe}}">
+				<input type="number" id="total" name="total" min="0" value="{{$factura->importe}}" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Crear" value="Crear">
+			<input type="submit" name="Anular" value="Anular">
+			<input type="submit" name="Reservar" value="Reservar">
+			<input type="submit" name="Continuar" value="Continuar">
 		</form>
-		{{$detalle}}
-		<br>
-		{{$factura}}
 	</section>
 @endsection
 @section('body-footer')

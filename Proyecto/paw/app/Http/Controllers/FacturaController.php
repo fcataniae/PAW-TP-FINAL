@@ -33,6 +33,8 @@ class FacturaController extends Controller
                 return $this->modificar($request);
             }else if ($request->has('Reservar')){
                 return $this->reservar($request);
+            }else if($request->has('Continuar')){
+                return $this->continuar($request);
             }else if ($request->has('Anular')){
                 return $this->anular($request);
             }
@@ -51,7 +53,7 @@ class FacturaController extends Controller
         $nueva_factura->cliente_id = null;
         $nueva_factura->forma_pago_id = null;
         if($nueva_factura->save()){
-            $detalles = (count($request->all()) - 5) / 7;
+            $detalles = (count($request->all()) - 3) / 3;
             for($i = 1; $i <= $detalles; $i++){
                 $nuevo_detalle = new Detalle();
                 $nuevo_detalle->factura_id = $nueva_factura->id;;
@@ -95,6 +97,10 @@ class FacturaController extends Controller
         if($factura->save()){
             return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido reservada correctamente.');
         }
+    }
+
+    private function continuar(Request $request){
+        return redirect()->action('FacturaController@confirmar', ['id' => $request->nro_factura]);
     }
 
     private function anular(Request $request)

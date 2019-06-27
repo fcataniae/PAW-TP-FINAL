@@ -43,7 +43,9 @@ class DetallesController extends Controller
         $nuevo_detalle->cantidad = $request->cantidad;
         $nuevo_detalle->precio_unidad = $request->precio_venta;
         if($nuevo_detalle->save()){
-            return $nuevo_detalle->id;
+            $array  = array('importe_factura' =>  $nuevo_detalle->factura->importe,
+                            'nro_detalle' => $nuevo_detalle->id);
+            return json_encode($array);
         }
     }
 
