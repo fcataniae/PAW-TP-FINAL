@@ -148,8 +148,29 @@ class FacturaController extends Controller
     if(Input::get('estado')){
       $facturas->where('estado', '=', Input::get('estado'));
     }
+    $facturas = $facturas->get();
+    $array = array();
+    foreach ($facturas as $factu) {
+      $cliente = '';
+      $forma = '';
+      if($factu->cliente_id){
+        $cliente = $factu->cliente->nombre.' '.$factu->cliente->apellido;
+      }
+      if($factu->forma_pago_id){
+        $forma = $factu->formaPago->descripcion ;
+      }
+      array_push($array,array(
+                'id' =>  $factu->id,
+                'cliente_id' => $cliente,
+                'empleado_id' => $factu->empleado->nombre.' '.$factu->empleado->apellido,
+                'forma_pago_id' => $forma,
+                'estado' => $factu->estado,
+                'fecha_creacion' => $factu->fecha_creacion,
+                'importe' => $factu->importe,
+              ));
+    }
 
-      return json_encode($facturas->get());
+      return json_encode($array);
     }
 
     public function editar($id)
