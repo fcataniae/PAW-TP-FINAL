@@ -45,6 +45,7 @@ class FacturaController extends Controller
 
     private function iniciar(Request $request)
     {
+
         $nueva_factura = new Factura();
         $nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();
@@ -53,13 +54,12 @@ class FacturaController extends Controller
         $nueva_factura->cliente_id = null;
         $nueva_factura->forma_pago_id = null;
         if($nueva_factura->save()){
-            $detalles = (count($request->all()) - 3) / 3;
-            for($i = 1; $i <= $detalles; $i++){
+            for($i = 0; $i < count($request->producto_id); $i++){
                 $nuevo_detalle = new Detalle();
                 $nuevo_detalle->factura_id = $nueva_factura->id;;
-                $nuevo_detalle->producto_id = $request["id_" . $i];
-                $nuevo_detalle->cantidad = $request["cantidad_" . $i];
-                $nuevo_detalle->precio_unidad = $request["precio_" . $i];
+                $nuevo_detalle->producto_id = $request->producto_id[$i];
+                $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
+                $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
                 $nuevo_detalle->save();
             }
             return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);

@@ -239,7 +239,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	descripcion.innerHTML = producto.descripcion;
   	var inputProducto = document.createElement('input');
 	inputProducto.type = "hidden";
-	inputProducto.name = "id_" + nroDetalle;
+	inputProducto.name = "producto_id[]";
 	inputProducto.value = producto.id;
 	descripcion.appendChild(inputProducto);
   	
@@ -252,7 +252,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	precio.innerHTML = parseFloat(producto.precio_venta);
   	var inputPrecio = document.createElement('input');
 	inputPrecio.type = "hidden";
-	inputPrecio.name = "precio_" + nroDetalle;
+	inputPrecio.name = "producto_precio[]" + nroDetalle;
 	inputPrecio.value = parseFloat(producto.precio_venta);
 	descripcion.appendChild(inputPrecio);
   	
@@ -263,7 +263,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	var cantidad = row.insertCell(); 
   	var inputCantidad = document.createElement('input');
 	inputCantidad.type = "number";
-	inputCantidad.name = "cantidad_" + nroDetalle;
+	inputCantidad.name = "producto_cantidad[]";
 	inputCantidad.id = "cantidad_" + nroDetalle;
 	inputCantidad.min = 0;
 	inputCantidad.value = producto.cantidad;
