@@ -117,7 +117,11 @@ class FacturaController extends Controller
 
     public function editar($id)
     {
-        dd($id);
+        $factura = Factura::find($id);
+        $detalles = Detalle::where('factura_id', '=', $factura->id)->orderBy('id','DESC')->get();
+        return view('in.ventas.editar-venta')
+                ->with('factura',$factura)
+                ->with('detalles',$detalles);
     }
 
     public function actualizar(Request $request)
