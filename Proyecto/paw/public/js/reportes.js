@@ -6,6 +6,7 @@ window.onload = function(){
   onloadwindow();
   initWindow();
   ajaxCall('GET','/in/forma_pago/all',completeFormaPago);
+  ajaxCall('GET','/in/empleados/all',completeEmpleado);
 }
 
 const filtros =  ['id','importe_desde','importe_hasta','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
@@ -97,6 +98,19 @@ function printTable(res){
 
 }
 
+function completeEmpleado(res){
+
+  let emps = JSON.parse(res);
+  let datalist = document.querySelector('datalist#empleados_data');
+  let option;
+  emps.forEach(e => {
+    option = document.createElement('option');
+    option.value = e.id;
+    option.innerHTML = e.nombre + ' ' + e.apellido;
+    datalist.appendChild(option);
+  });
+
+}
 function completeFormaPago(res){
 
   let formas = JSON.parse(res);
@@ -104,7 +118,8 @@ function completeFormaPago(res){
   let option;
   formas.forEach(f => {
     option = document.createElement('option');
-    option.value = f.descripcion;
+    option.value =  f.id;
+    option.innerHTML = f.descripcion;
     datalist.appendChild(option);
   });
 
