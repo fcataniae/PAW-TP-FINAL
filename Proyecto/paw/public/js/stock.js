@@ -212,7 +212,7 @@ function sort($event){
       }else if (column == 'codigo'){
         return (sortup ? a.codigo.localeCompare(b.codigo): b.codigo.localeCompare(a.codigo));
       }else if (column == 'talle'){
-        return (sortup ? a.talle_id-b.talle_id: b.talle_id-a.talle_id);
+        return (sortup ? a.talle_id.localeCompare(b.talle_id): b.talle_id.localeCompare(a.talle_id));
       }else if (column == 'precio costo'){
         return (sortup ?  parseFloat(a.precio_costo)- parseFloat(b.precio_costo): parseFloat(b.precio_costo)-  parseFloat(a.precio_costo));
       }else if (column == 'stock'){

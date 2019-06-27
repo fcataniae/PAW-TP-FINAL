@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Input;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -11,7 +12,7 @@ use Carbon\Carbon;
 
 class FacturaController extends Controller
 {
-    
+
     public function crear()
     {
         if(Auth::user()->can('permisos_vendedor')){
@@ -22,7 +23,7 @@ class FacturaController extends Controller
     }
 
     public function gestionar(Request $request)
-    {   
+    {
         if(Auth::user()->can('permisos_vendedor')){
             if ($request->has('Crear')) {
                 return $this->iniciar($request);
@@ -42,10 +43,11 @@ class FacturaController extends Controller
 
     private function iniciar(Request $request)
     {
+
         $nueva_factura = new Factura();
-        /*$nueva_factura->importe = $request->total;
+        $nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();
-        $nueva_factura->estado = "C";*/
+        $nueva_factura->estado = "C";
         $nueva_factura->empleado_id = Auth::user()->empleado->id;
         $nueva_factura->cliente_id = null;
         $nueva_factura->forma_pago_id = null;
@@ -85,7 +87,7 @@ class FacturaController extends Controller
         }else{
             $cliente = Cliente::find($request->nro_cliente);
             if($cliente == null){
-              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');  
+              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');
             }
         }
 
@@ -115,6 +117,20 @@ class FacturaController extends Controller
         return view('in.ventas.confirmar-venta')->with('factura',$factura);
     }
 
+
+    public function doFilter(){
+    $facturas = (new Factura())->newQuery();
+
+    if(Input::get('id')){
+      $facturas->where('id', '=', Input::get('id'));
+    }
+    if(Input::get('empleado_id')){
+      $facturas->where('empleado_id', '=', Input::get('empleado_id'));
+    }
+
+      return json_encode($facturas->get());
+    }
+    
     public function editar($id)
     {
         $factura = Factura::find($id);

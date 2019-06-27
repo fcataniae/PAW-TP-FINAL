@@ -15,15 +15,15 @@ class CreateFacturasTables extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->increments('id')->start_from(1000);
-            $table->decimal('importe', 10, 2);
-            $table->date('fecha_creacion');
+            $table->decimal('importe', 10, 2)->default(0);
+            $table->date('fecha_creacion')->useCurrent();
             $table->integer('empleado_id')->unsigned();
             $table->foreign('empleado_id')->references('id')->on('empleados');
             $table->integer('cliente_id')->nullable()->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->integer('forma_pago_id')->nullable()->unsigned();
             $table->foreign('forma_pago_id')->references('id')->on('formas_pago');
-            $table->enum('estado', ['C','R','F','A']);
+            $table->enum('estado', ['C','R','F','A'])->default('A');
             $table->timestamps();
         });
 

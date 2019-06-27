@@ -76,8 +76,22 @@ class ProductosController extends Controller
       public function showAll()
       {
 
-          $array = Producto::all();
+          $productos = Producto::all();
 
+          $array =array();
+          foreach($productos as $producto ){
+            array_push($array,array(    'id' =>  $producto->id,
+                      'descripcion' => $producto->descripcion,
+                      'stock' => $producto->stock,
+                      'precio_costo' => $producto->precio_costo,
+                      'estado' => $producto->estado,
+                      'codigo' => $producto->codigo,
+                      'precio_venta' => $producto->precio_venta,
+                      'talle_id'=> $producto->talle->descripcion,
+                      'tipo_id' => $producto->tipo->descripcion,
+                      'categoria' => $producto->tipo->categoria->descripcion)
+                      );
+          }
 
           return json_encode($array);
       }

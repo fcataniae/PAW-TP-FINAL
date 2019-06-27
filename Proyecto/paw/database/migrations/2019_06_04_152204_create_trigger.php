@@ -138,7 +138,6 @@ class CreateTrigger extends Migration
               SIGNAL sqlstate "45001" set message_text = "No se puede modificar una factura FINALIZADA/ANULADA";
             END IF;
             SET new.id = old.id;
-            SET new.importe = old.importe;
             SET new.fecha_creacion = old.fecha_creacion;
             SET new.empleado_id = old.empleado_id;
             SET new.cliente_id = old.cliente_id;
