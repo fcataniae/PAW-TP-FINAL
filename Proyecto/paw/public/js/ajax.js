@@ -48,13 +48,25 @@ function ajaxCallWithParametersAndRequest(method, url, params, request ,callback
   req.addEventListener("load", function() {
     if (this.readyState == 4 && this.status == 200) {
       // Llamada ala función callback pasándole la respuesta
-      callback(req.responseText);
+      if(callback != null){
+        callback(req.responseText);
+      }else{
+        console.log("Peticion exitosa");
+      }
     } else {
-      errorcallback(req.responseText,req.status);
+      if(errorcallback != null){
+        errorcallback(req.status, req.responseText);
+      }else{
+        console.error(req.status + " " + req.statusText);
+      }
     }
   });
   req.addEventListener("error", function(){
-    errorcallback("Error de red");
+    if(errorcallback != null){
+      errorcallback("Error de red");
+    }else{
+      console.error("Error de red");
+    }
   });
 
   var metas = document.getElementsByTagName('meta'); 

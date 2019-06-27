@@ -38,16 +38,16 @@
 			<br>
 			<br>
 			<label>Descripcion: </label>
-			<input type="text" name="descripcion" readonly>
+			<input type="text" id="descripcion" readonly>
 			<label>Talle: </label>
-			<input type="text" name="talle" readonly>
+			<input type="text" id="talle" readonly>
 			<label>Precio: </label>
-			<input type="number" id="precio" name="precio" readonly>
+			<input type="number" id="precio" id="precio" readonly>
 			<label>Stock: </label>
-			<input type="number" name="stock" min="0" readonly>
+			<input type="number" id="stock" min="0" readonly>
 			<label>Cantidad: </label>
-			<input type="number" id="cantidad" name="cantidad" min="0">
-			<button onClick="agregarDetalle()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+			<input type="number" id="cantidad" min="0">
+			<button onClick="agregarDetalle(false)"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		</fieldset>
 		<br>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
@@ -55,13 +55,13 @@
 			<fieldset name="Buscador">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
-				<input type="text" name="id" value="{{ $factura->id }}" readonly>
+				<input type="text" id="nro_factura" value="{{ $factura->id }}" readonly>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table border="1">
+			    <table id="tabla_detalles" border="1">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>
@@ -88,21 +88,13 @@
 			              	<td id="talle_{{$detalle->id}}">{{$detalle->producto->talle->descripcion}}</td>
 			              	<td id="precio_{{$detalle->id}}">{{$detalle->producto->precio_venta}}</td>
 			              	<td id="stock_{{$detalle->id}}">{{$detalle->producto->stock}}</td>
-			              	<td><input type="text" id="cantidad_{{$detalle->id}}" value="{{ $detalle->cantidad }}" readonly></td>
+			              	<td><input type="number" id="cantidad_{{$detalle->id}}" value="{{ $detalle->cantidad }}" min="0" readonly></td>
 			            	<td id="subtotal_{{$detalle->id}}" name="subtotal">{{$detalle->cantidad * $detalle->producto->precio_venta}}</td>
 			            	<td>
-				                @if(true)
-				                 	<button id="editar_{{$detalle->id}}" type="button" onClick="editarDetalle({{$detalle->id}})"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-				                @endif
-				                @if(true)
-				                 	<button id="deshacer_{{$detalle->id}}" type="button" onClick="deshacerCambios({{$detalle->id}})" style="display:none;"><i class="fa fa-undo" aria-hidden="true"></i></button>
-				                @endif
-				                @if(true)
-				                 	<button id="guardar_{{$detalle->id}}" type="button" onClick="guardarCambios({{$detalle->id}}, false)" style="display:none;"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-				                @endif
-				                @if(true)
-				                	<button id="eliminar_{{$detalle->id}}" type="button" onClick="eliminarDetalle({{$detalle->id}})"><i class=" fa fa-trash-o" aria-hidden="true"></i></button>
-				                @endif
+				                 <button id="editar_{{$detalle->id}}" type="button" onClick="editarDetalle({{$detalle->id}})"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+				                 <button id="deshacer_{{$detalle->id}}" type="button" onClick="deshacerCambios({{$detalle->id}})" style="display:none;"><i class="fa fa-undo" aria-hidden="true"></i></button>
+			                 	<button id="guardar_{{$detalle->id}}" type="button" onClick="guardarCambios({{$detalle->id}}, false)" style="display:none;"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+			                	<button id="eliminar_{{$detalle->id}}" type="button" onClick="eliminarDetalle({{$detalle->id}}, false)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				            </td>
 			            </tr>
 			        	@endforeach

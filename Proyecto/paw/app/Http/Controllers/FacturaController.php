@@ -43,7 +43,6 @@ class FacturaController extends Controller
 
     private function iniciar(Request $request)
     {
-
         $nueva_factura = new Factura();
         $nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();
@@ -119,37 +118,37 @@ class FacturaController extends Controller
 
 
     public function doFilter(){
-    $facturas = (new Factura())->newQuery();
+        $facturas = (new Factura())->newQuery();
 
-    if(Input::get('id')){
-      $facturas->where('id', '=', Input::get('id'));
-    }
-    if(Input::get('empleado_id')){
-      $facturas->where('empleado_id', '=', Input::get('empleado_id'));
-    }
-    if(Input::get('importe_desde')){
-      $facturas->where('importe', '>', Input::get('importe_desde'));
-    }
-    if(Input::get('importe_hasta')){
-      $facturas->where('importe', '<', Input::get('importe_hasta'));
-    }
-    if(Input::get('fecha_desde')){
-      $facturas->where('fecha_creacion', '>', date(Input::get('fecha_desde')));
-    }
-    if(Input::get('fecha_hasta')){
-      $facturas->where('fecha_creacion', '<', date(Input::get('fecha_hasta')));
-    }
-    if(Input::get('cliente_id')){
-      $facturas->where('cliente_id', '=', Input::get('cliente_id'));
-    }
-    if(Input::get('forma_pago_id')){
-      $facturas->where('forma_pago_id', '=', Input::get('forma_pago_id'));
-    }
-    if(Input::get('estado')){
-      $facturas->where('estado', '=', Input::get('estado'));
-    }
+        if(Input::get('id')){
+          $facturas->where('id', '=', Input::get('id'));
+        }
+        if(Input::get('empleado_id')){
+          $facturas->where('empleado_id', '=', Input::get('empleado_id'));
+        }
+        if(Input::get('importe_desde')){
+          $facturas->where('importe', '>', Input::get('importe_desde'));
+        }
+        if(Input::get('importe_hasta')){
+          $facturas->where('importe', '<', Input::get('importe_hasta'));
+        }
+        if(Input::get('fecha_desde')){
+          $facturas->where('fecha_creacion', '>', date(Input::get('fecha_desde')));
+        }
+        if(Input::get('fecha_hasta')){
+          $facturas->where('fecha_creacion', '<', date(Input::get('fecha_hasta')));
+        }
+        if(Input::get('cliente_id')){
+          $facturas->where('cliente_id', '=', Input::get('cliente_id'));
+        }
+        if(Input::get('forma_pago_id')){
+          $facturas->where('forma_pago_id', '=', Input::get('forma_pago_id'));
+        }
+        if(Input::get('estado')){
+          $facturas->where('estado', '=', Input::get('estado'));
+        }
 
-      return json_encode($facturas->get());
+        return json_encode($facturas->get());
     }
 
     public function editar($id)

@@ -19,7 +19,8 @@ class ProductosController extends Controller
                             'precio_venta' => $producto->precio_venta,
                             'talle'=> $producto->talle->descripcion,
                             'tipo' => $producto->tipo->descripcion,
-                            'categoria' => $producto->tipo->categoria->descripcion);
+                            'categoria' => $producto->tipo->categoria->descripcion,
+                            'genero' => $producto->tipo->categoria->genero->descripcion);
 
         return json_encode($array);
     }
@@ -34,7 +35,8 @@ class ProductosController extends Controller
                             'precio_venta' => $producto->precio_venta,
                             'talle'=> $producto->talle->descripcion,
                             'tipo' => $producto->tipo->descripcion,
-                            'categoria' => $producto->tipo->categoria->descripcion);
+                            'categoria' => $producto->tipo->categoria->descripcion,
+                            'genero' => $producto->tipo->categoria->genero->descripcion);
 
         return json_encode($array);
     }

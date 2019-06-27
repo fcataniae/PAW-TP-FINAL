@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Factura as Factura;
+use App\Detalle as Detalle;
 use Log;
 
 class DetallesController extends Controller
@@ -35,7 +37,14 @@ class DetallesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nuevo_detalle = new Detalle();
+        $nuevo_detalle->factura_id = $request->factura_id;
+        $nuevo_detalle->producto_id = $request->producto_id;
+        $nuevo_detalle->cantidad = $request->cantidad;
+        $nuevo_detalle->precio_unidad = $request->precio_venta;
+        if($nuevo_detalle->save()){
+            return $nuevo_detalle->id;
+        }
     }
 
     /**
@@ -69,8 +78,14 @@ class DetallesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::info($request);
-        return "OK";
+        $detalle = Detalle::find($id);
+        $detalle->cantidad = $request->cantidad;
+        $detalle->precio_unidad = $request->precio;
+        if($detalle->save()){
+            $factura = Factura::find($detalle->factura->id);
+            return $factura->importe;
+        };
+
     }
 
     /**
@@ -81,6 +96,13 @@ class DetallesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Log::info($id);
+        $detalle = Detalle::find($id);
+        $factura_id = $detalle->factura->id;
+        if($detalle->delete()){
+            $factura = Factura::find($factura_id);
+            return $factura->importe;
+        };
+
     }
 }

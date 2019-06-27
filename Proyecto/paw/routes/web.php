@@ -68,7 +68,9 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
 
+        Route::post('detalles','DetallesController@store')->name('in.detalles.store');
         Route::post('detalles/{id}','DetallesController@update')->name('in.detalles.update');
+        Route::delete('detalles/{id}/destroy','DetallesController@destroy')->name('in.detalles.destroy');
 
         Route::resource('forma_pago','FormaPagoController');
 
