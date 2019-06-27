@@ -2,7 +2,7 @@ var window = window || {},
     document = document || {},
     console = console || {};
 
-nroDetalle = 0;
+nroDetalle = 1;
 
 function addDetalles(){
 	var buscar_por = document.getElementById("buscar_por");
@@ -154,4 +154,77 @@ function ajaxGet(url, callback) {
     console.error("Error de red");
   });
   req.send();
+}
+
+
+
+function editarDetalle(id){
+	document.getElementById("cantidad_" + id).readOnly = false;
+	document.getElementById("cantidad_" + id).setAttribute("data-value-old", document.getElementById("cantidad_" + id).value);
+	document.getElementById("editar_" + id).style.display = "none";
+	document.getElementById("eliminar_" + id).style.display = "none";
+	document.getElementById("guardar_" + id).style.display = "inline";
+	document.getElementById("deshacer_" + id).style.display = "inline";
+}
+
+function guardarCambios(id, nuevaFactura){
+	
+	if(nuevaFactura){
+		console.log("es nueva solicitud");
+		calcularSubtotal1(id);
+	}else{
+		console.log("es modificacion solicitud");
+		calcularSubtotal2(id);
+	}
+	
+
+	document.getElementById("cantidad_" + id).readOnly = true;
+	document.getElementById("editar_" + id).style.display = "inline";
+	document.getElementById("eliminar_" + id).style.display = "inline";
+	document.getElementById("guardar_" + id).style.display = "none";
+	document.getElementById("deshacer_" + id).style.display = "none";
+}
+
+function deshacerCambios(id){
+	document.getElementById("cantidad_" + id).readOnly = true;
+	document.getElementById("cantidad_" + id).value = document.getElementById("cantidad_" + id).getAttribute("data-value-old");
+	document.getElementById("editar_" + id).style.display = "inline";
+	document.getElementById("eliminar_" + id).style.display = "inline";
+	document.getElementById("guardar_" + id).style.display = "none";
+	document.getElementById("deshacer_" + id).style.display = "none";	
+}
+
+function eliminarDetalle(id){
+	var detalle = document.getElementById('nro_detalle_' + id);
+	detalle.parentNode.removeChild(detalle);
+}
+
+function calcularSubtotal1(id){
+	var cantidad = document.getElementById("cantidad_" + id).value;
+	var precio = document.getElementById("precio_" + id).innerHTML;
+	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
+	calcularTotal1();
+}
+
+function calcularSubtotal2(id){
+	
+	var request = { "email": "hello@user.com", "response": { "name": "Tester" } };
+
+	ajaxCallWithParametersAndRequest('POST','/in/detalles/' + id,null,request,null,null);
+
+	/*var cantidad = document.getElementById("cantidad_" + id).value;
+	var precio = document.getElementById("precio_" + id).innerHTML;
+	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
+
+	calcularTotal1();*/
+}
+
+function calcularTotal1(){
+	var subtotales = document.getElementsByName("subtotal");
+	var total = 0;
+	console.log("subt: ", subtotales);
+	for(var i = 0; i < subtotales.length; i++){
+		total = total + parseInt(subtotales[i].innerHTML);
+	}
+	document.getElementById("total").value = total;
 }

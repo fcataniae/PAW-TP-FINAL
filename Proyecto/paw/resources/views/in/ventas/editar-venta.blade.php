@@ -1,9 +1,14 @@
 @extends('layouts.main')
 
 @section('head-js')
+	<meta name="csrf-token" content="{{{ csrf_token() }}}">
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/ventas.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
+	<script>
+		var factura = '{!!$factura!!}';
+		var detalles = '{!!$detalles!!}';
+	</script>
 	
 @endsection
 
@@ -42,7 +47,7 @@
 			<input type="number" name="stock" min="0" readonly>
 			<label>Cantidad: </label>
 			<input type="number" id="cantidad" name="cantidad" min="0">
-			<button onClick="agregarDetalle()"><i class="fa fa-plus" aria-hidden="true"></i></i></button>
+			<button onClick="agregarDetalle()"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		</fieldset>
 		<br>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
@@ -56,7 +61,7 @@
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table  border="1">
+			    <table border="1">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>
@@ -75,25 +80,28 @@
 				    <!-- contenido de la tabla -->
 				    <tbody>
 			        	@foreach( $detalles as $detalle )
-			            <tr>
-			            	<td>{{$detalle->producto->tipo->categoria->genero->descripcion}}</td>
-			              	<td>{{$detalle->producto->tipo->categoria->descripcion}}</td>
-			              	<td>{{$detalle->producto->tipo->descripcion}}</td>
-			              	<td>{{$detalle->producto->descripcion}}</td>
-			              	<td>{{$detalle->producto->talle->descripcion}}</td>
-			              	<td>{{$detalle->producto->precio_venta}}</td>
-			              	<td>{{$detalle->producto->stock}}</td>
-			              	<td><input type="text" name="id" value="{{ $detalle->cantidad }}" readonly></td>
-			            	<td>{{$detalle->cantidad * $detalle->producto->precio_venta}}</td>
+			            <tr id="nro_detalle_{{$detalle->id}}">
+			            	<td id="genero_{{$detalle->id}}">{{$detalle->producto->tipo->categoria->genero->descripcion}}</td>
+			              	<td id="categoria_{{$detalle->id}}">{{$detalle->producto->tipo->categoria->descripcion}}</td>
+			              	<td id="tipo_{{$detalle->id}}">{{$detalle->producto->tipo->descripcion}}</td>
+			              	<td id="producto_{{$detalle->id}}">{{$detalle->producto->descripcion}}</td>
+			              	<td id="talle_{{$detalle->id}}">{{$detalle->producto->talle->descripcion}}</td>
+			              	<td id="precio_{{$detalle->id}}">{{$detalle->producto->precio_venta}}</td>
+			              	<td id="stock_{{$detalle->id}}">{{$detalle->producto->stock}}</td>
+			              	<td><input type="text" id="cantidad_{{$detalle->id}}" value="{{ $detalle->cantidad }}" readonly></td>
+			            	<td id="subtotal_{{$detalle->id}}" name="subtotal">{{$detalle->cantidad * $detalle->producto->precio_venta}}</td>
 			            	<td>
 				                @if(true)
-				                  <a href="{{ route('in.facturas.actualizar')}}" class="btn btn-primary"><span class="fa fa-pencil" aria-hidden="true"></span></a>
+				                 	<button id="editar_{{$detalle->id}}" type="button" onClick="editarDetalle({{$detalle->id}})"><i class="fa fa-pencil" aria-hidden="true"></i></button>
 				                @endif
 				                @if(true)
-				                 
-				                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#delSpk" data-title="Eliminar Conocimiento Idioma"
-				                      data-message="¿Seguro que quiere eliminar?"><span class=" fa fa-trash-o" aria-hidden="true"></span></a>
-				                  
+				                 	<button id="deshacer_{{$detalle->id}}" type="button" onClick="deshacerCambios({{$detalle->id}})" style="display:none;"><i class="fa fa-undo" aria-hidden="true"></i></button>
+				                @endif
+				                @if(true)
+				                 	<button id="guardar_{{$detalle->id}}" type="button" onClick="guardarCambios({{$detalle->id}}, false)" style="display:none;"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+				                @endif
+				                @if(true)
+				                	<button id="eliminar_{{$detalle->id}}" type="button" onClick="eliminarDetalle({{$detalle->id}})"><i class=" fa fa-trash-o" aria-hidden="true"></i></button>
 				                @endif
 				            </td>
 			            </tr>
@@ -105,11 +113,14 @@
 			<fieldset name="Total">
 				<legend>Total</legend>
 				<label for="total">Total ($): </label>
-				<input type="number" id="total" name="total" min="0" readonly value="0">
+				<input type="number" id="total" name="total" min="0" readonly value="{{$factura->importe}}">
 			</fieldset>
 			<br>
 			<input type="submit" name="Crear" value="Crear">
 		</form>
+		{{$detalle}}
+		<br>
+		{{$factura}}
 	</section>
 @endsection
 @section('body-footer')

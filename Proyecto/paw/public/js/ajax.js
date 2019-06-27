@@ -35,3 +35,40 @@ function ajaxCallWParameters(method, url, params, callback, errorcalback){
   });
   req.send();
 }
+
+function ajaxCallWithParametersAndRequest(method, url, params, request ,callback, errorcallback){
+  var req = new XMLHttpRequest();
+
+  if(params !=null){
+    for(let i = 0; i< params.length; i++){
+        url +=  ((i==0)?'?':'&')+params[i].query +'='+ params[i].value;
+    }
+  }
+  req.open(method, url, true);
+  req.addEventListener("load", function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // Llamada ala función callback pasándole la respuesta
+      callback(req.responseText);
+    } else {
+      errorcallback(req.responseText,req.status);
+    }
+  });
+  req.addEventListener("error", function(){
+    errorcallback("Error de red");
+  });
+
+  var metas = document.getElementsByTagName('meta'); 
+  for (i=0; i<metas.length; i++) { 
+    if (metas[i].getAttribute("name") == "csrf-token") {  
+      req.setRequestHeader("X-CSRF-Token", metas[i].getAttribute("content"));
+    } 
+  }
+
+  if(request == null){
+    req.send();
+  }else{
+
+    req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    req.send(JSON.stringify(request));
+  }
+}

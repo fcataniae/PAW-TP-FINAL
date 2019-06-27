@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
 
 class DetallesController extends Controller
 {
@@ -68,7 +69,8 @@ class DetallesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Log::info($request);
+        return "OK";
     }
 
     /**
