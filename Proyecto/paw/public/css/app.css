@@ -123,6 +123,9 @@ textarea.form-area : invalid{
 .form-input: focus{
 	border: 2px solid blue;
 }
+.table-mg{
+	margin-top:5%;
+}
 .form-submit{
 	display: block;
 	min-width: 100px;

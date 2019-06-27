@@ -134,10 +134,10 @@ class FacturaController extends Controller
       $facturas->where('importe', '<', Input::get('importe_hasta'));
     }
     if(Input::get('fecha_desde')){
-      $facturas->where('fecha_creacion', '>', Input::get('fecha_desde'));
+      $facturas->where('fecha_creacion', '>', strtotime(Input::get('fecha_desde')));
     }
     if(Input::get('fecha_hasta')){
-      $facturas->where('fecha_hasta', '<', Input::get('fecha_hasta'));
+      $facturas->where('fecha_creacion', '<', strtotime(Input::get('fecha_hasta')));
     }
     if(Input::get('cliente_id')){
       $facturas->where('cliente_id', '=', Input::get('cliente_id'));
@@ -151,7 +151,7 @@ class FacturaController extends Controller
 
       return json_encode($facturas->get());
     }
-    
+
     public function editar($id)
     {
         $factura = Factura::find($id);
