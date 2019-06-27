@@ -68,7 +68,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
 
-        Route::resource('detalles','DetallesController');
+        Route::post('detalles/{id}','DetallesController@update')->name('in.detalles.update');
 
         Route::resource('forma_pago','FormaPagoController');
 
