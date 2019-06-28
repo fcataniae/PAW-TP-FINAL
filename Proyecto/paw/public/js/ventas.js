@@ -189,8 +189,10 @@ function opcionesValoresABuscar(){
 
 function buscar(){
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
-	producto = productosAll.find(p => p.codigo == valor_a_buscar);
-	cargarProducto(producto);
+	if(valor_a_buscar){
+		producto = productosAll.find(p => p.codigo == valor_a_buscar);
+		cargarProducto(producto);
+	}
 }
 
 function cargarProducto(producto) {

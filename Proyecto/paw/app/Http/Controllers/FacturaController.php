@@ -71,6 +71,10 @@ class FacturaController extends Controller
     private function finalizar(Request $request)
     {
         $factura = Factura::find($request->id);
+        if($request->es_cliente == "SI" && $request->nro_cliente != null){
+            $factura->cliente_id = $request->nro_cliente;
+        }
+        $factura->forma_pago_id = $request->forma_pago;
         $factura->estado = "F";
         if($factura->save()){
             return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido finalizada correctamente.');

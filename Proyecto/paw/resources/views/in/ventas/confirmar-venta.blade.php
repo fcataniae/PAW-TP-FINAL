@@ -64,9 +64,9 @@
 				<div id="formulario"></div>
 				<label for="forma_pago">Forma de Pago: </label>
 				<select id="forma_pago" name="forma_pago">
-				    <option id="1" selected>EFECTIVO</option>
-				    <option id="2">TARJETA DEBIDO</option>
-				    <option id="3">TARJETA CREDITO</option>
+				    <option id="1" value="1" selected>EFECTIVO</option>
+				    <option id="2" value="2">TARJETA DEBIDO</option>
+				    <option id="3" value="3">TARJETA CREDITO</option>
 				</select>
 				<div id="debito">
 					
