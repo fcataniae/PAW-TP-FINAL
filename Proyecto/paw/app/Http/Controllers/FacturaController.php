@@ -101,7 +101,7 @@ class FacturaController extends Controller
     }
 
     private function continuar(Request $request){
-        return redirect()->action('FacturaController@confirmar', ['id' => $request->nro_factura]);
+        return redirect()->action('FacturaController@confirmar', ['id' => $request->id]);
     }
 
     private function anular(Request $request)

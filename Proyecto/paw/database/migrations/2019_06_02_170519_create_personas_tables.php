@@ -17,7 +17,7 @@ class CreatePersonasTables extends Migration
             $table->increments('id')->start_from(1000);
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('email', 40);
+            $table->string('email', 40)->nullable();
             $table->integer('tipo_documento_id')->unsigned();
             $table->foreign('tipo_documento_id')->references('id')->on('tipos_documento');
             $table->string('nro_documento', 15)->unique();

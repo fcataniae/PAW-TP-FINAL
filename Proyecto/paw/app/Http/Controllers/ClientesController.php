@@ -36,24 +36,25 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info($request);   
     }
 
     public function storeAjax(Request $request)
     {
-        Log::info($request);
         $nuevo_cliente = new Cliente();
         $nuevo_cliente->tipo_documento_id = $request->tipo_documento;
         $nuevo_cliente->nro_documento = $request->nro_documento;
         $nuevo_cliente->nombre = $request->nombre;
         $nuevo_cliente->apellido = $request->apellido;
+        $nuevo_cliente->email = null;
         $nuevo_cliente->estado = "A";
         if($nuevo_cliente->save()){
             $array = array(
-                    'id' =>  $cliente->id,
-                    'tipo_documento' => $cliente->tipoDocumento->descripcion,
-                    'nro_documento' => $cliente->nro_documento,
-                    'nombre' => $cliente->nombre,
-                    'apellido' => $cliente->apellido);
+                    'id' =>  $nuevo_cliente->id,
+                    'tipo_documento' => $nuevo_cliente->tipoDocumento->descripcion,
+                    'nro_documento' => $nuevo_cliente->nro_documento,
+                    'nombre' => $nuevo_cliente->nombre,
+                    'apellido' => $nuevo_cliente->apellido);
             return json_encode($array);
         }
     }
