@@ -1,38 +1,21 @@
-@if ($message = Session::get('success'))
-<div class="alert alert-success">
-		<button type="button" class="close" data-dismiss="alert">×</button>	
-        <strong>{{ $message }}</strong>
-</div>
+@if(count($errors))
+		<div class="form-errors">
+				<div class="form-error">
+						<ul>
+								@foreach($errors->all() as $error)
+										<li>{{$error}}</li>
+								@endforeach
+						</ul>
+				</div>
+		</div>
 @endif
+@if($message = Session::get('success'))
+		<div class="form-successes">
+				<div class="form-success">
+						<ul>
 
-
-@if ($message = Session::get('error'))
-<div>
-	<button type="button" class="close">×</button>	
-        <strong>{{ $message }}</strong>
-</div>
-@endif
-
-
-@if ($message = Session::get('warning'))
-<div class="alert alert-warning alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	<strong>{{ $message }}</strong>
-</div>
-@endif
-
-
-@if ($message = Session::get('info'))
-<div class="alert alert-info alert-block">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	<strong>{{ $message }}</strong>
-</div>
-@endif
-
-
-@if ($errors->any())
-<div class="alert alert-danger">
-	<button type="button" class="close" data-dismiss="alert">×</button>	
-	Por favor verifique los errores en el formulario.
-</div>
+										<li>{{$message}}</li>
+						</ul>
+				</div>
+		</div>
 @endif

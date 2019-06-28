@@ -12,7 +12,6 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
 	<section>
 		<p>Bienvenido al apartado de VENTAS {{auth()->user()->name }}</p>
 	</section>

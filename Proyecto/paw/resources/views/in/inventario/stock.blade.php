@@ -3,7 +3,7 @@
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
-	
+
 @endsection
 
 @section('head-js')
@@ -16,9 +16,6 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-inventario')
-	@include('partials.nav-lateral-ventas')
 
 	<section class="main">
 		<p><strong>Control de Stock</strong></p>
@@ -27,6 +24,8 @@
 
 		</div>
 	</section>
+	@include('partials.alert-message')
+	
 @endsection
 @section('body-footer')
 	<address>Guerrero, Pedro</address>

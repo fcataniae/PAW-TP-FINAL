@@ -105,12 +105,22 @@ textarea.form-area : invalid{
 .form-errors{
 	margin-left: 10%;
 	margin-right: 10%;
-	margin-bottom: 10%;
 }
 .form-error{
 	color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+		padding: 10px;
+		border-radius: 6px;
+}
+.form-successes{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+.form-success{
+		color: #23B602;
+    background-color: #32F706;
+    border-color: #2FFF00;
 		padding: 10px;
 		border-radius: 6px;
 }
