@@ -10,7 +10,7 @@
 		var factura = '{!!$factura!!}';
 		var detalles = '{!!$detalles!!}';
 	</script>
-	
+
 @endsection
 
 @section('head-css')
@@ -23,8 +23,6 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-ventas')
 	<section class="main">
 		@include('partials.alert-message')
 		<fieldset name="Buscador">
@@ -57,13 +55,13 @@
 			<fieldset name="Buscador">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
-				<input type="text" id="nro_factura" name="nro_factura"  value="{{ $factura->id }}" readonly>
+				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" readonly>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table id="tabla_detalles" border="1">
+			    <table id="tabla_detalles" border="1" class="table table-mg">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>

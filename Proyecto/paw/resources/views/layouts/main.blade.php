@@ -9,7 +9,11 @@
 	</head>
 	<body>
 	    <header class="header"> @yield('body-header') </header>
-	    <main> @yield('body-main') </main>
+	    <main> 
+				@include('partials.nav-lateral-negocio')
+			  @include('partials.nav-lateral-inventario')
+				@include('partials.nav-lateral-ventas')
+				@yield('body-main') </main>
 	    <footer class="main"> @yield('body-footer') </footer>
 	</body>
 </html>

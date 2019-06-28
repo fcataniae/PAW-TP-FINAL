@@ -8,7 +8,7 @@
 	<script>
 		var productosAll = '{!! $productos !!}';
 	</script>
-	
+
 @endsection
 
 @section('head-css')
@@ -21,8 +21,6 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-ventas')
 	<section class="main">
 		@include('partials.alert-message')
 		<fieldset name="Buscador">
@@ -55,7 +53,7 @@
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table id="tabla_detalles" border="1">
+			    <table id="tabla_detalles" border="1" class="table table-mg">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>

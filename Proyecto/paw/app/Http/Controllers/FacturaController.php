@@ -85,18 +85,18 @@ class FacturaController extends Controller
     private function reservar(Request $request)
     {
         if($request->es_cliente == "NO"){
-            return redirect()->back()->with('error','Para poder reservar debe ser cliente.');
+            return redirect()->back()->withErrors('Para poder reservar debe ser cliente.');
         }else{
             $cliente = Cliente::find($request->nro_cliente);
             if($cliente == null){
-              return redirect()->back()->with('error','No se encuentra al cliente dentro de nuestros registros.');
+              return redirect()->back()->withErrors('No se encuentra al cliente dentro de nuestros registros.');
             }
         }
 
         $factura = Factura::find($request->id);
         $factura->estado = "R";
         if($factura->save()){
-            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido reservada correctamente.');
+            return redirect()->route('in.facturas.crear')->withErrors('La solicitud ha sido reservada correctamente.');
         }
     }
 
@@ -193,6 +193,24 @@ class FacturaController extends Controller
       return json_encode($array);
     }
 
+    public function getDetalleById($id){
+      $detalles = Detalle::where('factura_id', '=', $id)->orderBy('id','DESC')->get();
+
+      $arr = array();
+
+      foreach($detalles as $det){
+        array_push($arr,
+                  array(
+                    'producto' => $det->producto->descripcion,
+                    'codigo' => $det->producto->codigo,
+                    'talle' => $det->producto->talle->descripcion,
+                    'precio' => $det->precio_unidad,
+                    'cantidad' => $det->cantidad
+                  )
+        );
+      }
+      return json_encode($arr);
+    }
     public function editar($id)
     {
         $factura = Factura::find($id);

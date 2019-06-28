@@ -105,12 +105,22 @@ textarea.form-area : invalid{
 .form-errors{
 	margin-left: 10%;
 	margin-right: 10%;
-	margin-bottom: 10%;
 }
 .form-error{
 	color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+		padding: 10px;
+		border-radius: 6px;
+}
+.form-successes{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+.form-success{
+		color: #23B602;
+    background-color: #32F706;
+    border-color: #2FFF00;
 		padding: 10px;
 		border-radius: 6px;
 }
@@ -231,6 +241,43 @@ p{
   text-align: left;
   background-color: #257EAF;
   color: white;
+}
+.pointer{
+	cursor: pointer;
+}
+dialog{
+	position: fixed;
+}
+.site-dialog {
+  overflow: hidden;
+  width: 95%;
+  max-width: 500px;
+	top: 50vh;
+  left: 50vw;
+  transform: translate(-50%,-50%);
+  padding: 0;
+  border-width: 0;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .3);
+}
+
+.dialog-header {
+  padding: 12px 20px;
+  background-color: #257EAF;
+}
+.dialog-content {
+  padding: 30px 20px;
+  color: #555;
+  background-color: #fff;
+}
+.button-volver{
+	margin-top: 5px;
+	padding: 10px 10px;
+  cursor: pointer;
+	color: #fff;
+	border-radius: 10px;
+  background-color: #EF1A17;
 }
 .sidenav {
   margin-top:6vh;

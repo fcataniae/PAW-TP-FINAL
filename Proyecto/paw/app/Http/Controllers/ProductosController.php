@@ -77,6 +77,20 @@ class ProductosController extends Controller
     {
         //
     }
+    public function findById($id)
+    {
+        $producto = Producto::find($id);
+        $array  = array(    'id' =>  $producto->id,
+                            'descripcion' => $producto->descripcion,
+                            'stock' => $producto->stock,
+                            'precio_venta' => $producto->precio_venta,
+                            'talle'=> $producto->talle->descripcion,
+                            'tipo' => $producto->tipo->descripcion,
+                            'categoria' => $producto->tipo->categoria->descripcion,
+                            'genero' => $producto->tipo->categoria->genero->descripcion);
+
+        return json_encode($array);
+    }
 
     /**
      * Update the specified resource in storage.

@@ -2,6 +2,7 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 
 @endsection
 
@@ -15,12 +16,10 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-ventas')
-	@include('partials.nav-lateral-inventario')
 	<section class="main">
 		<div class="container-reportes">
 			<div class="search-filters">
+				<dialog id="fac-details"></dialog>
 				<div class="form-group minified">
 						<label class="padding-top" for="id">Nro</label>
 						<input  class="form-input minified"
