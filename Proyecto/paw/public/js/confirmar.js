@@ -6,7 +6,6 @@ var cliente = {};
 
 document.addEventListener("DOMContentLoaded", function () {
 	clientesAll = JSON.parse(clientesAll);
-	console.log(clientesAll);
 	cargarClientes();
 });
 
@@ -41,9 +40,11 @@ function determinarCliente(){
 
 function cargarCliente(){
 	var nro_cliente = document.getElementById("nro_cliente").value;
-	cliente = clientesAll.find(c => c.id == nro_cliente);
-	document.getElementById("tipo_documento").value = cliente.tipo_documento;
-	document.getElementById("nro_documento").value = cliente.nro_documento;
-	document.getElementById("nombre").value = cliente.nombre;
-	document.getElementById("apellido").value = cliente.apellido;
+	if(nro_cliente){
+		cliente = clientesAll.find(c => c.id == nro_cliente);
+		document.getElementById("tipo_documento").value = cliente.tipo_documento;
+		document.getElementById("nro_documento").value = cliente.nro_documento;
+		document.getElementById("nombre").value = cliente.nombre;
+		document.getElementById("apellido").value = cliente.apellido;
+	}
 }
