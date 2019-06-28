@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cliente as Cliente;
+use Log;
 
 class ClientesController extends Controller
 {
@@ -34,7 +36,26 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    }
+
+    public function storeAjax(Request $request)
+    {
+        Log::info($request);
+        $nuevo_cliente = new Cliente();
+        $nuevo_cliente->tipo_documento_id = $request->tipo_documento;
+        $nuevo_cliente->nro_documento = $request->nro_documento;
+        $nuevo_cliente->nombre = $request->nombre;
+        $nuevo_cliente->apellido = $request->apellido;
+        $nuevo_cliente->estado = "A";
+        if($nuevo_cliente->save()){
+            $array = array(
+                    'id' =>  $cliente->id,
+                    'tipo_documento' => $cliente->tipoDocumento->descripcion,
+                    'nro_documento' => $cliente->nro_documento,
+                    'nombre' => $cliente->nombre,
+                    'apellido' => $cliente->apellido);
+            return json_encode($array);
+        }
     }
 
     /**

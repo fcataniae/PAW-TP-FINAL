@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function opcionesValoresABuscar(){
+	var buscar_por = document.getElementById("buscar_por");
 	var datalist = document.getElementById("valor_a_buscar_data");
 	datalist.innerHTML = "";
 	if(buscar_por[buscar_por.selectedIndex].id == 1){

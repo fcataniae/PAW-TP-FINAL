@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('head-js')
+	<meta name="csrf-token" content="{{{ csrf_token() }}}">
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
 	<script src="{{asset('js/confirmar.js')}}"></script>

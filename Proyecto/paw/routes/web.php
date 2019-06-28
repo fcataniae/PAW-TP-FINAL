@@ -69,7 +69,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         Route::resource('forma_pago','FormaPagoController');
 
-        Route::resource('clientes','DetallesController');
+        Route::resource('clientes','ClientesController', ["as"=>"in"]);
+        Route::post('clientes-ajax','ClientesController@storeAjax')->name('in.clientes.storeAjax');
 
         Route::resource('empleados','EmpleadosController');
 
