@@ -47,7 +47,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('filter/facturas','FacturaController@doFilter');
         Route::get('forma_pago/all','FormaPagoController@getAll');
         Route::get('empleados/all','EmpleadosController@getAll');
-
+        Route::get('factura/get/detalles/{id}','FacturaController@getDetalleById');
         Route::resource('generos','GenerosController');
 
         Route::resource('categorias','CategoriasController');

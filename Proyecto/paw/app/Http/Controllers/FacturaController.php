@@ -182,6 +182,24 @@ class FacturaController extends Controller
       return json_encode($array);
     }
 
+    public function getDetalleById($id){
+      $detalles = Detalle::where('factura_id', '=', $id)->orderBy('id','DESC')->get();
+
+      $arr = array();
+
+      foreach($detalles as $det){
+        array_push($arr,
+                  array(
+                    'producto' => $det->producto->descripcion,
+                    'codigo' => $det->producto->codigo,
+                    'talle' => $det->producto->talle->descripcion,
+                    'precio' => $det->precio_unidad,
+                    'cantidad' => $det->cantidad
+                  )
+        );
+      }
+      return json_encode($arr);
+    }
     public function editar($id)
     {
         $factura = Factura::find($id);

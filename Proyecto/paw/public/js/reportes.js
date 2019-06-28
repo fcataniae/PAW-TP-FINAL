@@ -34,7 +34,7 @@ function doSearch(){
   ajaxCallWParameters('GET','/in/filter/facturas',arr,printTable,showError);
 }
 
-const labels = ['nro','importe','fecha creacion','empleado','cliente','forma pago','estado'];
+const labels = ['nro','importe','fecha creacion','empleado','cliente','forma pago','estado','detalles'];
 
 function printTable(res){
   facturas = JSON.parse(res);
@@ -60,7 +60,7 @@ function printTable(res){
     th = document.createElement('th');
     th.innerHTML = labels[i];
     th.classList.add('th');
-    th.addEventListener('click',sort);
+    th.addEventListener('click',((labels[i]!='detalles')?sort: null));
     thead.appendChild(th);
   }
 
@@ -87,6 +87,15 @@ function printTable(res){
     tr.appendChild(td);
     td = document.createElement('td');
     td.innerHTML = facturas[i].estado;
+    tr.appendChild(td);
+    td = document.createElement('td');
+    let i2 = document.createElement('i');
+    i2.classList.add('fa');
+    i2.classList.add('fa-eye');
+    i2.ariaHidden =true;
+    i2.nro = facturas[i].id;
+    td.appendChild(i2);
+    td.addEventListener('click',showDetails);
     tr.appendChild(td);
     tbody.appendChild(tr);
   }
@@ -192,6 +201,15 @@ function rePrintSortedData(){
     td = document.createElement('td');
     td.innerHTML = facturas[i].estado;
     tr.appendChild(td);
+    td = document.createElement('td');
+    let i2 = document.createElement('i');
+    i2.classList.add('fa');
+    i2.classList.add('fa-eye');
+    i2.ariaHidden =true;
+    i2.nro = facturas[i].id;
+    td.appendChild(i2);
+    td.addEventListener('click',showDetails);
+    tr.appendChild(td);
     tbody.appendChild(tr);
   }
 
@@ -200,5 +218,11 @@ function rePrintSortedData(){
 function showError(res,stat){
   console.log(res);
   console.log(stat);
-  openErrorDialog(res);
+}
+function showDetails($event){
+  let nrofac = $event.target.nro;
+  console.log('factura nro: ' + nrofac);
+  ajaxCall('GET','/in/factura/get/detalles/'+nrofac,function(res){
+    console.log(res);
+  })
 }
