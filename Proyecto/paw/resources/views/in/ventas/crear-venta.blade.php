@@ -8,7 +8,7 @@
 	<script>
 		var productosAll = '{!! $productos !!}';
 	</script>
-	
+
 @endsection
 
 @section('head-css')
@@ -55,7 +55,7 @@
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table id="tabla_detalles" border="1">
+			    <table id="tabla_detalles" border="1" class="table table-mg">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>
