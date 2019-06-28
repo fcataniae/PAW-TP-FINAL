@@ -22,6 +22,7 @@
 	<section class="main">
 		<div class="container-reportes">
 			<div class="search-filters">
+				<dialog id="fac-details"></dialog>
 				<div class="form-group minified">
 						<label class="padding-top" for="id">Nro</label>
 						<input  class="form-input minified"

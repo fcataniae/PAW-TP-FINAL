@@ -232,6 +232,37 @@ p{
   background-color: #257EAF;
   color: white;
 }
+.pointer{
+	cursor: pointer;
+}
+.site-dialog {
+  overflow: hidden;
+  width: 95%;
+  max-width: 500px;
+  padding: 0;
+  border-width: 0;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .3);
+}
+
+.dialog-header {
+  padding: 12px 20px;
+  background-color: #257EAF;
+}
+.dialog-content {
+  padding: 30px 20px;
+  color: #555;
+  background-color: #fff;
+}
+.button-volver{
+	margin-top: 5px;
+	padding: 10px 10px;
+  cursor: pointer;
+	color: #fff;
+	border-radius: 10px;
+  background-color: #EF1A17;
+}
 .sidenav {
   margin-top:6vh;
   height: 100%;
