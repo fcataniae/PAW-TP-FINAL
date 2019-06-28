@@ -5,7 +5,7 @@
 	<script src="{{asset('js/ajax.js')}}"></script>
 	<script src="{{asset('js/confirmar.js')}}"></script>
 	<script>
-		var clientes = '{!! $clientes !!}';
+		var clientesAll = '{!! $clientes !!}';
 	</script>
 @endsection
 
@@ -42,7 +42,7 @@
 				</select>
 				<div id="datos_cliente" style="display:none">
 					<label for="nro_cliente"> Nro Cliente: </label>
-					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data">
+					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data" onChange="cargarCliente()">
 					<datalist id="clientes_data"></datalist>
 				</div>
 				<br>
@@ -52,7 +52,7 @@
 				    <option id="1" value="DNI">DNI</option>
 				    <option id="2" value="CUIL">CUIL</option>
 				</select>
-				<input type="number" id="nro_documento" name="nro_documento">
+				<input type="number" id="nro_documento" name="nro_documento" min="0">
 				<label for="nombre"> Nombre: </label>
 				<input type="text" id="nombre" name="nombre">
 				<label for="apellido"> Apellido: </label>

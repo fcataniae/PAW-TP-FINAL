@@ -120,7 +120,18 @@ class FacturaController extends Controller
 
     public function confirmar($id){
         $factura = Factura::find($id);
-        $clientes = Cliente::all();
+        $clientesAll = Cliente::all();
+        $array =array();
+        foreach($clientesAll as $cliente ){
+            array_push($array,array(
+                    'id' =>  $cliente->id,
+                    'tipo_documento' => $cliente->tipoDocumento->descripcion,
+                    'nro_documento' => $cliente->nro_documento,
+                    'nombre' => $cliente->nombre,
+                    'apellido' => $cliente->apellido)
+                );
+            }
+        $clientes = json_encode($array);
         return view('in.ventas.confirmar-venta')
                 ->with('factura',$factura)
                 ->with('clientes',$clientes);
