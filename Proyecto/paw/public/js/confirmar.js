@@ -6,10 +6,10 @@ var cliente = {};
 
 document.addEventListener("DOMContentLoaded", function () {
 	clientesAll = JSON.parse(clientesAll);
-	cargarClientes();
+	cargarListaClientes();
 });
 
-function cargarClientes(){
+function cargarListaClientes(){
 	var datalist = document.getElementById("clientes_data");
 	clientesAll.forEach(c => {
 		option = document.createElement('option');
@@ -67,9 +67,19 @@ function agregarCliente(){
 	ajaxCallWithParametersAndRequest('POST','/in/clientes-ajax', null, request,
 		function(cliente){
 			indicarExito("El cliente se dio de alta exitosamente.");
+			cliente = JSON.parse(cliente);
+			clientesAll.push(cliente);
 			console.log(clientesAll);
-			clientesAll.push(JSON.parse(cliente));
-			console.log(clientesAll);
+			document.getElementById("es_cliente").value = "SI";
+			document.getElementById("nro_cliente").value = cliente.id;
+			document.getElementById("datos_cliente").style.display = "inline-block";	
+			document.getElementById("tipo_documento").disabled = true;
+			document.getElementById("nro_documento").readOnly = true;
+			document.getElementById("nombre").readOnly = true;
+			document.getElementById("apellido").readOnly = true;
+			document.getElementById("btnAddCliente").style.display = "none";	
+			cargarCliente();
+			cargarListaClientes();
 		},
 		function(){		
 			indicarError("No se pudo agregar cliente.");
