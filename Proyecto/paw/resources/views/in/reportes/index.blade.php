@@ -16,9 +16,6 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-	@include('partials.nav-lateral-negocio')
-	@include('partials.nav-lateral-ventas')
-	@include('partials.nav-lateral-inventario')
 	<section class="main">
 		<div class="container-reportes">
 			<div class="search-filters">
