@@ -55,7 +55,7 @@
 			<fieldset name="Buscador">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
-				<input type="text" id="nro_factura" name="nro_factura"  value="{{ $factura->id }}" readonly>
+				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" readonly>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">
