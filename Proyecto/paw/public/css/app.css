@@ -235,10 +235,16 @@ p{
 .pointer{
 	cursor: pointer;
 }
+dialog{
+	position: fixed;
+}
 .site-dialog {
   overflow: hidden;
   width: 95%;
   max-width: 500px;
+	top: 50vh;
+  left: 50vw;
+  transform: translate(-50%,-50%);
   padding: 0;
   border-width: 0;
   border-radius: 5px;
