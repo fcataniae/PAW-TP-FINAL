@@ -7,6 +7,7 @@
 	<script src="{{asset('js/ajax.js')}}"></script>
 	<script>
 		var productosAll = '{!! $productos !!}';
+		var detalles = null;
 	</script>
 
 @endsection
@@ -48,12 +49,13 @@
 			<button onClick="agregarDetalle(true)"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		</fieldset>
 		<br>
+		<div id="msjError"></div>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
-			    <table id="tabla_detalles" border="1" class="table table-mg">
+			    <table id="tabla_detalles" border="1" class="table">
 				    <!-- columnas de la tabla -->
 				    <thead>
 				        <tr>
@@ -66,7 +68,7 @@
 				            <th>Stock</th>
 				            <th>Cantidad</th>
 				            <th>Subtotal</th>
-				            <th style="width:75px">Acción</th>
+				            <th>Acción</th>
 				        </tr>
 				    </thead>
 				    <!-- contenido de la tabla -->

@@ -47,7 +47,9 @@ class FacturaController extends Controller
 
     private function iniciar(Request $request)
     {
-
+        if($request->producto_id == null || count($request->producto_id) == 0){
+            return redirect()->back()->withErrors('No se encontraron productos asociado a la compra.');
+        }
         $nueva_factura = new Factura();
         $nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();

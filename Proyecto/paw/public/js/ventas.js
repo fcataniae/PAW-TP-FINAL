@@ -164,6 +164,10 @@ function ajaxGet(url, callback) {
 document.addEventListener("DOMContentLoaded", function () {
 		productosAll = JSON.parse(productosAll);
 		opcionesValoresABuscar();
+		// detalles = JSON.parse(detalles);
+		// detalles.forEach(d => {
+
+		// });
 });
 
 function opcionesValoresABuscar(){
@@ -206,19 +210,44 @@ function cargarProducto(producto) {
 function agregarDetalle(nuevaFactura){
 	var cantidad = document.getElementById("cantidad").value;
 	if(cantidad){
-		producto.cantidad = cantidad;
-		if(nuevaFactura){
-			console.log("es nueva solicitud");
-			nroDetalle++;
-			agregarFila(producto,nroDetalle,true);
-			calcularTotal1();
+		var seleccionado = controlarProductoSeleccionado(producto);
+		if(!seleccionado){
+			if(cantidad <= producto.stock){
+				producto.cantidad = cantidad;
+				if(nuevaFactura){
+					console.log("es nueva solicitud");
+					nroDetalle++;
+					agregarFila(producto,nroDetalle,true);
+					calcularTotal1();
+				}else{
+					console.log("es modificacion solicitud");
+					insertarDetalle(producto);
+				}
+				limpiarCampos();
+				var error = document.getElementById('msjError');
+				error.innerHTML = "";
+			}else{
+				indicarError("Producto sin stock suficiente.");
+			}
 		}else{
-			console.log("es modificacion solicitud");
-			insertarDetalle(producto);
+			indicarError("Producto ya seleccionado.");
 		}
-		limpiarCampos();
 	}
 }
+
+function controlarProductoSeleccionado(producto){
+	var length = document.getElementById("tabla_detalles").rows.length;
+	console.log("length",length);
+	var encontrado = false;
+	var i = 1;
+	while ( !encontrado && i < length ){
+		if(producto.codigo == document.getElementById("tabla_detalles").rows[i].getAttribute("data-codigo")){
+			encontrado = true;
+		}
+	  i++;
+	}
+	return encontrado;
+} 
 
 function insertarDetalle(producto){
 	var nroFactura = document.getElementById("nro_factura").value;
@@ -242,6 +271,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
 	var table  = document.getElementById("tabla_detalles").getElementsByTagName('tbody')[0];
 	var row = table.insertRow();
 	row.id = "nro_detalle_" + nroDetalle;
+	row.setAttribute("data-codigo", producto.codigo);
   	
   	var genero = row.insertCell();
   	genero.id = "genero_" + nroDetalle; 
@@ -296,10 +326,13 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	subtotal.innerHTML = producto.cantidad * producto.precio_venta;
 
   	var accion = row.insertCell();
+  	accion.style.textAlign = "center";
   	
   	var btnEditar = document.createElement('button');
   	btnEditar.id = "editar_" + nroDetalle;
   	btnEditar.type = "button";
+  	btnEditar.style.display = "inline";
+  	btnEditar.className = "button-table btn-azul";
   	btnEditar.addEventListener("click", function(){
   		editarDetalle(nroDetalle);
   	});
@@ -310,6 +343,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	btnDeshacer.id = "deshacer_" + nroDetalle;
   	btnDeshacer.type = "button";
   	btnDeshacer.style.display = "none";
+  	btnDeshacer.className = "button-table btn-celeste";
   	btnDeshacer.addEventListener("click", function(){
   		deshacerCambios(nroDetalle);
   	});
@@ -320,8 +354,9 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	btnGuardar.id = "guardar_" + nroDetalle;
   	btnGuardar.type = "button";
   	btnGuardar.style.display = "none";
+  	btnGuardar.className = "button-table btn-verde";
   	btnGuardar.addEventListener("click", function(){
-  		guardarCambios(nroDetalle, nuevaFactura);
+  		guardarCambios(nroDetalle, producto, nuevaFactura);
   	});
   	btnGuardar.innerHTML = "<i class='fa fa-floppy-o' aria-hidden='true'>";
   	accion.appendChild(btnGuardar);
@@ -329,6 +364,8 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	var btnEliminar = document.createElement('button');
   	btnEliminar.id = "eliminar_" + nroDetalle;
   	btnEliminar.type = "button";
+  	btnEliminar.style.display = "inline";
+  	btnEliminar.className = "button-table btn-rojo";
   	btnEliminar.addEventListener("click", function(){
   		eliminarDetalle(nroDetalle, nuevaFactura);
   	});
@@ -345,21 +382,28 @@ function editarDetalle(id){
 	document.getElementById("deshacer_" + id).style.display = "inline";
 }
 
-function guardarCambios(id, nuevaFactura){
-	
-	if(nuevaFactura){
-		console.log("es nueva solicitud");
-		calcularSubtotal1(id);
-	}else{
-		console.log("es modificacion solicitud");
-		actualizarDetalle(id);
-	}
+function guardarCambios(id, producto, nuevaFactura){
+	var cantidad = document.getElementById("cantidad_" + id).value;
+	if(cantidad <= 0){
+		indicarError("Cantidad solicitada debe ser mayor a cero.");
+	}else if(cantidad <= producto.stock){
+		producto.cantidad = cantidad;
+		if(nuevaFactura){
+			console.log("es nueva solicitud");
+			calcularSubtotal1(id);
+		}else{
+			console.log("es modificacion solicitud");
+			actualizarDetalle(id);
+		}
 
-	document.getElementById("cantidad_" + id).readOnly = true;
-	document.getElementById("editar_" + id).style.display = "inline";
-	document.getElementById("eliminar_" + id).style.display = "inline";
-	document.getElementById("guardar_" + id).style.display = "none";
-	document.getElementById("deshacer_" + id).style.display = "none";
+		document.getElementById("cantidad_" + id).readOnly = true;
+		document.getElementById("editar_" + id).style.display = "inline";
+		document.getElementById("eliminar_" + id).style.display = "inline";
+		document.getElementById("guardar_" + id).style.display = "none";
+		document.getElementById("deshacer_" + id).style.display = "none";
+	}else{
+		indicarError("Producto sin stock suficiente.");
+	}
 }
 
 function calcularSubtotal1(id){
@@ -444,5 +488,24 @@ function limpiarCampos(){
 }
 
 function indicarError(msjError){
-	console.log(msjError);
+	var error = document.getElementById('msjError');
+
+	var div = document.createElement('div');
+	div.className = "form-error";
+	div.style.marginBottom = "10px";
+
+	var span = document.createElement('span');
+	span.className = "close-message";
+	span.innerHTML = "X";
+	span.onclick = function() {
+	  span.parentNode.style.display = 'none';
+	}
+
+	var strong = document.createElement('strong');
+	strong.innerHTML = msjError;
+
+	div.appendChild(span);
+	div.appendChild(strong);
+	error.appendChild(div);
 } 
+
