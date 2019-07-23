@@ -196,6 +196,19 @@ textarea.form-area : invalid{
 	margin: 5px;
 }
 
+.group-inline{
+	box-sizing: border-box;
+	display: inline-block;
+}
+
+.group-inline > .input{
+	display: inline-block;
+	border-radius: 4px;
+	min-width: 50px;
+	padding: 5px;
+	margin: 5px;
+}
+
 .input{
 	display: inline-block;
 	border-radius: 4px;
