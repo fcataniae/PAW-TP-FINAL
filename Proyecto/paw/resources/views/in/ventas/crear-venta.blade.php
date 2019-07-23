@@ -26,27 +26,35 @@
 		@include('partials.alert-message')
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
-			<label for="buscar_por">Buscar por </label>
-			<select id="buscar_por" name="buscar_por" onchange="opcionesValoresABuscar()">
-			    <option id="1" value="CODIGO">CODIGO: </option>
-			    <option id="2" value="ID">DESCRIPCION: </option>
-			</select>
-			<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data">
-			<datalist id="valor_a_buscar_data"></datalist>
-			<button onClick="buscar()"><i class="fa fa-search" aria-hidden="true"></i></button>
+			<div class="group">
+				<label for="buscar_por">Producto: </label>
+				<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
+				<datalist id="valor_a_buscar_data"></datalist>
+			</div>
+			<button onClick="buscar()" class="button-table"><i class="fa fa-search" aria-hidden="true"></i></button>
 			<br>
 			<br>
-			<label>Descripcion: </label>
-			<input type="text" id="descripcion" readonly>
-			<label>Talle: </label>
-			<input type="text" id="talle" readonly>
-			<label>Precio: </label>
-			<input type="number" id="precio" id="precio" readonly>
-			<label>Stock: </label>
-			<input type="number" id="stock" min="0" readonly>
-			<label>Cantidad: </label>
-			<input type="number" id="cantidad" min="0">
-			<button onClick="agregarDetalle(true)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+			<div class="group">
+				<label>Descripcion: </label>
+				<input type="text" id="descripcion" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Talle: </label>
+				<input type="text" id="talle" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Precio: </label>
+				<input type="number" id="precio" id="precio" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Stock: </label>
+				<input type="number" id="stock" min="0" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Cantidad: </label>
+				<input type="number" id="cantidad" min="0" class="input">
+			</div>
+			<button onClick="agregarDetalle(true)" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		</fieldset>
 		<br>
 		<div id="msjError"></div>
@@ -64,11 +72,11 @@
 				            <th>Tipo</th>
 				            <th>Producto</th>
 				            <th>Talle</th>
-				            <th>Precio</th>
+				            <th>Precio ($)</th>
 				            <th>Stock</th>
-				            <th>Cantidad</th>
-				            <th>Subtotal</th>
-				            <th>Acción</th>
+				            <th style="width:150px">Cantidad</th>
+				            <th>Subtotal ($)</th>
+				            <th style="width:100px">Acción</th>
 				        </tr>
 				    </thead>
 				    <!-- contenido de la tabla -->
@@ -79,14 +87,10 @@
 			<fieldset name="Total">
 				<legend>Total</legend>
 				<label for="total">Total ($): </label>
-				<input type="number" id="total" name="total" min="0" value="0" readonly>
+				<input type="number" id="total" name="total" min="0" value="0" class="input" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Crear" value="Crear">
+			<input type="submit" name="Crear" value="Crear" class="button-clean btn-azul">
 		</form>
 	</section>
-@endsection
-@section('body-footer')
-	<address>Guerrero, Pedro</address>
-	<address>Telefono: 11235687</address>
 @endsection

@@ -182,6 +182,33 @@ textarea.form-area : invalid{
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.group{
+	box-sizing: border-box;
+	display: inline-block;
+}
+
+.group > .input{
+	display: block;
+	border-radius: 4px;
+	min-width: 50px;
+	padding: 5px;
+	margin: 5px;
+}
+
+.input{
+	display: inline-block;
+	border-radius: 4px;
+	min-width: 50px;
+	padding: 5px;
+	margin: 5px;
+}
+
+.input:disabled, .input[readonly] {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
 p{
 	text-align: center;
 }
@@ -228,6 +255,7 @@ p{
   background-color: #428bca;
   border-color: #357ebd;
 }
+
 .btn-azul:hover {
   color: #fff;
   background-color: #3276b1;
@@ -254,6 +282,18 @@ p{
   color: #fff;
   background-color: #d2322d;
   border-color: #ac2925;
+}
+
+.btn-gris {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-gris:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
 }
 
 .open{

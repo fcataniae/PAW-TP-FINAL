@@ -41,6 +41,9 @@ class ClientesController extends Controller
 
     public function storeAjax(Request $request)
     {
+        if($request->tipo_documento == null || $request->nro_documento == null || $request->nombre == null || $request->apellido == null){            
+            throw new Exception('Campos nulos.');
+        }
         $nuevo_cliente = new Cliente();
         $nuevo_cliente->tipo_documento_id = $request->tipo_documento;
         $nuevo_cliente->nro_documento = $request->nro_documento;

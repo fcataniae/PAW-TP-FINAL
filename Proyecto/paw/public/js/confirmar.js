@@ -88,8 +88,46 @@ function agregarCliente(){
 
 function indicarError(msjError){
 	console.log(msjError);
+	var error = document.getElementById('msjInfo');
+
+	var div = document.createElement('div');
+	div.className = "form-error";
+	div.style.marginBottom = "10px";
+
+	var span = document.createElement('span');
+	span.className = "close-message";
+	span.innerHTML = "X";
+	span.onclick = function() {
+	  span.parentNode.style.display = 'none';
+	}
+
+	var strong = document.createElement('strong');
+	strong.innerHTML = msjError;
+
+	div.appendChild(span);
+	div.appendChild(strong);
+	error.appendChild(div);
 } 
 
 function indicarExito(msjExito){
 	console.log(msjExito);
+	var exito = document.getElementById('msjInfo');
+
+	var div = document.createElement('div');
+	div.className = "form-success";
+	div.style.marginBottom = "10px";
+
+	var span = document.createElement('span');
+	span.className = "close-message";
+	span.innerHTML = "X";
+	span.onclick = function() {
+	  span.parentNode.style.display = 'none';
+	}
+
+	var strong = document.createElement('strong');
+	strong.innerHTML = msjError;
+
+	div.appendChild(span);
+	div.appendChild(strong);
+	exito.appendChild(div);
 } 

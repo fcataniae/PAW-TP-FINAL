@@ -27,26 +27,34 @@
 		@include('partials.alert-message')
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
-			<label for="buscar_por">Buscar por </label>
-			<select id="buscar_por" name="buscar_por" onchange="opcionesValoresABuscar()">
-			    <option id="1" value="CODIGO">CODIGO: </option>
-			    <option id="2" value="ID">DESCRIPCION: </option>
-			</select>
-			<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data">
-			<datalist id="valor_a_buscar_data"></datalist>
+			<div class="group">
+				<label for="buscar_por">Producto: </label>
+				<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
+				<datalist id="valor_a_buscar_data"></datalist>
+			</div>
 			<button onClick="buscar()" class="button-table"><i class="fa fa-search" aria-hidden="true"></i></button>
 			<br>
 			<br>
-			<label>Descripcion: </label>
-			<input type="text" id="descripcion" readonly>
-			<label>Talle: </label>
-			<input type="text" id="talle" readonly>
-			<label>Precio: </label>
-			<input type="number" id="precio" id="precio" readonly>
-			<label>Stock: </label>
-			<input type="number" id="stock" min="0" readonly>
-			<label>Cantidad: </label>
-			<input type="number" id="cantidad" min="0">
+			<div class="group">
+				<label>Descripcion: </label>
+				<input type="text" id="descripcion" class="input" readonly>
+			</div>
+			<div class="group">
+				<label class="label">Talle: </label>
+				<input type="text" id="talle" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Precio: </label>
+				<input type="number" id="precio" id="precio" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Stock: </label>
+				<input type="number" id="stock" min="0" class="input" readonly>
+			</div>
+			<div class="group">
+				<label>Cantidad: </label>
+				<input type="number" id="cantidad" min="0" class="input">
+			</div>
 			<button onClick="agregarDetalle(false)" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		</fieldset>
 		<br>
@@ -55,7 +63,7 @@
 			<fieldset name="Buscador">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
-				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" readonly>
+				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" class="input" readonly>
 			</fieldset>
 			<br>
 			
@@ -73,10 +81,10 @@
 				            <th>Tipo</th>
 				            <th>Producto</th>
 				            <th>Talle</th>
-				            <th>Precio</th>
+				            <th>Precio ($)</th>
 				            <th>Stock</th>
-				            <th>Cantidad</th>
-				            <th>Subtotal</th>
+				            <th style="width:150px">Cantidad</th>
+				            <th>Subtotal ($)</th>
 				            <th style="width:100px">Acción</th>
 				        </tr>
 				    </thead>
@@ -91,12 +99,14 @@
 			              	<td id="talle_{{$detalle->id}}">{{$detalle->producto->talle->descripcion}}</td>
 			              	<td id="precio_{{$detalle->id}}">{{$detalle->producto->precio_venta}}</td>
 			              	<td id="stock_{{$detalle->id}}">{{$detalle->producto->stock}}</td>
-			              	<td><input type="number" id="cantidad_{{$detalle->id}}" value="{{ $detalle->cantidad }}" min="0" readonly></td>
+			              	<td style="text-align:center">
+			              		<input type="number" id="cantidad_{{$detalle->id}}" value="{{ $detalle->cantidad }}" min="0" class="input" readonly>
+			              	</td>
 			            	<td id="subtotal_{{$detalle->id}}" name="subtotal">{{$detalle->cantidad * $detalle->producto->precio_venta}}</td>
 			            	<td style="text-align:center">
 				                 <button id="editar_{{$detalle->id}}" type="button" class="button-table btn-azul" onClick="editarDetalle({{$detalle->id}})" style="display:inline;"><i class="fa fa-pencil" aria-hidden="true"></i></button>
 				                 <button id="deshacer_{{$detalle->id}}" type="button" class="button-table btn-celeste" onClick="deshacerCambios({{$detalle->id}})" style="display:none;"><i class="fa fa-undo" aria-hidden="true"></i></button>
-			                 	<button id="guardar_{{$detalle->id}}" type="button" class="button-table btn-verde" onClick="guardarCambios({{$detalle->id}}, false)" style="display:none;"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+			                 	<button id="guardar_{{$detalle->id}}" type="button" class="button-table btn-verde" onClick="guardarCambios({{$detalle->id}}, {{$detalle->producto}}, false)" style="display:none;"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
 			                	<button id="eliminar_{{$detalle->id}}" type="button" class="button-table btn-rojo" onClick="eliminarDetalle({{$detalle->id}}, false)" style="display:inline;"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				            </td>
 			            </tr>
@@ -108,16 +118,12 @@
 			<fieldset name="Total">
 				<legend>Total</legend>
 				<label for="total">Total ($): </label>
-				<input type="number" id="total" name="total" min="0" value="{{$factura->importe}}" readonly>
+				<input type="number" id="total" name="total" min="0" value="{{$factura->importe}}" class="input" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Anular" value="Anular">
-			<input type="submit" name="Reservar" value="Reservar">
-			<input type="submit" name="Continuar" value="Continuar">
+			<input type="submit" name="Anular" value="Anular" class="button-clean btn-rojo">
+			<input type="submit" name="Reservar" value="Reservar" class="button-clean btn-gris">
+			<input type="submit" name="Continuar" value="Continuar" class="button-clean btn-azul">
 		</form>
 	</section>
-@endsection
-@section('body-footer')
-	<address>Guerrero, Pedro</address>
-	<address>Telefono: 11235687</address>
 @endsection
