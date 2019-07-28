@@ -86,6 +86,71 @@ function agregarCliente(){
 	});
 }
 
+function confirmarCompra(){
+	if(document.getElementById('forma_pago').value == 1){
+		console.log(document.getElementById('efectivo').value );
+		if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
+			indicarError("Debe ingresar el pago.");
+		}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
+			indicarError("El pago debe ser mayor al total.");
+		}else{
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.value = "Confirmar";
+			input.name = "Confirmar";
+			document.getElementById("formulario").appendChild(input);
+			document.getElementById("formulario").submit();
+		}
+	}else if(document.getElementById('forma_pago').value == 2){
+		var input = document.createElement("input");
+		input.id = "confirmar"
+		input.type = "hidden";
+		input.value = "Confirmar";
+		input.name = "Confirmar";
+		document.getElementById("formulario").appendChild(input);
+
+		var script = document.createElement('script');
+		script.id = "mercadopago";
+		script.src = "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js";
+		script.setAttribute("data-public-key", "TEST-6f38d480-39b2-4bc0-979e-6527e152f726");
+		script.setAttribute("data-summary-product-label", "Total");
+		script.setAttribute("data-summary-product", document.getElementById('total').value);
+		script.setAttribute("data-transaction-amount", document.getElementById('total').value);
+		script.setAttribute("data-open", "true");
+		script.style.display = "none";
+		document.getElementById("formulario").appendChild(script);
+	}
+}
+
+function definirFormaPago(){
+	if(document.getElementById('forma_pago').value == 1){
+		document.getElementById('forma_pago_efectivo').style.display = "inline-block";
+		document.getElementById('Confirmar').value = "Pagar";
+		var hidden = document.getElementById("confirmar");
+		if(hidden){
+	    	hidden.parentNode.removeChild(hidden);
+		}
+		var script = document.getElementById("mercadopago");
+		if(script){
+			script.parentNode.removeChild(script);
+		}
+	}else if(document.getElementById('forma_pago').value == 2){
+		document.getElementById('forma_pago_efectivo').innerHTML = "";
+		document.getElementById('forma_pago_efectivo').style.display = "none";
+		document.getElementById('Confirmar').value = "Continuar";
+	}
+}
+
+//es necesario ya que el script de mercadopago anula la funcionalidad de los botones del formulario
+function avanzar(boton){
+	var input = document.createElement("input");
+	input.type = "hidden";
+	input.value = boton;
+	input.name = boton;
+	document.getElementById("formulario").appendChild(input);
+	document.getElementById("formulario").submit();
+}
+
 function indicarError(msjError){
 	console.log(msjError);
 	var error = document.getElementById('msjInfo');

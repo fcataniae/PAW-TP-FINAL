@@ -252,6 +252,21 @@ p{
 	margin: 5px;
 }
 
+.button{
+	width: 10%;
+	display: inline;
+	border-radius: 4px;
+	min-width: 100px;
+	padding: 10px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+button.mercadopago-button {
+  	display:none;
+}
+
 .btn-verde {
   color: #fff;
   background-color: #5cb85c;
@@ -261,6 +276,7 @@ p{
   color: #fff;
   background-color: #47a447;
   border-color: #398439;
+  cursor:pointer;
 }
 
 .btn-azul {
@@ -273,6 +289,7 @@ p{
   color: #fff;
   background-color: #3276b1;
   border-color: #285e8e;
+  cursor:pointer;
 }
 
 .btn-celeste {
@@ -284,6 +301,7 @@ p{
   color: #fff;
   background-color: #39b3d7;
   border-color: #269abc;
+  cursor:pointer;
 }
 
 .btn-rojo {
@@ -295,6 +313,7 @@ p{
   color: #fff;
   background-color: #d2322d;
   border-color: #ac2925;
+  cursor:pointer;
 }
 
 .btn-gris {
@@ -307,6 +326,7 @@ p{
   color: #fff;
   background-color: #5a6268;
   border-color: #545b62;
+  cursor:pointer;
 }
 
 .open{

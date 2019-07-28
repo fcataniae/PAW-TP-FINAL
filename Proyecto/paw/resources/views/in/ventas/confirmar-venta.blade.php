@@ -22,7 +22,9 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
+		<div id="msjInfo"></div>
+		
+		<form id="formulario" action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="Total">
 				<legend>Factura</legend>
@@ -36,7 +38,6 @@
 				</div>
 			</fieldset>
 			<br>
-			<div id="msjInfo"></div>
 			<fieldset name="Buscador">
 				<legend>Cliente</legend>
 				<div class="group-inline">
@@ -76,18 +77,21 @@
 				<legend>Forma de Pago</legend>
 				<div class="group-inline">
 					<label for="forma_pago">Forma de Pago: </label>
-					<select id="forma_pago" name="forma_pago" class="input">
+					<select id="forma_pago" name="forma_pago" onClick="definirFormaPago()" class="input">
 					    <option id="1" value="1" selected>EFECTIVO</option>
-					    <option id="2" value="2">TARJETA DEBIDO</option>
-					    <option id="3" value="3">TARJETA CREDITO</option>
+					    <option id="2" value="2">TARJETA</option>
 					</select>
+				</div>
+				<div id="forma_pago_efectivo" class="group-inline">
+					<label for="efectivo">Dinero($): </label>
+					<input type="number" id="efectivo" name="efectivo" min="0" class="input">
 				</div>
 			</fieldset>
 			<br>
-			<input type="submit" name="Anular" value="Anular" class="button-clean btn-rojo">
-			<input type="submit" name="Reservar" value="Reservar" class="button-clean btn-gris">
-			<input type="submit" name="Modificar" value="Modificar" class="button-clean btn-celeste">
-			<input type="submit" name="Confirmar" value="Confirmar" class="button-clean btn-azul">
+			<input type="submit" onclick="avanzar('Anular')" name="Anular" value="Anular" class="button btn-rojo">
+			<input type="submit" onclick="avanzar('Reservar')" name="Reservar" value="Reservar" class="button btn-gris">
+			<input type="submit" onclick="avanzar('Modificar')" name="Modificar" value="Modificar" class="button btn-celeste">
+			<input type="button" id="Confirmar" onClick="confirmarCompra()" name="Confirmar" value="Pagar" class="button btn-azul">
 		</form>
 	</section>
 @endsection

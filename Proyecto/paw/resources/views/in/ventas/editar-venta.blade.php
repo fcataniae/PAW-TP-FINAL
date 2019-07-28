@@ -25,6 +25,8 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
+		<div id="msjError"></div>
+		
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
 			<div class="group">
@@ -66,9 +68,6 @@
 				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" class="input" readonly>
 			</fieldset>
 			<br>
-			
-			<div id="msjError"></div>
-
 			<fieldset name="Detalles">
 				<legend>Detalles</legend>
 				<!-- Tabla -->
@@ -121,9 +120,9 @@
 				<input type="number" id="total" name="total" min="0" value="{{$factura->importe}}" class="input" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Anular" value="Anular" class="button-clean btn-rojo">
-			<input type="submit" name="Reservar" value="Reservar" class="button-clean btn-gris">
-			<input type="submit" name="Continuar" value="Continuar" class="button-clean btn-azul">
+			<input type="submit" name="Anular" value="Anular" class="button btn-rojo">
+			<input type="submit" name="Reservar" value="Reservar" class="button btn-gris">
+			<input type="submit" name="Continuar" value="Continuar" class="button btn-azul">
 		</form>
 	</section>
 @endsection
