@@ -10,6 +10,7 @@ use App\Detalle as Detalle;
 use App\Cliente AS Cliente;
 use App\Producto as Producto;
 use Carbon\Carbon;
+use MercadoPago;
 
 class FacturaController extends Controller
 {
@@ -70,8 +71,49 @@ class FacturaController extends Controller
         }
     }
 
-    private function finalizar(Request $request)
+   private function finalizar(Request $request)
     {
+        if($request->forma_pago == 1){
+            dd($request);
+            $factura = Factura::find($request->id);
+            if($request->efectivo < $factura->importe){
+                return redirect()->back()->withErrors('El pago es menor al importe total a cobrar.');
+            }
+        }else if($request->forma_pago == 2){
+            MercadoPago\SDK::setAccessToken("TEST-202198097498865-072823-771eef5b00a6985e46f43c8fb7e6ec05-456100370");
+            $token = $request->token;
+            $payment_method_id = $request->payment_method_id;
+            $installments = $request->installments;
+            $issuer_id = $request->issuer_id;
+            $factura = Factura::find($request->id);
+
+            $payment = new MercadoPago\Payment();
+            $payment->transaction_amount = $factura->importe;
+            $payment->token = $token;
+            $payment->installments = $installments;
+            $payment->payment_method_id = $payment_method_id;
+            $payment->issuer_id = $issuer_id;
+            $payment->payer = array(
+                "email" => "test_user_49142815@testuser.com"
+            );
+
+            // Guarda y postea el pago
+            $payment->save();
+            
+            if($payment->id == null){
+                return redirect()->back()->withErrors("Error al cobrar por Mercado Pago.");
+            }else if($payment->status != "approved"){
+                $payment = MercadoPago\Payment::find_by_id($payment->id);
+                $payment->status = "cancelled";
+                $payment->update();
+                return redirect()->back()->withErrors("El pago no fue aprobado.");
+            }
+
+        }else{
+            return redirect()->back()->withErrors('No se definio forma de pago.');
+        }
+
+
         $factura = Factura::find($request->id);
         if($request->es_cliente == "SI" && $request->nro_cliente != null){
             $factura->cliente_id = $request->nro_cliente;

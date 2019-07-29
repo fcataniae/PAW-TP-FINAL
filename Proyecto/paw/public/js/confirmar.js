@@ -112,7 +112,7 @@ function confirmarCompra(){
 		var script = document.createElement('script');
 		script.id = "mercadopago";
 		script.src = "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js";
-		script.setAttribute("data-public-key", "TEST-6f38d480-39b2-4bc0-979e-6527e152f726");
+		script.setAttribute("data-public-key", "TEST-22871e7e-19c6-4dc9-8a7e-fbfdf88e459c");
 		script.setAttribute("data-summary-product-label", "Total");
 		script.setAttribute("data-summary-product", document.getElementById('total').value);
 		script.setAttribute("data-transaction-amount", document.getElementById('total').value);
@@ -135,7 +135,6 @@ function definirFormaPago(){
 			script.parentNode.removeChild(script);
 		}
 	}else if(document.getElementById('forma_pago').value == 2){
-		document.getElementById('forma_pago_efectivo').innerHTML = "";
 		document.getElementById('forma_pago_efectivo').style.display = "none";
 		document.getElementById('Confirmar').value = "Continuar";
 	}
@@ -143,6 +142,10 @@ function definirFormaPago(){
 
 //es necesario ya que el script de mercadopago anula la funcionalidad de los botones del formulario
 function avanzar(boton){
+	var hidden = document.getElementById("confirmar");
+	if(hidden){
+		hidden.parentNode.removeChild(hidden);
+	}
 	var input = document.createElement("input");
 	input.type = "hidden";
 	input.value = boton;
