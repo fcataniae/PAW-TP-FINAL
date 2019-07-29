@@ -3,6 +3,8 @@ var window = window || {},
     console = console || {};
 
 var cliente = {};
+var mercadopagoJS = "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js";
+var mercadopagoPublicKey = "TEST-22871e7e-19c6-4dc9-8a7e-fbfdf88e459c";
 
 document.addEventListener("DOMContentLoaded", function () {
 	clientesAll = JSON.parse(clientesAll);
@@ -111,8 +113,8 @@ function confirmarCompra(){
 
 		var script = document.createElement('script');
 		script.id = "mercadopago";
-		script.src = "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js";
-		script.setAttribute("data-public-key", "TEST-22871e7e-19c6-4dc9-8a7e-fbfdf88e459c");
+		script.src = mercadopagoJS;
+		script.setAttribute("data-public-key", mercadopagoPublicKey);
 		script.setAttribute("data-summary-product-label", "Total");
 		script.setAttribute("data-summary-product", document.getElementById('total').value);
 		script.setAttribute("data-transaction-amount", document.getElementById('total').value);

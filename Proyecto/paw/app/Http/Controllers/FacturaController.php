@@ -14,6 +14,7 @@ use MercadoPago;
 
 class FacturaController extends Controller
 {
+    private $mercadopagoAccessToken = "TEST-202198097498865-072823-771eef5b00a6985e46f43c8fb7e6ec05-456100370";
 
     public function crear()
     {
@@ -74,13 +75,12 @@ class FacturaController extends Controller
    private function finalizar(Request $request)
     {
         if($request->forma_pago == 1){
-            dd($request);
             $factura = Factura::find($request->id);
             if($request->efectivo < $factura->importe){
                 return redirect()->back()->withErrors('El pago es menor al importe total a cobrar.');
             }
         }else if($request->forma_pago == 2){
-            MercadoPago\SDK::setAccessToken("TEST-202198097498865-072823-771eef5b00a6985e46f43c8fb7e6ec05-456100370");
+            MercadoPago\SDK::setAccessToken($this->mercadopagoAccessToken);
             $token = $request->token;
             $payment_method_id = $request->payment_method_id;
             $installments = $request->installments;
@@ -99,7 +99,7 @@ class FacturaController extends Controller
 
             // Guarda y postea el pago
             $payment->save();
-            
+            dd($payment);
             if($payment->id == null){
                 return redirect()->back()->withErrors("Error al cobrar por Mercado Pago.");
             }else if($payment->status != "approved"){
