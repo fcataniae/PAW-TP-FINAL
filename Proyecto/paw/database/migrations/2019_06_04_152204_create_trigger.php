@@ -140,8 +140,6 @@ class CreateTrigger extends Migration
             SET new.id = old.id;
             SET new.fecha_creacion = old.fecha_creacion;
             SET new.empleado_id = old.empleado_id;
-            SET new.cliente_id = old.cliente_id;
-
           END
         ');
         DB::unprepared('

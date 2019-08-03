@@ -1,4 +1,4 @@
-<nav class="sidenav negocio close">
+<nav class="sidenav negocio close no-print">
 	<span class="expand">&#9776;</span>
 
 	<ul class="unshow">

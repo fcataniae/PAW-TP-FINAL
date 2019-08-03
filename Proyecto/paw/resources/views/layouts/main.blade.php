@@ -8,12 +8,12 @@
 		@yield('head-css')
 	</head>
 	<body>
-	    <header class="header"> @yield('body-header') </header>
+	    <header class="header no-print"> @yield('body-header') </header>
 	    <main> 
-				@include('partials.nav-lateral-negocio')
-			  @include('partials.nav-lateral-inventario')
-				@include('partials.nav-lateral-ventas')
-				@yield('body-main') </main>
-	    <footer class="main"> @yield('body-footer') </footer>
+			@include('partials.nav-lateral-negocio')
+			@include('partials.nav-lateral-inventario')
+			@include('partials.nav-lateral-ventas')
+			@yield('body-main') </main>
+	    <footer class="main no-print"> @yield('body-footer') </footer>
 	</body>
 </html>

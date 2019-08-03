@@ -60,7 +60,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::post('facturas/gestionar','FacturaController@gestionar')->name('in.facturas.gestionar');
         Route::get('facturas/{id}/confirmar','FacturaController@confirmar')->name('in.facturas.confirmar');
         Route::get('facturas/{id}/editar','FacturaController@editar')->name('in.facturas.editar');
-        Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
+        Route::get('facturas/{id}/comprobante','FacturaController@comprobante')->name('in.facturas.comprobante');
+        // Route::post('facturas/actualizar','FacturaController@actualizar')->name('in.facturas.actualizar');
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
 
         Route::post('detalles','DetallesController@store')->name('in.detalles.store');

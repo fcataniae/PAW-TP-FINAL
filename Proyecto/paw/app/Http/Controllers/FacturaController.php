@@ -72,8 +72,7 @@ class FacturaController extends Controller
         }
     }
 
-   private function finalizar(Request $request)
-    {
+   private function finalizar(Request $request){
         if($request->forma_pago == 1){
             $factura = Factura::find($request->id);
             if($request->efectivo < $factura->importe){
@@ -99,7 +98,6 @@ class FacturaController extends Controller
 
             // Guarda y postea el pago
             $payment->save();
-            dd($payment);
             if($payment->id == null){
                 return redirect()->back()->withErrors("Error al cobrar por Mercado Pago.");
             }else if($payment->status != "approved"){
@@ -118,11 +116,20 @@ class FacturaController extends Controller
         if($request->es_cliente == "SI" && $request->nro_cliente != null){
             $factura->cliente_id = $request->nro_cliente;
         }
+
         $factura->forma_pago_id = $request->forma_pago;
         $factura->estado = "F";
         if($factura->save()){
-            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido finalizada correctamente.');
+            return redirect()->action('FacturaController@comprobante', ['id' => $request->id]);
         }
+    }
+
+    public function comprobante($id){
+        $factura = Factura::find($id);
+        $detalles = Detalle::where('factura_id', '=', $factura->id)->orderBy('id','DESC')->get();
+        return view('in.ventas.comprobante-venta')
+                ->with('factura',$factura)
+                ->with('detalles',$detalles);
     }
 
     private function modificar(Request $request)
@@ -148,6 +155,7 @@ class FacturaController extends Controller
         }
     }
 
+
     private function continuar(Request $request){
         return redirect()->action('FacturaController@confirmar', ['id' => $request->id]);
     }
@@ -160,6 +168,7 @@ class FacturaController extends Controller
             return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido anulada correctamente.');
         }
     }
+
 
     public function reservas()
     {
@@ -270,10 +279,10 @@ class FacturaController extends Controller
                 ->with('productos',$productos);
     }
 
-    public function actualizar(Request $request)
-    {
-        //
-    }
+    // public function actualizar(Request $request)
+    // {
+    //     //
+    // }
 
     private function productosAll(){
         $productosAll = Producto::all();
