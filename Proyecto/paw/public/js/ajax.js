@@ -15,7 +15,7 @@ function ajaxCall(method,url, callback) {
   req.send();
 }
 
-function ajaxCallWParameters(method, url, params, callback, errorcalback){
+function ajaxCallWParameters(method, url, params, callback, errorcallback){
   var req = new XMLHttpRequest();
   for(let i = 0; i< params.length; i++){
       url +=  ((i==0)?'?':'&')+params[i].query +'='+ params[i].value;

@@ -230,7 +230,7 @@ class FacturaController extends Controller
         foreach ($facturas as $factu) {
           $cliente = '';
           $forma = '';
-          if($factu->cliente_id){
+          if($factu->cliente != null){
             $cliente = $factu->cliente->nombre.' '.$factu->cliente->apellido;
           }
           if($factu->forma_pago_id){
