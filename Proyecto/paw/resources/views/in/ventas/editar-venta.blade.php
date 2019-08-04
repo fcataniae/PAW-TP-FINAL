@@ -26,7 +26,23 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<div id="msjError"></div>
-		
+		<fieldset name="cliente">
+			<legend>Cliente</legend>
+			<div class="group-inline">
+				<label for="nro_documento">Documento: </label>
+				<input type="text" id="tipo_documento" name="tipo_documento" class="input" size="2" value= "{{$factura->cliente->tipoDocumento->descripcion}}" readonly>
+				<input type="text" id="nro_documento" name="nro_documento" class="input" size="10" value="{{$factura->cliente->nro_documento}}" readonly>
+			</div>
+			<div class="group-inline">
+				<label for="nombre">Nombre: </label>
+				<input type="text" id="nombre" name="nombre" class="input" value="{{$factura->cliente->nombre}}" readonly>
+			</div>
+			<div class="group-inline">
+				<label for="apellido">Apellido: </label>
+				<input type="text" id="apellido" name="apellido" class="input" value="{{$factura->cliente->apellido}}" readonly>
+			</div>
+		</fieldset>
+		<br>
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
 			<div class="group">
@@ -62,7 +78,9 @@
 		<br>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
-			<fieldset name="Buscador">
+
+			<input type="hidden" id="nro_cliente" name="nro_cliente" value="{{$factura->cliente->id}}">
+			<fieldset name="factura">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
 				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" class="input" readonly>

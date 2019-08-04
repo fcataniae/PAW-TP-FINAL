@@ -14,7 +14,7 @@ class CreatePersonasTables extends Migration
     public function up()
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->increments('id')->start_from(1000);
+            $table->increments('id');
             $table->string('nombre');
             $table->string('apellido');
             $table->string('email', 40)->nullable();
@@ -26,7 +26,7 @@ class CreatePersonasTables extends Migration
         });
 
         Schema::create('empleados', function (Blueprint $table) {
-            $table->increments('id')->start_from(1000);;
+            $table->increments('id');
             $table->string('nombre');
             $table->string('apellido');
             $table->string('cuil', 15)->unique();

@@ -102,7 +102,7 @@
 			<br>
 			
 			<button class="button btn-celeste no-print">
-				<a href="{{ route('in.facturas.crear') }}" style="color:inherit"><span><i class="fa fa-reply" aria-hidden="true"></i> Inicio</a>
+				<a href="{{ route('in.facturas.crear') }}" style="color:inherit"><i class="fa fa-reply" aria-hidden="true"></i> Inicio</a>
 			</button>
 			<button onclick="window.print();" class="button btn-verde no-print"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
 	</section>

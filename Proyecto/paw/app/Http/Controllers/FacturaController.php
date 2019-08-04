@@ -150,8 +150,9 @@ class FacturaController extends Controller
 
         $factura = Factura::find($request->id);
         $factura->estado = "R";
+        $factura->cliente_id = $request->nro_cliente;
         if($factura->save()){
-            return redirect()->route('in.facturas.crear')->withErrors('La solicitud ha sido reservada correctamente.');
+            return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido reservada correctamente.');
         }
     }
 
@@ -170,9 +171,9 @@ class FacturaController extends Controller
     }
 
 
-    public function reservas()
-    {
-        //
+    public function reservas(){
+        $facturas = Factura::where('estado', '=', 'R')->orderBy('id','DESC')->get();
+        return view('in.ventas.reservas-venta')->with('facturas', $facturas);
     }
 
     public function confirmar($id){
