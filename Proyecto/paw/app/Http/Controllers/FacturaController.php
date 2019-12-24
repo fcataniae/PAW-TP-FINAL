@@ -139,18 +139,9 @@ class FacturaController extends Controller
 
     private function reservar(Request $request)
     {
-        if($request->es_cliente == "NO"){
-            return redirect()->back()->withErrors('Para poder reservar debe ser cliente.');
-        }else{
-            $cliente = Cliente::find($request->nro_cliente);
-            if($cliente == null){
-              return redirect()->back()->withErrors('No se encuentra al cliente dentro de nuestros registros.');
-            }
-        }
 
         $factura = Factura::find($request->id);
         $factura->estado = "R";
-        $factura->cliente_id = $request->nro_cliente;
         if($factura->save()){
             return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido reservada correctamente.');
         }
@@ -269,6 +260,7 @@ class FacturaController extends Controller
       }
       return json_encode($arr);
     }
+    
     public function editar($id)
     {
         $factura = Factura::find($id);

@@ -26,64 +26,46 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<div id="msjError"></div>
-		<fieldset name="cliente">
-			<legend>Cliente</legend>
-			<div class="group-inline">
-				<label for="nro_documento">Documento: </label>
-				<input type="text" id="tipo_documento" name="tipo_documento" class="input" size="2" value= "{{$factura->cliente->tipoDocumento->descripcion}}" readonly>
-				<input type="text" id="nro_documento" name="nro_documento" class="input" size="10" value="{{$factura->cliente->nro_documento}}" readonly>
-			</div>
-			<div class="group-inline">
-				<label for="nombre">Nombre: </label>
-				<input type="text" id="nombre" name="nombre" class="input" value="{{$factura->cliente->nombre}}" readonly>
-			</div>
-			<div class="group-inline">
-				<label for="apellido">Apellido: </label>
-				<input type="text" id="apellido" name="apellido" class="input" value="{{$factura->cliente->apellido}}" readonly>
-			</div>
-		</fieldset>
-		<br>
-		<fieldset name="Buscador">
-			<legend>Buscador</legend>
-			<div class="group">
-				<label for="buscar_por">Producto: </label>
-				<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
-				<datalist id="valor_a_buscar_data"></datalist>
-			</div>
-			<button onClick="buscar()" class="button-table"><i class="fa fa-search" aria-hidden="true"></i></button>
-			<br>
-			<br>
-			<div class="group">
-				<label>Descripcion: </label>
-				<input type="text" id="descripcion" class="input" readonly>
-			</div>
-			<div class="group">
-				<label class="label">Talle: </label>
-				<input type="text" id="talle" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Precio: </label>
-				<input type="number" id="precio" id="precio" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Stock: </label>
-				<input type="number" id="stock" min="0" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Cantidad: </label>
-				<input type="number" id="cantidad" min="0" class="input">
-			</div>
-			<button onClick="agregarDetalle(false)" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
-		</fieldset>
-		<br>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 
-			<input type="hidden" id="nro_cliente" name="nro_cliente" value="{{$factura->cliente->id}}">
 			<fieldset name="factura">
 				<legend>Factura</legend>
 				<label>Nro Factura: </label>
 				<input type="text" id="nro_factura" name="id"  value="{{ $factura->id }}" class="input" readonly>
+			</fieldset>
+			<br>
+			<fieldset name="Buscador">
+				<legend>Buscador</legend>
+				<div class="group">
+					<label for="buscar_por">Producto: </label>
+					<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
+					<datalist id="valor_a_buscar_data"></datalist>
+				</div>
+				<button onClick="buscar()" class="button-table"><i class="fa fa-search" aria-hidden="true"></i></button>
+				<br>
+				<br>
+				<div class="group">
+					<label>Descripcion: </label>
+					<input type="text" id="descripcion" class="input" readonly>
+				</div>
+				<div class="group">
+					<label class="label">Talle: </label>
+					<input type="text" id="talle" class="input" readonly>
+				</div>
+				<div class="group">
+					<label>Precio: </label>
+					<input type="number" id="precio" id="precio" class="input" readonly>
+				</div>
+				<div class="group">
+					<label>Stock: </label>
+					<input type="number" id="stock" min="0" class="input" readonly>
+				</div>
+				<div class="group">
+					<label>Cantidad: </label>
+					<input type="number" id="cantidad" min="0" class="input">
+				</div>
+				<button onClick="agregarDetalle(false)" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">

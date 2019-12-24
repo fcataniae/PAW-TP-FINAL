@@ -8,6 +8,7 @@
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/reservas.js')}}"></script>
+	<script src="{{asset('js/tabla.js')}}"></script>
 @endsection
 
 @section('body-header')
@@ -19,12 +20,9 @@
 	@include('partials.alert-message')
 	<section class="main">
 		<p><strong>Reservas</strong></p>
-		<div class="group-inline">
-			<label for="id"><strong>Nro Factura: </strong></label>
-			<input type="text" id="nro_factura" name="nro_factura" onkeyup="filtrar()" class="input" size="20" placeholder="Ingrese Numero..."  autocomplete="off">
-		</div>
 		<br>
-		<div id="container-table">
+		<div id="content"></div>
+{{-- 		<div id="container-table">
 			<table id="tabla" border="1" class="table">
 				<!-- columnas de la tabla -->
 				<thead>
@@ -33,7 +31,6 @@
 					    <th>Fecha</th>
 					    <th>Importe</th>
 					    <th>Emplado</th>
-					    <th>Cliente</th>
 					    <th style="width:100px">Acción</th>
 					</tr>
 				</thead>
@@ -45,9 +42,11 @@
 							<td id="fecha_{{$factura->id}}">{{date('d / m / Y', strtotime($factura->fecha_creacion))}}</td>
 				          	<td id="importe_{{$factura->id}}">{{$factura->importe}}</td>
 				           	<td id="empleado_{{$factura->id}}">{{$factura->empleado->nombre . " " . $factura->empleado->apellido}}</td>
-				           	<td id="cliente_{{$factura->id}}">{{$factura->cliente->nombre . " " . $factura->cliente->apellido}}</td>
 				          	<td style="text-align:center">
 				                <button class="button-table btn-azul">
+									<a href="{{ route('in.facturas.editar', $factura->id) }}" style="color:inherit"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+								</button>
+								<button class="button-table btn-azul">
 									<a href="{{ route('in.facturas.editar', $factura->id) }}" style="color:inherit"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
 								</button>
 				        	</td>
@@ -55,6 +54,6 @@
 		           	@endforeach
 				</tbody>
 			</table>
-		</div>
+		</div> --}}
 	</section>
 @endsection
