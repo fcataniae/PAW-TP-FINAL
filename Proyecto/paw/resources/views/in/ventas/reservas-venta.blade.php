@@ -21,7 +21,9 @@
 	<section class="main">
 		<p><strong>Reservas</strong></p>
 		<br>
-		<div id="content"></div>
+		<div id="contenido"></div>
+		<br>
+		<div id="paginacion"></div>
 {{-- 		<div id="container-table">
 			<table id="tabla" border="1" class="table">
 				<!-- columnas de la tabla -->

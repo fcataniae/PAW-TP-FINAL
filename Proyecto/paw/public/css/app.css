@@ -274,6 +274,24 @@
 	  cursor:pointer;
 	}
 
+	.btn-pag-selecionado {
+	  background-color: #CFCFCF;
+	  border-color: #CFCFCF;
+	}
+	
+	.btn-pag-selecionado:hover {
+	  cursor:pointer;
+	}
+	
+	.btn-pag-noselecionado {
+	  background-color: #F2F2F2;
+	  border-color: #F2F2F2;
+	}
+	
+	.btn-pag-noselecionado:hover {
+	  cursor:pointer;
+	}
+
 	.open{
 		animation: openanimation;
 		animation-duration: 1s;
