@@ -131,7 +131,6 @@ function filtrar(filters, values){
 }
 
 function paginarAndVisualizarRegistros(num, inicio){
-  var paginacion = document.getElementById("paginacion");
   var pagNow = inicio;
   var limSup;
   var numPaginasFSt = "";
@@ -187,59 +186,9 @@ function paginarAndVisualizarRegistros(num, inicio){
   } else {
     pagSig = pagNow + 1;
   }
-  
-  paginacion.align = "center";
-  paginacion.innerHTML = "";
-  
-  for (i=0;i<numPaginasF;i++){//Pinto la cadena con el número de páginas y sus correspondientes enlaces
-    numPaginasFSt += "<a href='javascript:paginarAndVisualizarRegistros("+ num +","+ i +");'>"+ (i+1) +"</a> ";
-  }
-  
-  var btnPrimero = document.createElement('button');
-  btnPrimero.type = "button";
-  btnPrimero.style.display = "inline";
-  btnPrimero.className = "button-table btn-gris";
-  btnPrimero.innerHTML = "<i class='fa fa-angle-double-left' aria-hidden='true' style='color:white;'></i>";
-  btnPrimero.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +",0);");
-  paginacion.appendChild(btnPrimero);
-  
-  var btnAnt = document.createElement('button');
-  btnAnt.type = "button";
-  btnAnt.style.display = "inline";
-  btnAnt.className = "button-table btn-gris";
-  btnAnt.innerHTML = "<i class='fa fa-angle-left' aria-hidden='true' style='color:white;'></i>";
-  btnAnt.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ pagAnt +");");
-  paginacion.appendChild(btnAnt);
-  
-  for (i=0;i<numPaginasF;i++){//Pinto la cadena con el número de páginas y sus correspondientes enlaces
-    var btnPag = document.createElement('button');
-    btnPag.type = "button";
-    btnPag.style.display = "inline";
-    if(i != inicio){
-      btnPag.className = "button-table btn-pag-noselecionado";
-    }else{
-      btnPag.className = "button-table btn-pag-selecionado";
-    }
-    btnPag.innerHTML = (i+1);
-    btnPag.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ i +");");
-    paginacion.appendChild(btnPag);
-  }
-  
-  var btnSig = document.createElement('button');
-  btnSig.type = "button";
-  btnSig.style.display = "inline";
-  btnSig.className = "button-table btn-gris";
-  btnSig.innerHTML = "<i class='fa fa-angle-right' aria-hidden='true' style='color:white;'></i>";
-  btnSig.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ pagSig +");");
-  paginacion.appendChild(btnSig);
-  
-  var btnUltimo = document.createElement('button');
-  btnUltimo.type = "button";
-  btnUltimo.style.display = "inline";
-  btnUltimo.className = "button-table btn-gris";
-  btnUltimo.innerHTML = "<i class='fa fa-angle-double-right' aria-hidden='true' style='color:white;'></i>";
-  btnUltimo.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ (numPaginasF-1) +");");
-  paginacion.appendChild(btnUltimo);
+
+  // agrego las paginas
+  agregarPaginas(num, inicio, pagAnt, pagSig);
 }
 
 function agregarRegistros(tbody, values, DatoI, DatoF){
@@ -293,6 +242,58 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
     }
 
   }
+}
+
+function agregarPaginas(num, inicio, pagAnt, pagSig){
+  var paginacion = document.getElementById("paginacion");
+  paginacion.align = "center";
+  paginacion.innerHTML = "";
+  
+  var btnPrimero = document.createElement('button');
+  btnPrimero.type = "button";
+  btnPrimero.style.display = "inline";
+  btnPrimero.className = "button-table btn-gris";
+  btnPrimero.innerHTML = "<i class='fa fa-angle-double-left' aria-hidden='true' style='color:white;'></i>";
+  btnPrimero.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +",0);");
+  paginacion.appendChild(btnPrimero);
+  
+  var btnAnt = document.createElement('button');
+  btnAnt.type = "button";
+  btnAnt.style.display = "inline";
+  btnAnt.className = "button-table btn-gris";
+  btnAnt.innerHTML = "<i class='fa fa-angle-left' aria-hidden='true' style='color:white;'></i>";
+  btnAnt.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ pagAnt +");");
+  paginacion.appendChild(btnAnt);
+  
+  for (i=0;i<numPaginasF;i++){//Pinto la cadena con el número de páginas y sus correspondientes enlaces
+    var btnPag = document.createElement('button');
+    btnPag.type = "button";
+    btnPag.style.display = "inline";
+    if(i != inicio){
+      btnPag.className = "button-table btn-pag-noselecionado";
+    }else{
+      btnPag.className = "button-table btn-pag-selecionado";
+    }
+    btnPag.innerHTML = (i+1);
+    btnPag.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ i +");");
+    paginacion.appendChild(btnPag);
+  }
+  
+  var btnSig = document.createElement('button');
+  btnSig.type = "button";
+  btnSig.style.display = "inline";
+  btnSig.className = "button-table btn-gris";
+  btnSig.innerHTML = "<i class='fa fa-angle-right' aria-hidden='true' style='color:white;'></i>";
+  btnSig.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ pagSig +");");
+  paginacion.appendChild(btnSig);
+  
+  var btnUltimo = document.createElement('button');
+  btnUltimo.type = "button";
+  btnUltimo.style.display = "inline";
+  btnUltimo.className = "button-table btn-gris";
+  btnUltimo.innerHTML = "<i class='fa fa-angle-double-right' aria-hidden='true' style='color:white;'></i>";
+  btnUltimo.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ (numPaginasF-1) +");");
+  paginacion.appendChild(btnUltimo);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
