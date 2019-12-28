@@ -1,43 +1,43 @@
-var datos = [
-  {id:1, dataJson:{"nro_factura":"1000", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:2, dataJson:{"nro_factura":"1001", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:3, dataJson:{"nro_factura":"1002", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:4, dataJson:{"nro_factura":"1003", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:5, dataJson:{"nro_factura":"1004", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:6, dataJson:{"nro_factura":"1005", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:7, dataJson:{"nro_factura":"1006", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:8, dataJson:{"nro_factura":"1007", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:9, dataJson:{"nro_factura":"1008", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:10, dataJson:{"nro_factura":"1009", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:11, dataJson:{"nro_factura":"1010", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:12, dataJson:{"nro_factura":"1011", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:13, dataJson:{"nro_factura":"1012", "fecha":"10-12-15", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:14, dataJson:{"nro_factura":"1013", "fecha":"10-12-16", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:15, dataJson:{"nro_factura":"1014", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:16, dataJson:{"nro_factura":"1015", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:17, dataJson:{"nro_factura":"1016", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:18, dataJson:{"nro_factura":"1017", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:19, dataJson:{"nro_factura":"1018", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:20, dataJson:{"nro_factura":"1019", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:21, dataJson:{"nro_factura":"1020", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:22, dataJson:{"nro_factura":"1021", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:23, dataJson:{"nro_factura":"1022", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:24, dataJson:{"nro_factura":"1023", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:25, dataJson:{"nro_factura":"1024", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:26, dataJson:{"nro_factura":"1025", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:27, dataJson:{"nro_factura":"1026", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
-  {id:28, dataJson:{"nro_factura":"1027", "fecha":"11-12-19", "empleado":"USA"}, action:{update:"4/editar", delete:"4/delete"}}
-];
+// var datos = [
+//   {id:1, dataJson:{"nro_factura":"1000", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:2, dataJson:{"nro_factura":"1001", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:3, dataJson:{"nro_factura":"1002", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:4, dataJson:{"nro_factura":"1003", "fecha":"10-12-13", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:5, dataJson:{"nro_factura":"1004", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:6, dataJson:{"nro_factura":"1005", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:7, dataJson:{"nro_factura":"1006", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:8, dataJson:{"nro_factura":"1007", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:9, dataJson:{"nro_factura":"1008", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:10, dataJson:{"nro_factura":"1009", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:11, dataJson:{"nro_factura":"1010", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:12, dataJson:{"nro_factura":"1011", "fecha":"10-12-14", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:13, dataJson:{"nro_factura":"1012", "fecha":"10-12-15", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:14, dataJson:{"nro_factura":"1013", "fecha":"10-12-16", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:15, dataJson:{"nro_factura":"1014", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:16, dataJson:{"nro_factura":"1015", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:17, dataJson:{"nro_factura":"1016", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:18, dataJson:{"nro_factura":"1017", "fecha":"10-12-17", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:19, dataJson:{"nro_factura":"1018", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:20, dataJson:{"nro_factura":"1019", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:21, dataJson:{"nro_factura":"1020", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:22, dataJson:{"nro_factura":"1021", "fecha":"10-12-18", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:23, dataJson:{"nro_factura":"1022", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:24, dataJson:{"nro_factura":"1023", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:25, dataJson:{"nro_factura":"1024", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:26, dataJson:{"nro_factura":"1025", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:27, dataJson:{"nro_factura":"1026", "fecha":"10-12-19", "empleado":"Nepal"}, action:{update:"3/editar", delete:"3/delete"}},
+//   {id:28, dataJson:{"nro_factura":"1027", "fecha":"11-12-19", "empleado":"USA"}, action:{update:"4/editar", delete:"4/delete"}}
+// ];
 
-var columns = [
-    {headerName: "Nro Factura", field: "nro_factura"},
-    {headerName: "Fecha", field: "fecha"},
-    {headerName: "Empleado", field: "empleado"},
-    {headerName: "Accion", field: "accion", width: "100px"}
-];
+// var columns = [
+//     {headerName: "Nro Factura", field: "nro_factura"},
+//     {headerName: "Fecha", field: "fecha"},
+//     {headerName: "Empleado", field: "empleado"},
+//     {headerName: "Accion", field: "accion", width: "100px"}
+// ];
 
 // VARIABLES Y CONSTANTES GLOBALES
-
+var encabezados = [];
 var registros = [];
 var registrosFiltrados = [];
 
@@ -111,8 +111,8 @@ function filtrar(filters, values){
     // recorro las columnas de un registro
     for (j = 0; j < valoresFiltro.length; j ++){
       if(values[i].dataJson[filters[j]]){
-        valorFiltro = valoresFiltro[j].toUpperCase();
-        valorRegistro = values[i].dataJson[filters[j]].toUpperCase();
+        valorFiltro = valoresFiltro[j].toString().toUpperCase();
+        valorRegistro = values[i].dataJson[filters[j]].toString().toUpperCase();
         // comparo cada campo por el filtro cargado; si un campo no coincide no sigo comparando
         if (valorFiltro == "" || valorRegistro.indexOf(valorFiltro) > -1) {
           mostrar = true;
@@ -188,7 +188,7 @@ function paginarAndVisualizarRegistros(num, inicio){
   }
 
   // agrego las paginas
-  agregarPaginas(num, inicio, pagAnt, pagSig);
+  agregarPaginas(num, inicio, numPaginasF, pagAnt, pagSig);
 }
 
 function agregarRegistros(tbody, values, DatoI, DatoF){
@@ -244,7 +244,7 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
   }
 }
 
-function agregarPaginas(num, inicio, pagAnt, pagSig){
+function agregarPaginas(num, inicio, numPaginasF, pagAnt, pagSig){
   var paginacion = document.getElementById("paginacion");
   paginacion.align = "center";
   paginacion.innerHTML = "";
@@ -265,7 +265,28 @@ function agregarPaginas(num, inicio, pagAnt, pagSig){
   btnAnt.setAttribute("onclick", "paginarAndVisualizarRegistros("+ num +","+ pagAnt +");");
   paginacion.appendChild(btnAnt);
   
-  for (i=0;i<numPaginasF;i++){//Pinto la cadena con el número de páginas y sus correspondientes enlaces
+  // se definen las paginas a mostrar
+  var pagDesde, pagHasta;
+  if(inicio == 0){
+    pagDesde = inicio;
+    pagHasta = inicio + 2;
+  }else if(inicio == (numPaginasF-1)){
+    pagDesde = inicio - 2;
+    pagHasta = inicio;
+  }else{
+    pagDesde = inicio - 1;
+    pagHasta = inicio + 1;
+  }
+
+  if(pagDesde < 0){
+    pagDesde = 0;
+  }
+  if(pagHasta > (numPaginasF-1)){
+    pagHasta = (numPaginasF-1);
+  }
+
+  //agrego las páginas con el número de página y sus correspondientes enlaces
+  for (i = pagDesde;i <= pagHasta;i++){
     var btnPag = document.createElement('button');
     btnPag.type = "button";
     btnPag.style.display = "inline";
@@ -296,9 +317,15 @@ function agregarPaginas(num, inicio, pagAnt, pagSig){
   paginacion.appendChild(btnUltimo);
 }
 
+function jsonToObject(json){
+  var obj = JSON.parse(json);
+  return obj;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  registros = datos;
-  registrosFiltrados = datos;
-  construirTabla(columns, registros);
+  encabezados = jsonToObject(columnas);
+  registros = jsonToObject(datos);
+  registrosFiltrados = registros;
+  construirTabla(encabezados, registros);
   paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
 });

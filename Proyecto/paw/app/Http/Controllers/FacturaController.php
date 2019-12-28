@@ -163,8 +163,35 @@ class FacturaController extends Controller
 
 
     public function reservas(){
-        $facturas = Factura::where('estado', '=', 'R')->orderBy('id','DESC')->get();
-        return view('in.ventas.reservas-venta')->with('facturas', $facturas);
+        $columnas = array(
+            array('headerName' => "Nro Factura", 'field' => "nro_factura"),
+            array('headerName' => "Importe", 'field' => "importe"),
+            array('headerName' => "Fecha", 'field' => "fecha"),
+            array('headerName' => "Empleado", 'field' => "empleado"),
+            array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+        );
+        $columnas = json_encode($columnas);
+
+        $facturas = Factura::where('estado', '=', 'R')->orderBy('id','ASC')->get();
+        $array = array();
+        $contador = 1;
+        foreach($facturas as $f ){
+            array_push($array,array(
+                    'id' =>  $contador,
+                    'dataJson' => array('nro_factura' => $f->id, 
+                                        'importe' => $f->importe, 
+                                        'fecha' => date("d / m / Y", strtotime($f->fecha_creacion)),
+                                        'empleado' => $f->empleado->nombre . " " . $f->empleado->apellido),
+                    'action' => array('update' => $f->id . "/editar")
+                )
+            );
+            $contador++;
+        }
+        $facturas = json_encode($array);
+
+        return view('in.ventas.reservas-venta')
+            ->with('columnas', $columnas)
+            ->with('facturas', $facturas);
     }
 
     public function confirmar($id){
