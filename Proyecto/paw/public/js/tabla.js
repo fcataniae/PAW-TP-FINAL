@@ -329,80 +329,79 @@ function agregarPaginas(num, inicio, numPaginasF, pagAnt, pagSig){
 }
 
 function modal(id, data, ok, cancel) {
-    data=data || {};
-    id="modal-"+id;
+  data=data || {};
+  id="modal-"+id;
   // Si no existe lo crea
-    if (document.getElementById(id)==null) {
-        var d=document.createElement("div");
-        d.className="modal";
-        d.id=id;
-        var p=document.createElement("div");
-        p.className="modal-panel";
-        var t=document.createElement("div");
-        t.className="modal-title";
-        var cl=document.createElement("div");
-        cl.className="modal-close";
-        cl.innerHTML='&times;';
-        cl.addEventListener('click',function(ev) {
-            ev.preventDefault();
-            var dTop=this.parentNode.parentNode;
-            dTop.classList.remove("modal-visible");
-            dTop.querySelector(".panel .content").innerHTML='';
-        });
-        var ct=document.createElement("div");
-        ct.className="modal-content";
-        var f=document.createElement("div");
-        f.className="modal-footer";
-        p.appendChild(t);p.appendChild(cl);p.appendChild(ct);p.appendChild(f);
-        d.appendChild(p);
-        document.body.appendChild(d);
-    }
+  if (document.getElementById(id)==null) {
+    var d=document.createElement("div");
+    d.className="modal";
+    d.id=id;
+    var p=document.createElement("div");
+    p.className="modal-panel";
+    var t=document.createElement("div");
+    t.className="modal-title";
+    var cl=document.createElement("div");
+    cl.className="modal-close";
+    cl.innerHTML='&times;';
+    cl.addEventListener('click',function() {
+      var dTop=this.parentNode.parentNode;
+      dTop.classList.remove("modal-visible");
+      dTop.querySelector(".modal-panel .modal-content").innerHTML='';
+    });
+    var ct=document.createElement("div");
+    ct.className="modal-content";
+    var f=document.createElement("div");
+    f.className="modal-footer";
+    p.appendChild(t);p.appendChild(cl);p.appendChild(ct);p.appendChild(f);
+    d.appendChild(p);
+    document.body.appendChild(d);
+  }
   
   // recupero el modal y sos elementos
-    var mod=document.getElementById(id),
-    p=mod.querySelector(".modal-panel"),
-    t=mod.querySelector(".modal-panel .modal-title"),
-    ct=mod.querySelector(".modal-panel .modal-content"),
-    f=mod.querySelector(".modal-panel .modal-footer");
+  var mod=document.getElementById(id),
+  p=mod.querySelector(".modal-panel"),
+  t=mod.querySelector(".modal-panel .modal-title"),
+  ct=mod.querySelector(".modal-panel .modal-content"),
+  f=mod.querySelector(".modal-panel .modal-footer");
   
   // carga la informacion en los distintos elementos
-    t.innerHTML=data.title || '';
-    ct.innerHTML=data.content || '';
-    f.innerHTML='';
-    if (!isNaN(data.width)) p.style.maxWidth=data.width+'px';
-    if (!isNaN(data.height)) p.style.maxHeight=data.height+'vh';
+  t.innerHTML=data.title || '';
+  ct.innerHTML=data.content || '';
+  f.innerHTML='';
+  if (!isNaN(data.width)) p.style.maxWidth=data.width+'px';
+  if (!isNaN(data.height)) p.style.maxHeight=data.height+'vh';
     
   // verifico si tiene boton cancelar; si tiene agrego el boton al modal
-    if (cancel && cancel.length>1) {
-        var bCancel=document.createElement("button");
-        bCancel.className="modal-action";
+  if (cancel && cancel.length>1) {
+    var bCancel=document.createElement("button");
+    bCancel.className="modal-action";
     // asigna el nombre al boton
-        bCancel.innerHTML=cancel[0];
-        bCancel.addEventListener('click',function() {
-            mod.classList.remove("modal-visible");
-            //asocia el metodo pasado por parametro al evento
+    bCancel.innerHTML=cancel[0];
+    bCancel.addEventListener('click',function() {
+      mod.classList.remove("modal-visible");
+      //asocia el metodo pasado por parametro al evento
       cancel[1]();
-        });
-        f.appendChild(bCancel);
-    }
+    });
+    f.appendChild(bCancel);
+  }
   
   // verifico si tiene boton aceptar; si tiene agrego el boton al modal
   if (ok && ok.length>1) {
-        var bOk=document.createElement("button");
-        bOk.className="modal-action";
+    var bOk=document.createElement("button");
+    bOk.className="modal-action";
     // asigna el nombre al boton
-        bOk.innerHTML=ok[0];
-        bOk.addEventListener('click',function() {
-            mod.classList.remove("modal-visible");
+    bOk.innerHTML=ok[0];
+    bOk.addEventListener('click',function() {
+      mod.classList.remove("modal-visible");
       //asocia el metodo pasado por parametro al evento
-            ok[1]();
-        });
-        f.appendChild(bOk);
-    }
+      ok[1]();
+    });
+    f.appendChild(bOk);
+  }
   
-    setTimeout(function(){
-        mod.classList.add("modal-visible");
-    },50);
+  setTimeout(function(){
+    mod.classList.add("modal-visible");
+  },50);
 }
 
 function jsonToObject(json){
