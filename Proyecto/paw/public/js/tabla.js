@@ -40,6 +40,7 @@
 var encabezados = [];
 var registros = [];
 var registrosFiltrados = [];
+var csrf_token;
 
 var PREFIJO_FILTRO = "filtro_";
 var REGISTROS_POR_PAGINA = 10;
@@ -224,6 +225,27 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
           tr.appendChild(td);
         }
         if(el.action.delete){
+          // Se crea formulario con metodo POST (es lo que deja mandar laravel)
+          var form = document.createElement("form");
+          form.method = "POST";
+          form.action = el.action.delete;
+          form.style.display = "inline";
+          
+          // agrego el csrf token al formulario
+          var hidden = document.createElement("input");
+          hidden.type = "hidden";
+          hidden.name = "_token";
+          hidden.value = csrf_token;
+          form.appendChild(hidden);
+
+          // agrego el method delete al formulario
+          var method = document.createElement("input");
+          method.type = "hidden";
+          method.name = "_method";
+          method.value = "DELETE";
+          form.appendChild(method);
+
+          // agrego el boton delete al formulario
           var bntEliminar = document.createElement('button');
           bntEliminar.id = "eliminar_" + el.id;
           bntEliminar.type = "button";
@@ -236,16 +258,16 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
             content: 'Seguro desea eliminar?'},
             ['Aceptar',function(){
               console.log('Aceptar');
-              var link = document.createElement('a');
-              link.href = el.action.delete;
-              link.click();
+              form.submit();
             }],
             ['Cancelar',function(){
                console.log('Cancelar');
             }]);
           });
           bntEliminar.innerHTML = "<i class='fa fa-trash-o' aria-hidden='true'></i>";
-          td.appendChild(bntEliminar);
+          form.appendChild(bntEliminar);
+          
+          td.appendChild(form);
           tr.appendChild(td);
         }
       }
@@ -409,7 +431,19 @@ function jsonToObject(json){
   return obj;
 }
 
+function getCsrfToken(){
+  var metas = document.getElementsByTagName('meta');
+  for (i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute("name") == "csrf-token") {
+      csrf = metas[i].getAttribute("content");
+      break;
+    }
+ }
+ return csrf;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  csrf_token = getCsrfToken()
   encabezados = jsonToObject(columnas);
   registros = jsonToObject(datos);
   registrosFiltrados = registros;

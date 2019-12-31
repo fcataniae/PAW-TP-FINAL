@@ -78,5 +78,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         Route::resource('roles','RolesController');
 
-        Route::resource('permissions','PermissionsController');
+        // Route::resource('permissions','PermissionsController', ["as"=>"in"]);
+        Route::get('permissions/listar', 'PermissionsController@index')->name('in.permissions.listar');
+        Route::get('permissions/{id}/editar','PermissionsController@edit')->name('in.permissions.editar');
+        Route::delete('permissions/{id}/eliminar','PermissionsController@destroy')->name('in.permissions.eliminar');
 });

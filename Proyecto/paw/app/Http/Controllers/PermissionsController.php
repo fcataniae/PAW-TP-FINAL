@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Permission as Permiso;
+use Auth;
 
 class PermissionsController extends Controller
 {
@@ -13,7 +15,44 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $columnas = array(
+                array('headerName' => "Codigo", 'field' => "codigo"),
+                array('headerName' => "Nombre", 'field' => "display_name"),
+                array('headerName' => "Descripcion", 'field' => "description"),
+                array('headerName' => "Estado", 'field' => "estado"),
+                array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+            );
+            $columnas = json_encode($columnas);
+
+            $permisos = Permiso::orderBy('id','ASC')->get();
+            $array = array();
+            $contador = 1;
+            foreach($permisos as $p ){
+                $estado = "Inactivo";
+                if($p->estado = "A"){
+                    $estado = "Activo";
+                }
+                array_push($array,array(
+                        'id' =>  $contador,
+                        'dataJson' => array('codigo' => $p->id, 
+                                            'display_name' => $p->display_name, 
+                                            'description' => $p->description,
+                                            'estado' => $estado),
+                        'action' => array('update' => $p->id . "/editar", 'delete' => $p->id . "/eliminar")
+                    )
+                );
+                $contador++;
+            }
+            $permisos = json_encode($array);
+
+            return view('in.negocio.permiso.index')
+                    ->with('columnas', $columnas)
+                    ->with('permisos',$permisos);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -34,7 +73,7 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -56,7 +95,7 @@ class PermissionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        dd("Registros a editar: " . $id);
     }
 
     /**
@@ -79,6 +118,6 @@ class PermissionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd("Registros a eliminar: " . $id);
     }
 }

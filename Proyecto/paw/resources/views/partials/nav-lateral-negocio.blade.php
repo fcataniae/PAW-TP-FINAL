@@ -7,7 +7,7 @@
 		@endif
 
 		@if(Entrust::can('permisos_administrador'))
-			<li><a href="#">Permisos</a></li>
+			<li><a href="{{route('in.permissions.listar')}}">Permisos</a></li>
 		@endif
 
 		@if(Entrust::can('permisos_administrador'))
