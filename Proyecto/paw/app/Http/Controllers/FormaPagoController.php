@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Forma_Pago;
 use Illuminate\Http\Request;
+use App\Forma_Pago as Forma_Pago;
+use Auth;
 
 class FormaPagoController extends Controller
 {
@@ -14,7 +15,62 @@ class FormaPagoController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $permisoEditar = false;
+            if(Auth::user()->can('permisos_vendedor')){
+                $permisoEditar = true;
+            }
+
+            $permisoEliminar = false;
+            if(Auth::user()->can('permisos_vendedor')){
+                $permisoEliminar = true;
+            }
+
+            $columnas = array(
+                array('headerName' => "Codigo", 'field' => "codigo"),
+                array('headerName' => "Descripcion", 'field' => "descripcion"),
+                array('headerName' => "Estado", 'field' => "estado")
+            );
+            if($permisoEditar || $permisoEliminar){
+              array_push($columnas,array('headerName' => "Accion", 'field' => "accion", 'width' => "100px"));
+            }
+            $columnas = json_encode($columnas);
+
+            $registros = Forma_Pago::orderBy('id','ASC')->get();
+            $array = array();
+            $contador = 1;
+            foreach($registros as $r ){
+                $estado = "Inactivo";
+                if($r->estado = "A"){
+                    $estado = "Activo";
+                }
+
+                $action = array();
+                if($permisoEditar){
+                    $action['update'] = route('in.forma_pago.editar', ['id' => $r->id]);
+                }
+                if($permisoEliminar){
+                    $action['delete'] = route('in.forma_pago.eliminar', ['id' => $r->id]);
+                }
+
+                array_push($array,array(
+                        'id' =>  $contador,
+                        'dataJson' => array('codigo' => $r->id, 
+                                            'descripcion' => $r->descripcion,
+                                            'estado' => $estado),
+                        'action' => $action
+                    )
+                );
+                $contador++;
+            }
+            $registros = json_encode($array);
+
+            return view('in.negocio.forma_pago.index')
+                    ->with('columnas', $columnas)
+                    ->with('registros',$registros);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cliente as Cliente;
 use Log;
+use Auth;
 
 class ClientesController extends Controller
 {
@@ -15,7 +16,67 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $permisoEditar = false;
+            if(Auth::user()->can('permisos_vendedor')){
+                $permisoEditar = true;
+            }
+
+            $permisoEliminar = false;
+            if(Auth::user()->can('permisos_vendedor')){
+                $permisoEliminar = true;
+            }
+
+            $columnas = array(
+                array('headerName' => "Codigo", 'field' => "codigo"),
+                array('headerName' => "Nombre", 'field' => "nombre"),
+                array('headerName' => "Apellido", 'field' => "apellido"),
+                array('headerName' => "Documento", 'field' => "nro_documento"),
+                array('headerName' => "Estado", 'field' => "estado")
+            );
+            if($permisoEditar || $permisoEliminar){
+              array_push($columnas,array('headerName' => "Accion", 'field' => "accion", 'width' => "100px"));
+            }
+            $columnas = json_encode($columnas);
+
+            $registros = Cliente::orderBy('id','ASC')->get();
+            $array = array();
+            $contador = 1;
+            foreach($registros as $r ){
+                $estado = "Inactivo";
+                if($r->estado = "A"){
+                    $estado = "Activo";
+                }
+
+                $action = array();
+                if($permisoEditar){
+                    $action['update'] = route('in.clientes.editar', ['id' => $r->id]);
+                }
+                if($permisoEliminar){
+                    $action['delete'] = route('in.clientes.eliminar', ['id' => $r->id]);
+                }
+
+                array_push($array,array(
+                        'id' =>  $contador,
+                        'dataJson' => array('codigo' => $r->id, 
+                                            'nombre' => $r->nombre, 
+                                            'apellido' => $r->apellido,
+                                            'nro_documento' => $r->nro_documento,
+                                            'estado' => $estado),
+                        'action' => $action
+                    )
+                );
+                $contador++;
+            }
+            $registros = json_encode($array);
+
+            return view('in.negocio.cliente.index')
+                    ->with('columnas', $columnas)
+                    ->with('registros',$registros);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**

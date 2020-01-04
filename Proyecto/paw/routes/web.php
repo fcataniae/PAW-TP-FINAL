@@ -90,12 +90,12 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         // parametria y productos
 
-        Route::get('generos/listar', 'CategoriasController@index')->name('in.generos.listar');
-        Route::get('generos/crear','CategoriasController@create')->name('in.generos.crear');
-        Route::post('generos/guardar','CategoriasController@store')->name('in.generos.guardar');
-        Route::get('generos/{id}/editar','CategoriasController@edit')->name('in.generos.editar');
-        Route::put('generos/{id}/actualizar','CategoriasController@update')->name('in.generos.actualizar');
-        Route::delete('generos/{id}/eliminar','CategoriasController@destroy')->name('in.generos.eliminar');
+        Route::get('generos/listar', 'GenerosController@index')->name('in.generos.listar');
+        Route::get('generos/crear','GenerosController@create')->name('in.generos.crear');
+        Route::post('generos/guardar','GenerosController@store')->name('in.generos.guardar');
+        Route::get('generos/{id}/editar','GenerosController@edit')->name('in.generos.editar');
+        Route::put('generos/{id}/actualizar','GenerosController@update')->name('in.generos.actualizar');
+        Route::delete('generos/{id}/eliminar','GenerosController@destroy')->name('in.generos.eliminar');
 
         Route::get('categorias/listar', 'CategoriasController@index')->name('in.categorias.listar');
         Route::get('categorias/crear','CategoriasController@create')->name('in.categorias.crear');
