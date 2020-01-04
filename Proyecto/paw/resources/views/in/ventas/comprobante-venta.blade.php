@@ -16,8 +16,7 @@
 @endsection
 @section('body-main')
 	<section class="main">
-		<p><b>TICKET DE COMPRA</b></p>
-		
+		<p><strong>Ticket de compra</strong></p>
 		<fieldset>
 			<legend>Información</legend>
 			<div class="group-inline">

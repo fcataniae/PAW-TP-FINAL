@@ -20,9 +20,8 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-
-	@include('partials.alert-message')
 	<section class="main">
+		@include('partials.alert-message')
 		<p><strong>Empleados</strong></p>
 		@if(Entrust::can('permisos_vendedor'))
           <a href="{{ route('in.empleados.crear') }}" class="button btn-azul">

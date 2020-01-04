@@ -135,10 +135,6 @@
 
 	.group > .input{
 		display: block;
-		border-radius: 4px;
-		min-width: 50px;
-		padding: 5px;
-		margin: 5px;
 	}
 
 	.group-inline{
@@ -148,18 +144,19 @@
 
 	.group-inline > .input{
 		display: inline-block;
-		border-radius: 4px;
-		min-width: 50px;
-		padding: 5px;
-		margin: 5px;
 	}
 
 	.input{
 		display: inline-block;
+		min-width: 10em;
 		border-radius: 4px;
-		min-width: 50px;
-		padding: 5px;
-		margin: 5px;
+		padding-top: 5px;
+  		padding-bottom: 5px;
+		margin-top: 5px;
+  		margin-bottom: 5px;
+  		-webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  		-moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  		box-shadow: inset 2px 2px 2px 0px #dddddd;
 	}
 
 	.input:disabled, .input[readonly] {
@@ -167,9 +164,70 @@
 	  opacity: 1;
 	}
 
+	.textarea {
+		text-shadow: none;
+		display: block;
+		min-width: 10em;
+		border-radius: 4px;
+		padding-top: 5px;
+  		padding-bottom: 5px;
+		margin-top: 5px;
+  		margin-bottom: 5px;
+  		resize: none;
+  		border-width: 2px;
+    	border-style: inset;
+    	border-color: initial;
+  		-webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  		-moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  		box-shadow: inset 2px 2px 2px 0px #dddddd;
+  
+	}
+
+	.sangria{
+		padding-left: 5%;
+	}
+
+  	.size-12 {
+    	width: 100%;
+  	}
+  	.size-11 {
+    	width: 91.66666667%;
+  	}
+  	.size-10 {
+    	width: 83.33333333%;
+  	}
+  	.size-9 {
+    	width: 75%;
+  	}
+  	.size-8 {
+    	width: 66.66666667%;
+  	}
+  	.size-7 {
+    	width: 58.33333333%;
+  	}
+  	.size-6 {
+    	width: 50%;
+  	}
+  	.size-5 {
+    	width: 41.66666667%;
+  	}
+  	.size-4 {
+    	width: 33.33333333%;
+  	}
+  	.size-3 {
+    	width: 25%;
+  	}
+  	.size-2 {
+    	width: 16.66666667%;
+  	}
+  	.size-1 {
+    	width: 8.33333333%;
+  	}
+
 	p{
 		text-align: center;
 	}
+
 	.button-clean{
 		min-width: 100px;
 		border-radius: 4px;
@@ -486,7 +544,7 @@
 	}
 
 	.main {
-		margin-top: 12vh;
+		margin-top: 6vh;
 		padding: 10px;
 		animation: margincanimation;
 		animation-duration: 1s;

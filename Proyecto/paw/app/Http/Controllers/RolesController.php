@@ -30,7 +30,6 @@ class RolesController extends Controller
             $columnas = array(
                 array('headerName' => "Codigo", 'field' => "codigo"),
                 array('headerName' => "Nombre", 'field' => "display_name"),
-                array('headerName' => "Descripcion", 'field' => "description"),
                 array('headerName' => "Estado", 'field' => "estado")
             );
             if($permisoEditar || $permisoEliminar){
@@ -59,7 +58,6 @@ class RolesController extends Controller
                         'id' =>  $contador,
                         'dataJson' => array('codigo' => $r->id, 
                                             'display_name' => $r->display_name, 
-                                            'description' => $r->description,
                                             'estado' => $estado),
                         'action' => $action
                     )

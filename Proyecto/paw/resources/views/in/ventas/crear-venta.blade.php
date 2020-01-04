@@ -25,7 +25,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<div id="msjError"></div>
-		
+		<p><strong>Venta</strong></p>
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
 			<div class="group">

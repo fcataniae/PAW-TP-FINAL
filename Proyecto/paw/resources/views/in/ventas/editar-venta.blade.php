@@ -26,6 +26,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<div id="msjError"></div>
+		<p><strong>Venta</strong></p>
 		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
 			{{ csrf_field() }}
 

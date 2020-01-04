@@ -59,7 +59,7 @@ class ProductosController extends Controller
 
                 array_push($array,array(
                         'id' =>  $contador,
-                        'dataJson' => array('codigo' => $r->id, 
+                        'dataJson' => array('codigo' => $r->codigo, 
                                             'descripcion' => $r->descripcion,
                                             'stock' => $r->stock,
                                             'precio_venta' => $r->precio_venta,

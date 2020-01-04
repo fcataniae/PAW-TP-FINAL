@@ -21,8 +21,8 @@
 @endsection
 @section('body-main')
 
-	@include('partials.alert-message')
 	<section class="main">
+		@include('partials.alert-message')
 		<p><strong>Reservas</strong></p>
 		<br>
 		<div id="contenido"></div>

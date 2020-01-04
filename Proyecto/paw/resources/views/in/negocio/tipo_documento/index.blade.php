@@ -20,9 +20,8 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-
-	@include('partials.alert-message')
 	<section class="main">
+		@include('partials.alert-message')
 		<p><strong>Tipos de documento</strong></p>
 		@if(Entrust::can('permisos_vendedor'))
           <a href="{{ route('in.tipos_documento.crear') }}" class="button btn-azul">

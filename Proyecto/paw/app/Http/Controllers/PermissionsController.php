@@ -30,7 +30,6 @@ class PermissionsController extends Controller
             $columnas = array(
                 array('headerName' => "Codigo", 'field' => "codigo"),
                 array('headerName' => "Nombre", 'field' => "display_name"),
-                array('headerName' => "Descripcion", 'field' => "description"),
                 array('headerName' => "Estado", 'field' => "estado")
             );
             if($permisoEditar || $permisoEliminar){
@@ -59,7 +58,6 @@ class PermissionsController extends Controller
                         'id' =>  $contador,
                         'dataJson' => array('codigo' => $p->id, 
                                             'display_name' => $p->display_name, 
-                                            'description' => $p->description,
                                             'estado' => $estado),
                         'action' => $action
                     )
@@ -83,7 +81,11 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.negocio.permiso.create');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -94,7 +96,30 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
-        
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, [
+                'nombre' => 'required|min:3|max:50',
+                'descripcion' => 'required|min:3|max:120',
+            ],[ 
+                'nombre.required' => 'El campo nombre es requerido.',
+                'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
+                'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $permiso = new Permiso();
+            $permiso->display_name = $request->nombre;
+            $name = str_replace(' ', '_', $request->nombre);
+            $permiso->name = $name;
+            $permiso->description = $request->descripcion;
+            $permiso->save();
+        return redirect()->route('in.permissions.listar')->with('success','Permiso ' . $permiso->display_name . ' agregado.');
+      }else{
+        return redirect()->route('in.sinpermisos.sinpermisos');
+      }
     }
 
     /**
@@ -139,6 +164,12 @@ class PermissionsController extends Controller
      */
     public function destroy($id)
     {
-        dd("Registros a eliminar: " . $id);
+        if(Auth::user()->can('permisos_vendedor')){
+            $permiso = Permiso::find($id);
+            $permiso->delete();
+            return redirect()->route('in.permissions.listar')->with('success', 'Permiso ' . $permiso->display_name . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }
