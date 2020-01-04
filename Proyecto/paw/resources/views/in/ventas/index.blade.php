@@ -16,7 +16,3 @@
 		<p>Bienvenido al apartado de VENTAS {{auth()->user()->name }}</p>
 	</section>
 @endsection
-@section('body-footer')
-	<address>Guerrero, Pedro</address>
-	<address>Telefono: 11235687</address>
-@endsection

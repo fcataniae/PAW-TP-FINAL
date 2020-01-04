@@ -197,7 +197,27 @@
 		margin: 5px;
 	}
 
-	.button{
+	.button {
+	  display: inline-block;
+	  padding: 6px 12px;
+	  font-size: 14px;
+	  font-weight: normal;
+	  text-align: center;
+	  white-space: nowrap;
+	  vertical-align: middle;
+	  border-radius: 4px;
+	  border-top: 1px solid #CCCCCC;
+	  border-right: 2px solid #333333;
+	  border-bottom: 2px solid #333333;
+	  border-left: 1px solid #CCCCCC;
+	  margin-bottom: 5px;
+	}
+
+	button.mercadopago-button {
+	  	display:none;
+	}
+
+	.btn-form{
 		width: 10%;
 		display: inline;
 		border-radius: 4px;
@@ -206,10 +226,6 @@
 		margin-left: 10px;
 		margin-top: 5px;
 		margin-bottom: 5px;
-	}
-
-	button.mercadopago-button {
-	  	display:none;
 	}
 
 	.btn-verde {

@@ -88,10 +88,10 @@
 				</div>
 			</fieldset>
 			<br>
-			<input type="submit" onclick="avanzar('Anular')" name="Anular" value="Anular" class="button btn-rojo">
-			<input type="submit" onclick="avanzar('Reservar')" name="Reservar" value="Reservar" class="button btn-gris">
-			<input type="submit" onclick="avanzar('Modificar')" name="Modificar" value="Modificar" class="button btn-celeste">
-			<input type="button" id="Confirmar" onClick="confirmarCompra()" name="Confirmar" value="Pagar" class="button btn-azul">
+			<input type="submit" onclick="avanzar('Anular')" name="Anular" value="Anular" class="button btn-form btn-rojo">
+			<input type="submit" onclick="avanzar('Reservar')" name="Reservar" value="Reservar" class="button btn-form btn-gris">
+			<input type="submit" onclick="avanzar('Modificar')" name="Modificar" value="Modificar" class="button btn-form btn-celeste">
+			<input type="button" id="Confirmar" onClick="confirmarCompra()" name="Confirmar" value="Pagar" class="button btn-form btn-azul">
 		</form>
 	</section>
 @endsection

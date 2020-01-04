@@ -195,11 +195,11 @@ function paginarAndVisualizarRegistros(num, inicio){
 function agregarRegistros(tbody, values, DatoI, DatoF){
   // carga los datos indicados
   for (DatoI; DatoI <= DatoF; DatoI++){
-    var el = values[DatoI];
+    let el = values[DatoI];
     if(el){
-      var tr = document.createElement("tr");
-      for (var col in el.dataJson) {
-        var td = document.createElement("td");
+      let tr = document.createElement("tr");
+      for (let col in el.dataJson) {
+        let td = document.createElement("td");
         td.id = col + "_" + el.id;
         td.headers = col;
         td.innerHTML = el.dataJson[col];
@@ -208,45 +208,49 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
       
       // carga las acciones indicadas
       if(el.action){
-        var td = document.createElement("td");
+        let td = document.createElement("td");
         td.align = "center";
         if(el.action.update){
-          var btnEditar = document.createElement('button');
+          let btnEditar = document.createElement('button');
           btnEditar.id = "editar_" + el.id;
           btnEditar.type = "button";
           btnEditar.style.display = "inline";
           btnEditar.className = "button-table btn-azul";
-          var a = document.createElement('a'); 
+          let a = document.createElement('a'); 
           a.href = el.action.update;
           a.style.color = "inherit";
           a.innerHTML = "<i class='fa fa-pencil' aria-hidden='true'></i>";
           btnEditar.appendChild(a);
+          btnEditar.onclick = function(){
+            a.click()
+          };
           td.appendChild(btnEditar);
           tr.appendChild(td);
         }
         if(el.action.delete){
           // Se crea formulario con metodo POST (es lo que deja mandar laravel)
-          var form = document.createElement("form");
+          let form = document.createElement("form");
+          form.id = "form_" + el.id;
           form.method = "POST";
           form.action = el.action.delete;
           form.style.display = "inline";
           
           // agrego el csrf token al formulario
-          var hidden = document.createElement("input");
+          let hidden = document.createElement("input");
           hidden.type = "hidden";
           hidden.name = "_token";
           hidden.value = csrf_token;
           form.appendChild(hidden);
 
           // agrego el method delete al formulario
-          var method = document.createElement("input");
+          let method = document.createElement("input");
           method.type = "hidden";
           method.name = "_method";
           method.value = "DELETE";
           form.appendChild(method);
 
           // agrego el boton delete al formulario
-          var bntEliminar = document.createElement('button');
+          let bntEliminar = document.createElement('button');
           bntEliminar.id = "eliminar_" + el.id;
           bntEliminar.type = "button";
           bntEliminar.style.display = "inline";
@@ -256,8 +260,7 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
             width: 400,
             height: 25,
             content: 'Seguro desea eliminar?'},
-            ['Aceptar',function(){
-              console.log('Aceptar');
+            ['Aceptar', function(){
               form.submit();
             }],
             ['Cancelar',function(){
@@ -432,6 +435,7 @@ function jsonToObject(json){
 }
 
 function getCsrfToken(){
+  var csrf = "";
   var metas = document.getElementsByTagName('meta');
   for (i=0; i<metas.length; i++) {
     if (metas[i].getAttribute("name") == "csrf-token") {

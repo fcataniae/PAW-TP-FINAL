@@ -91,7 +91,7 @@
 				<input type="number" id="total" name="total" min="0" value="0" class="input" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Crear" value="Crear" class="button btn-azul">
+			<input type="submit" name="Crear" value="Crear" class="button btn-form btn-azul">
 		</form>
 	</section>
 @endsection

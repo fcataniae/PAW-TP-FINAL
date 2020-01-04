@@ -120,9 +120,9 @@
 				<input type="number" id="total" name="total" min="0" value="{{$factura->importe}}" class="input" readonly>
 			</fieldset>
 			<br>
-			<input type="submit" name="Anular" value="Anular" class="button btn-rojo">
-			<input type="submit" name="Reservar" value="Reservar" class="button btn-gris">
-			<input type="submit" name="Continuar" value="Continuar" class="button btn-azul">
+			<input type="submit" name="Anular" value="Anular" class="button btn-form btn-rojo">
+			<input type="submit" name="Reservar" value="Reservar" class="button btn-form btn-gris">
+			<input type="submit" name="Continuar" value="Continuar" class="button btn-form btn-azul">
 		</form>
 	</section>
 @endsection
