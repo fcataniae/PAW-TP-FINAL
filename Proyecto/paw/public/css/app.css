@@ -19,6 +19,12 @@
 		color: #000000;
 		text-decoration: none;
 	}
+
+	hr {
+	  border-top: 1px dotted gray;
+	  margin-left: 20px;
+	  margin-right: 20px;
+	}
 	.form-input{
 		width: 100%;
 		display: block;
@@ -132,6 +138,8 @@
 		box-sizing: border-box;
 		display: inline-block;
 		margin-top: 10px;
+		min-width: 10em;
+		border-top: 1px;
 	}
 
 	.group > .input{
@@ -141,6 +149,8 @@
 	.group-inline{
 		box-sizing: border-box;
 		display: inline-block;
+		margin-top: 10px;
+		min-width: 10em;
 	}
 
 	.group-inline > .input{
@@ -149,7 +159,7 @@
 
 	.input{
 		display: inline-block;
-		min-width: 10em;
+		min-width: 6em;
 		border-radius: 4px;
 		padding-top: 5px;
   		padding-bottom: 5px;

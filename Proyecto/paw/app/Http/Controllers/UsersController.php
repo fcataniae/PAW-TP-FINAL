@@ -113,18 +113,7 @@ class UsersController extends Controller
             $usuario->name = $request->name;
             $usuario->empleado_id = $request->empleado;
             $usuario->email = $request->email;
-            $usuario->imagen = "";
             $usuario->password = bcrypt($request->password); // se encripta la contraseña
-
-            //Guarda la Imagen. Manipular Imagenes y no coliciones de nombres
-            // if ($request->file('imagen')) {
-            //     $file = $request->file('imagen');
-            //     $name = 'image_' . time().'.'. $file->getClientOriginalExtension();
-            //     $path = public_path(). '/img/usuarios/';
-            //     $file->move($path, $name);
-            //     $usuario->imagen = $name;
-            // }
-
             $usuario->save();
 
             //sincronizo con la tabla pivot
