@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role as Rol;
+use App\Permission as Permiso;
 use Auth;
 
 class RolesController extends Controller
@@ -81,7 +82,22 @@ class RolesController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $permisos = [];
+            if (Auth::user()->hasRole('superusuario')) {
+                $permisos = Permiso::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            }
+            else {
+                $permisos = Permiso::orderBy('id','ASC')
+                                ->where('estado', 'A')
+                                ->where('name','<>','crear_permiso')
+                                ->where('name','<>','eliminar_permiso')
+                                ->where('name','<>','modificar_permiso')->get();
+            }
+            return view('in.negocio.rol.create')->with('permisos',$permisos);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -92,7 +108,34 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, [
+                'nombre' => 'required|min:3|max:50',
+                'descripcion' => 'required|min:3|max:120',
+            ],[ 
+                'nombre.required' => 'El campo nombre es requerido.',
+                'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
+                'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $rol = new Rol();
+            $rol->display_name = $request->nombre;
+            $name = str_replace(' ', '_', $request->nombre);
+            $rol->name = $name;
+            $rol->description = $request->descripcion;
+            $rol->save();
+
+            //sincronizo con la tabla pivot
+            $permisos = $request->permisos;
+            $rol->permissions()->sync($permisos);
+            return redirect()->route('in.roles.listar')->with('success','Rol ' . $rol->display_name . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -137,6 +180,12 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $rol = Rol::find($id);
+            $rol->delete();
+            return redirect()->route('in.roles.listar')->with('success', 'Rol ' . $rol->display_name . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }

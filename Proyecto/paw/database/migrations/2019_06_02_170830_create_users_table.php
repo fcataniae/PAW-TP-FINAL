@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 100)->unique();
             $table->string('password');
             $table->enum('estado', ['A','I']);
-            $table->string('imagen');
+            $table->string('imagen')->nullable();
             $table->integer('empleado_id')->unsigned();
             $table->foreign('empleado_id')->references('id')->on('empleados')->onDelete('cascade');
             $table->rememberToken();

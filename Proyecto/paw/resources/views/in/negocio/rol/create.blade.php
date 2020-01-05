@@ -16,10 +16,10 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Registrar Permiso</strong></p>
-		<form action="{{ route('in.permissions.guardar')}}" method="POST">
+		<p><strong>Registrar Rol</strong></p>
+		<form action="{{ route('in.roles.guardar')}}" method="POST">
 			{{ csrf_field() }}
-			<fieldset name="permiso">
+			<fieldset name="Rol">
 				<div class="group size-12 sangria">
 					<label>Nombre: </label>
 					<input type="text" id="nombre" name="nombre" class="input size-4" autocomplete="off">
@@ -27,7 +27,15 @@
 				</div>
 				<div class="group size-12 sangria">
 					<label>Descripcion: </label>
-					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6"></textarea>
+					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6" ></textarea>
+				</div>
+				<div class="group size-12 sangria">
+					<label>Permisos: </label>
+					<select name="permisos[]" multiple class="input size-4">
+				    @foreach($permisos as $permiso)
+					    <option value="{{$permiso->id}}">{{$permiso->display_name}}</option>
+					@endforeach
+				  	</select>
 				</div>
 			</fieldset>
 			<br>

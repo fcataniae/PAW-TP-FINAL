@@ -131,6 +131,7 @@
 	.group{
 		box-sizing: border-box;
 		display: inline-block;
+		margin-top: 10px;
 	}
 
 	.group > .input{
