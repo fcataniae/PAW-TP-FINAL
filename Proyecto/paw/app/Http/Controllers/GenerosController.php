@@ -80,7 +80,11 @@ class GenerosController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.negocio.genero.create');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +95,23 @@ class GenerosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, [
+                'descripcion' => 'required|min:2|max:120',
+            ],[ 
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $genero = new Genero();
+            $genero->descripcion = $request->descripcion;
+            $genero->save();
+            return redirect()->route('in.generos.listar')->with('success','Genero ' . $genero->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -136,6 +156,12 @@ class GenerosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $genero = Genero::find($id);
+            $genero->delete();
+            return redirect()->route('in.generos.listar')->with('success', 'Genero ' . $genero->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }

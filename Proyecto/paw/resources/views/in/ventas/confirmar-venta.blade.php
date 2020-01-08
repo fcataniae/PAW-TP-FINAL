@@ -57,8 +57,9 @@
 				<div class="group-inline">
 					<label for="nro_documento">Documento: </label>
 					<select id="tipo_documento" name="tipo_documento" class="input">
-					    <option id="1" value="DNI">DNI</option>
-					    <option id="2" value="CUIL">CUIL</option>
+					    @foreach($tiposDocumento as $tipo)
+						    <option value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
+						@endforeach
 					</select>
 					<input type="number" id="nro_documento" name="nro_documento" min="0" class="input">
 				</div>
@@ -78,8 +79,9 @@
 				<div class="group-inline">
 					<label for="forma_pago">Forma de Pago: </label>
 					<select id="forma_pago" name="forma_pago" onClick="definirFormaPago()" class="input">
-					    <option id="1" value="1" selected>EFECTIVO</option>
-					    <option id="2" value="2">TARJETA</option>
+					    @foreach($formapago as $forma)
+						    <option value="{{$forma->id}}">{{$forma->descripcion}}</option>
+						@endforeach
 					</select>
 				</div>
 				<div id="forma_pago_efectivo" class="group-inline">

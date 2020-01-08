@@ -80,7 +80,11 @@ class TiposDocumentoController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.negocio.tipo_documento.create');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +95,23 @@ class TiposDocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, [
+                'descripcion' => 'required|min:2|max:120',
+            ],[ 
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $tipo_documento = new Tipo_Documento();
+            $tipo_documento->descripcion = $request->descripcion;
+            $tipo_documento->save();
+            return redirect()->route('in.tipos_documento.listar')->with('success','Tipo de documento ' . $tipo_documento->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -136,6 +156,12 @@ class TiposDocumentoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tipo_documento = Tipo_Documento::find($id);
+            $tipo_documento->delete();
+            return redirect()->route('in.tipos_documento.listar')->with('success', 'TIpos de documento ' . $tipo_documento->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }

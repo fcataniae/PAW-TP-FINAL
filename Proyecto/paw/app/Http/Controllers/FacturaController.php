@@ -8,7 +8,9 @@ use Auth;
 use App\Factura as Factura;
 use App\Detalle as Detalle;
 use App\Cliente AS Cliente;
+use App\Forma_Pago as Forma_Pago;
 use App\Producto as Producto;
+use App\Tipo_Documento as Tipo_Documento;
 use Carbon\Carbon;
 use MercadoPago;
 
@@ -208,9 +210,17 @@ class FacturaController extends Controller
                 );
             }
         $clientes = json_encode($array);
+
+        $tiposDocumento = [];
+        $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get();
+
+        $formapago = [];
+        $formapago = Forma_Pago::orderBy('id','ASC')->where('estado', 'A')->get();         
         return view('in.ventas.confirmar-venta')
                 ->with('factura',$factura)
-                ->with('clientes',$clientes);
+                ->with('clientes',$clientes)
+                ->with('tiposDocumento',$tiposDocumento)
+                ->with('formapago',$formapago);
     }
 
 

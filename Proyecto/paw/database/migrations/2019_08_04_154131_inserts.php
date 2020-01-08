@@ -63,9 +63,8 @@ class Inserts extends Migration
             INSERT INTO `productos`(`id`, `codigo`, `descripcion`, `stock`, `precio_costo`, `precio_venta`, `talle_id`, `tipo_id`, `estado`, `created_at`, `updated_at`) VALUES ("11","CACUMIM","Millie",50,0,3800,"7","11","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
             INSERT INTO `productos`(`id`, `codigo`, `descripcion`, `stock`, `precio_costo`, `precio_venta`, `talle_id`, `tipo_id`, `estado`, `created_at`, `updated_at`) VALUES ("12","CANYDAM","Danae",50,0,3500,"7","12","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
 
-            INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("1","Efectivo","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
-            INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("2","Tarjeta Debito","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
-            INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("3","Tarjeta Credito","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
+            INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("1","EFECTIVO","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
+            INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("2","TARJETA","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
 
             INSERT INTO `tipos_documento` (`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("1", "DNI", "A", "2019-06-02 00:00:00", "2019-06-02 00:00:00");
 

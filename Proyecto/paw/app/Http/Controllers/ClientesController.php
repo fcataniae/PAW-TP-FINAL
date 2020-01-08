@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cliente as Cliente;
+use App\Tipo_Documento as Tipo_Documento;
 use Log;
 use Auth;
 
@@ -86,7 +87,14 @@ class ClientesController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tiposDocumento = [];
+            $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            return view('in.negocio.cliente.create')
+                    ->with('tiposDocumento',$tiposDocumento);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -97,7 +105,20 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request);   
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules(), $this->messages());
+
+            $cliente = new Cliente();
+            $cliente->nombre = $request->nombre;
+            $cliente->apellido = $request->apellido;
+            $cliente->email = $request->email;
+            $cliente->tipo_documento_id = $request->tipo_documento;
+            $cliente->nro_documento = $request->nro_documento;
+            $cliente->save();
+            return redirect()->route('in.clientes.listar')->with('success','Cliente ' . $cliente->nombre . ' ' . $cliente->apellido . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+         }   
     }
 
     public function storeAjax(Request $request)
@@ -165,6 +186,50 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $cliente = Cliente::find($id);
+            $cliente->delete();
+            return redirect()->route('in.clientes.listar')->with('success', 'Cliente ' . $cliente->nombre . ' ' . $cliente->apellido . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+
+    private function rules()
+    {
+        $tiposDocumento = [];
+        $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
+        $tiposDocumento_rules = 'required|in:'.$tiposDocumento[0]->id;
+        for ($i = 1; $i < sizeof($tiposDocumento); $i++) {
+            $tiposDocumento_rules = $tiposDocumento_rules.','.$tiposDocumento[$i]->id;
+        }
+        return [
+            'nombre' => 'required|min:2|max:50',
+            'apellido' => 'required|min:2|max:100',
+            'tipo_documento' => $tiposDocumento_rules,
+            'nro_documento' => 'required|min:3|max:20',
+            'email' => 'required|email|max:100'
+        ];
+    }
+
+    private function messages()
+    {
+        return [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'nombre.min' => 'El campo nombre debe contener al menos 2 caracteres.',
+            'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
+            'apellido.required' => 'El campo apellido es obligatorio.',
+            'apellido.min' => 'El campo apellido debe contener al menos 2 caracteres.',
+            'apellido.max' => 'El campo apellido debe contener 100 caracteres como máximo.',
+            'tipo_documento.required' => 'El campo tipo de documento es obligatorio.',
+            'tipo_documento.in' => 'Datos invalidos para el campo tipo de documento.',
+            'nro_documento.required' => 'El campo nro de documento es obligatorio.',
+            'nro_documento.min' => 'El campo nro de documento debe contener al menos 3 caracteres.',
+            'nro_documento.max' => 'El campo nro de documento debe contener 20 caracteres como máximo.',
+            'email.required' => 'El campo e-mail es obligatorio.',
+            'email.email' => 'El campo e-mail no corresponde con una dirección de e-mail válida.',
+            'email.max' => 'El campo e-mail debe contener 100 caracteres como máximo.'
+        ];
     }
 }

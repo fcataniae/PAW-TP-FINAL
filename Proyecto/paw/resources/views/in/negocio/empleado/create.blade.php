@@ -102,7 +102,6 @@
 				<div class="group size-3 sangria">
 					<label>E-mail: </label>
 					<input type="email" id="email" name="email" class="input size-12" autocomplete="off">
-
 				</div>
 				<div class="group size-3 sangria">
 					<label>Contraseña: </label>

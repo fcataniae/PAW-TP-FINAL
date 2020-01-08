@@ -80,7 +80,11 @@ class TallesController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.negocio.talle.create');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +95,22 @@ class TallesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, [
+                'descripcion' => 'required|min:2|max:120',
+            ],[ 
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $talle = new Talle();
+            $talle->descripcion = $request->descripcion;
+            $talle->save();
+            return redirect()->route('in.talles.listar')->with('success','Talle ' . $talle->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -136,6 +155,12 @@ class TallesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $talle = Talle::find($id);
+            $talle->delete();
+            return redirect()->route('in.talles.listar')->with('success', 'Talle ' . $talle->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }

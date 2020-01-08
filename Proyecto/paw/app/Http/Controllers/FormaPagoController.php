@@ -80,7 +80,11 @@ class FormaPagoController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            return view('in.negocio.forma_pago.create');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +95,23 @@ class FormaPagoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, [
+                'descripcion' => 'required|min:2|max:120',
+            ],[ 
+                'descripcion.required' => 'El campo descripcion es requerido.',
+                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+            ]);
+
+            $formapago = new Forma_Pago();
+            $formapago->descripcion = $request->descripcion;
+            $formapago->save();
+            return redirect()->route('in.forma_pago.listar')->with('success','Forma de pago ' . $formapago->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -141,6 +161,12 @@ class FormaPagoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $formapago = Forma_Pago::find($id);
+            $formapago->delete();
+            return redirect()->route('in.forma_pago.listar')->with('success', 'Forma de pago ' . $formapago->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 }
