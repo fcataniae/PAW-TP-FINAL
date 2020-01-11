@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Categoria as Categoria;
 use App\Tipo as Tipo;
 use Auth;
 
@@ -80,7 +81,14 @@ class TiposController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $categorias = [];
+            $categorias = Categoria::orderBy('id','ASC')->where('estado', 'A')->get();
+            return view('in.negocio.tipo.create')
+                    ->with('categorias',$categorias);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +99,17 @@ class TiposController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules(), $this->messages());
+
+            $tipo = new Tipo();
+            $tipo->descripcion = $request->descripcion;
+            $tipo->categoria_id = $request->categoria;
+            $tipo->save();
+            return redirect()->route('in.tipos.listar')->with('success','Tipo ' . $tipo->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -136,6 +154,39 @@ class TiposController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tipo = Tipo::find($id);
+            $tipo->delete();
+            return redirect()->route('in.tipos.listar')->with('success', 'Tipo ' . $tipo->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    private function rules()
+    {
+
+        $categorias = Categoria::where('estado', 'A')->get();
+
+        $categorias_rules = 'required|in:'.$categorias[0]->id;
+        for ($x = 1; $x < sizeof($categorias); $x++) {
+            $categorias_rules = $categorias_rules.','.$categorias[$x]->id;
+        }
+
+        return [
+            'descripcion' => 'required|min:2|max:75',
+            'categoria' => $categorias_rules
+        ];
+    }
+
+    private function messages()
+    {
+      return [
+          'descripcion.required' => 'El campo descripcion es obligatorio.',
+          'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+          'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
+          'categoria.required' => 'El campo categoria es obligatorio.',
+          'categoria.in' => 'Datos invalidos para el campo categoria.'
+      ];
     }
 }

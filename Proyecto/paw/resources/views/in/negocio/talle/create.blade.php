@@ -22,7 +22,7 @@
 			<fieldset name="talle">
 				<div class="group size-12 sangria">
 					<label>Descripcion: </label>
-					<input type="text" name="descripcion" id="descripcion" class="textarea size-6"  autocomplete="off">
+					<input type="text" name="descripcion" id="descripcion" class="input size-6"  autocomplete="off">
 				</div>
 			</fieldset>
 			<br>

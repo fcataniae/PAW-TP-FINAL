@@ -98,11 +98,11 @@ class FormaPagoController extends Controller
         if(Auth::user()->can('permisos_vendedor')){
 
             $this->validate($request, [
-                'descripcion' => 'required|min:2|max:120',
+                'descripcion' => 'required|min:2|max:75',
             ],[ 
                 'descripcion.required' => 'El campo descripcion es requerido.',
                 'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
-                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+                'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.'
             ]);
 
             $formapago = new Forma_Pago();

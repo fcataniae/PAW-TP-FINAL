@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria as Categoria;
+use App\Genero as Genero;
 use Auth;
 
 class CategoriasController extends Controller
@@ -80,7 +81,14 @@ class CategoriasController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $generos = [];
+            $generos = Genero::orderBy('id','ASC')->where('estado', 'A')->get();
+            return view('in.negocio.categoria.create')
+                    ->with('generos',$generos);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -91,7 +99,17 @@ class CategoriasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules(), $this->messages());
+
+            $categoria = new Categoria();
+            $categoria->descripcion = $request->descripcion;
+            $categoria->genero_id = $request->genero;
+            $categoria->save();
+            return redirect()->route('in.categorias.listar')->with('success','Categoria ' . $categoria->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -136,6 +154,39 @@ class CategoriasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $categoria = Categoria::find($id);
+            $categoria->delete();
+            return redirect()->route('in.categorias.listar')->with('success', 'Categoria ' . $categoria->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    private function rules()
+    {
+
+        $generos = Genero::where('estado', 'A')->get();
+
+        $generos_rules = 'required|in:'.$generos[0]->id;
+        for ($x = 1; $x < sizeof($generos); $x++) {
+            $generos_rules = $generos_rules.','.$generos[$x]->id;
+        }
+
+        return [
+            'descripcion' => 'required|min:2|max:75',
+            'genero' => $generos_rules
+        ];
+    }
+
+    private function messages()
+    {
+      return [
+          'descripcion.required' => 'El campo descripcion es obligatorio.',
+          'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+          'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
+          'genero.required' => 'El campo genero es obligatorio.',
+          'genero.in' => 'Datos invalidos para el campo genero.'
+      ];
     }
 }

@@ -16,13 +16,22 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Registrar Genero</strong></p>
-		<form action="{{ route('in.generos.guardar')}}" method="POST">
+		<p><strong>Registrar Categoria Producto</strong></p>
+		<form action="{{ route('in.categorias.guardar')}}" method="POST">
 			{{ csrf_field() }}
-			<fieldset name="genero">
-				<div class="group size-12 sangria">
+			<fieldset name="categoria">
+				<div class="group size-8 sangria">
 					<label>Descripcion: </label>
-					<input type="text" name="descripcion" id="descripcion" class="input size-6"  autocomplete="off">
+					<input type="text" name="descripcion" id="descripcion" class="input size-10"  autocomplete="off">
+				</div>
+				<div class="group size-3 sangria">
+					<label>Genero: </label>
+					<input type="text" id="genero" name="genero" list="listaGenero" class="input size-6" autocomplete="off">
+					<datalist id="listaGenero">
+					   	@foreach($generos as $genero)
+						    <option value="{{$genero->id}}">{{$genero->descripcion}}</option>
+						@endforeach
+					</datalist>
 				</div>
 			</fieldset>
 			<br>

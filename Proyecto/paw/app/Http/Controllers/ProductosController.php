@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto as Producto;
+use App\Talle as Talle;
+use App\Tipo as Tipo;
+use App\Stock_log;
 use Auth;
 use DateTime;
-use App\Stock_log;
+use Validator;
 
 class ProductosController extends Controller
 {
@@ -86,7 +89,18 @@ class ProductosController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tipos = [];
+            $tipos = Tipo::orderBy('id','ASC')->where('estado', 'A')->get();
+            $talles = [];
+            $talles = Talle::orderBy('id','ASC')->where('estado', 'A')->get();
+
+            return view('in.negocio.producto.create')
+                    ->with('tipos',$tipos)
+                    ->with('talles',$talles);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -97,7 +111,26 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules(), $this->messages());
+
+            // if($request->precio_costo >= $request->precio_venta){
+            //     return redirect()->back()->withErrors('El precio de venta no puede ser menor o igual al precio de costo');
+            // }
+
+            $producto = new Producto();
+            $producto->codigo = $request->codigo;
+            $producto->descripcion = $request->descripcion;
+            $producto->tipo_id = $request->tipo;
+            $producto->talle_id = $request->talle;
+            $producto->precio_costo = $request->precio_costo;
+            $producto->precio_venta = $request->precio_venta;
+            $producto->stock = $request->stock;
+            $producto->save();
+            return redirect()->route('in.productos.listar')->with('success','Producto ' . $producto->descripcion . ' agregado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
 
@@ -204,6 +237,67 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $producto = Producto::find($id);
+            $producto->delete();
+            return redirect()->route('in.productos.listar')->with('success', 'Producto ' . $producto->descripcion . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    private function rules()
+    {
+        Validator::extend('greater_than', function($attribute, $value, $parameters){
+            $other = $parameters[0];
+            return isset($other) and intval($value) > intval($other);
+        });
+
+        $tipos = [];
+        $tipos = Tipo::where('estado', 'A')->get();
+        $tipos_rules = 'required|in:'.$tipos[0]->id;
+        for ($x = 1; $x < sizeof($tipos); $x++) {
+            $tipos_rules = $tipos_rules.','.$tipos[$x]->id;
+        }
+
+        $talles = [];
+        $talles = Talle::where('estado', 'A')->get();
+        $talles_rules = 'required|in:'.$talles[0]->id;
+        for ($x = 1; $x < sizeof($talles); $x++) {
+            $talles_rules = $talles_rules.','.$talles[$x]->id;
+        }
+
+        return [
+            'codigo' => 'required|min:4|max:15|unique:productos',
+            'descripcion' => 'required|min:2|max:75',
+            'tipo' => $tipos_rules,
+            'talle' => $talles_rules,
+            'precio_costo' => 'required|min:0',
+            'precio_venta' => 'required|min:0|greater_than:precio_costo',
+            'stock' => 'required|min:0'
+        ];
+    }
+
+    private function messages()
+    {
+        return [
+            'codigo.required' => 'El campo codigo es obligatorio.',
+            'codigo.min' => 'El campo codigo debe contener al menos 4 caracteres.',
+            'codigo.max' => 'El campo codigo debe contener 15 caracteres como máximo.',
+            'descripcion.required' => 'El campo descripcion es obligatorio.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
+            'tipo.required' => 'El campo tipo es obligatorio.',
+            'tipo.in' => 'Datos invalidos para el campo tipo.',
+            'talle.required' => 'El campo talle es obligatorio.',
+            'talle.in' => 'Datos invalidos para el campo talle.',
+            'precio_costo.required' => 'El campo codigo es obligatorio.',
+            'precio_costo.min' => 'El campo precio de costo no puede ser menor a 0.',
+            'precio_venta.required' => 'El campo codigo es obligatorio.',
+            'precio_venta.min' => 'El campo precio de venta no puede ser menor a 0.',
+            'precio_venta.greater_than' => 'El precio de venta no puede ser menor o igual al precio de costo.',
+            'stock.required' => 'El campo codigo es obligatorio.',
+            'stock.min' => 'El campo cantidad no puede ser menor a 0.'
+        ];
     }
 }

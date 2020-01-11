@@ -67,6 +67,7 @@ class Inserts extends Migration
             INSERT INTO `formas_pago`(`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("2","TARJETA","A","2019-06-02 00:00:00","2019-06-02 00:00:00");
 
             INSERT INTO `tipos_documento` (`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("1", "DNI", "A", "2019-06-02 00:00:00", "2019-06-02 00:00:00");
+            INSERT INTO `tipos_documento` (`id`, `descripcion`, `estado`, `created_at`, `updated_at`) VALUES ("2", "CUIL", "A", "2019-06-02 00:00:00", "2019-06-02 00:00:00");
 
             -- empleados, roles y clientes
 
