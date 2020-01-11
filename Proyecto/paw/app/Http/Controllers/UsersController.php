@@ -17,8 +17,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-                if(Auth::user()->can('permisos_vendedor')){
-
+        if(Auth::user()->can('permisos_vendedor')){
             $permisoEditar = false;
             if(Auth::user()->can('permisos_vendedor')){
                 $permisoEditar = true;
@@ -107,7 +106,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, $this->rules(), $this->messages());
+            $this->validate($request, $this->rules($request->_method == 'PUT', null), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $usuario = new Usuario();
             $usuario->name = $request->name;
@@ -145,7 +145,24 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $usuario = Usuario::find($id);
+
+            $empleados = [];
+            $empleados = Empleado::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            $roles = [];
+            $roles = Rol::orderBy('id','ASC')->where('estado', 'A')->get(); 
+
+            // necesito el array de los permisos q contiene (solo los id's)
+            $my_roles = $usuario->roles->pluck('id')->toArray(); // pasa un objeto a un array
+            return view('in.negocio.usuario.edit')
+                    ->with('usuario',$usuario)
+                    ->with('empleados', $empleados)
+                    ->with('roles', $roles)
+                    ->with('my_roles',$my_roles);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -157,7 +174,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT',$id), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $usuario = Usuario::find($id);
+            $usuario->name = $request->name;
+            $usuario->empleado_id = $request->empleado;
+            $usuario->email = $request->email;
+            $usuario->estado = $request->estado;
+            $usuario->save();
+
+            //sincronizo con la tabla pivot
+            $roles = $request->roles;
+            $usuario->roles()->sync($roles);
+
+            return redirect()->route('in.users.listar')->with('success','Usuario ' . $usuario->name . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -177,7 +212,7 @@ class UsersController extends Controller
         }
     }
 
-    private function rules()
+    private function rules($isUpdate, $userId)
     {
         //Se traen los roles y personas disponibles para hacer las validaciones.
         if (Auth::user()->hasRole('super_usuario')) {
@@ -198,33 +233,49 @@ class UsersController extends Controller
             $empleados_disponibles = $empleados_disponibles.','.$empleados[$y]->id;
         }
 
-      return [
-          'name' => 'required|min:4|max:50|unique:users',
-          'empleado' => $empleados_disponibles,
-          'email' => 'required|email|max:100|unique:users',
-          'password' => 'required|min:6|max:20',
-          'roles' => $roles_disponibles
-      ];
+        $rules =  [
+            'name' => 'required|min:4|max:50|unique:users',
+            'empleado' => $empleados_disponibles,
+            'email' => 'required|email|max:100|unique:users',
+            'roles' => $roles_disponibles
+        ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+            $rules['name'] = $rules['name'] . ',id,' . $userId; // debe ser unico, ignorando al userId
+            $rules['email'] = $rules['email'] . ',id,' . $userId;
+        }else{
+            $rules['password'] = 'required|min:6|max:20';
+        }
+        return $rules; 
     }
 
-    private function messages()
+    private function messages($isUpdate)
     {
-      return [
-          'name.required' => 'El campo nombre es obligatorio.',
-          'name.min' => 'El campo nombre debe contener al menos 4 caracteres.',
-          'name.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
-          'name.unique' => 'El nombre ya está en uso.',
-          'empleado.required' => 'El campo empleado es obligatorio.',
-          'empleado.in' => 'Datos invalidos para el campo empleado.',
-          'email.required' => 'El campo e-mail es obligatorio.',
-          'email.max' => 'El campo e-mail debe contener 100 caracteres como máximo.',
-          'email.unique' => 'El e-mail ya está en uso.',
-          'email.email' => 'El campo e-mail no corresponde con una dirección de e-mail válida.',
-          'password.required' => 'El campo contraseña es obligatorio.',
-          'password.min' => 'El campo contraseña debe contener al menos 6 caracteres.',
-          'password.max' => 'El campo contraseña debe contener 20 caracteres como máximo.',
-          'roles.required' => 'El campo roles es obligatorio.',
-          'roles.in' => 'Datos invalidos para el campo roles.'
-      ];
+        $messages = [
+            'name.required' => 'El campo nombre es obligatorio.',
+            'name.min' => 'El campo nombre debe contener al menos 4 caracteres.',
+            'name.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
+            'name.unique' => 'El nombre ya está en uso.',
+            'empleado.required' => 'El campo empleado es obligatorio.',
+            'empleado.in' => 'Datos invalidos para el campo empleado.',
+            'email.required' => 'El campo e-mail es obligatorio.',
+            'email.max' => 'El campo e-mail debe contener 100 caracteres como máximo.',
+            'email.unique' => 'El e-mail ya está en uso.',
+            'email.email' => 'El campo e-mail no corresponde con una dirección de e-mail válida.',
+            'roles.required' => 'El campo roles es obligatorio.',
+            'roles.in' => 'Datos invalidos para el campo roles.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }else{
+            $messages['password.required'] = 'El campo contraseña es obligatorio.';
+            $messages['password.min'] = 'El campo contraseña debe contener al menos 6 caracteres.';
+            $messages['password.max'] = 'El campo contraseña debe contener 20 caracteres como máximo.';
+        }
+
+        return $messages; 
     }
 }

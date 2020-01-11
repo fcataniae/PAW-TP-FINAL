@@ -106,7 +106,8 @@ class ClientesController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, $this->rules(), $this->messages());
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $cliente = new Cliente();
             $cliente->nombre = $request->nombre;
@@ -163,7 +164,16 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $cliente = Cliente::find($id);
+            $tiposDocumento = [];
+            $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            return view('in.negocio.cliente.edit')
+                    ->with('cliente',$cliente)
+                    ->with('tiposDocumento',$tiposDocumento);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -175,7 +185,22 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $cliente = Cliente::find($id);
+            $cliente->nombre = $request->nombre;
+            $cliente->apellido = $request->apellido;
+            $cliente->email = $request->email;
+            $cliente->tipo_documento_id = $request->tipo_documento;
+            $cliente->nro_documento = $request->nro_documento;
+            $cliente->estado = $request->estado;
+            $cliente->save();
+            return redirect()->route('in.clientes.listar')->with('success','Cliente ' . $cliente->nombre . ' ' . $cliente->apellido . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+         }  
     }
 
     /**
@@ -196,7 +221,7 @@ class ClientesController extends Controller
     }
 
 
-    private function rules()
+    private function rules($isUpdate)
     {
         $tiposDocumento = [];
         $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
@@ -204,18 +229,25 @@ class ClientesController extends Controller
         for ($i = 1; $i < sizeof($tiposDocumento); $i++) {
             $tiposDocumento_rules = $tiposDocumento_rules.','.$tiposDocumento[$i]->id;
         }
-        return [
+
+        $rules = [
             'nombre' => 'required|min:2|max:50',
             'apellido' => 'required|min:2|max:100',
             'tipo_documento' => $tiposDocumento_rules,
             'nro_documento' => 'required|min:3|max:20',
             'email' => 'required|email|max:100'
         ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
     }
 
-    private function messages()
+    private function messages($isUpdate)
     {
-        return [
+        $messages = [
             'nombre.required' => 'El campo nombre es obligatorio.',
             'nombre.min' => 'El campo nombre debe contener al menos 2 caracteres.',
             'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
@@ -231,5 +263,12 @@ class ClientesController extends Controller
             'email.email' => 'El campo e-mail no corresponde con una dirección de e-mail válida.',
             'email.max' => 'El campo e-mail debe contener 100 caracteres como máximo.'
         ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+        
+        return $messages;
     }
 }

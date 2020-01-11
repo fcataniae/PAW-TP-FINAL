@@ -98,17 +98,8 @@ class PermissionsController extends Controller
     {
         if(Auth::user()->can('permisos_vendedor')){
 
-            $this->validate($request, [
-                'nombre' => 'required|min:3|max:50',
-                'descripcion' => 'required|min:3|max:120',
-            ],[ 
-                'nombre.required' => 'El campo nombre es requerido.',
-                'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
-                'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
-                'descripcion.required' => 'El campo descripcion es requerido.',
-                'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
-                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
-            ]);
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $permiso = new Permiso();
             $permiso->display_name = $request->nombre;
@@ -141,7 +132,13 @@ class PermissionsController extends Controller
      */
     public function edit($id)
     {
-        dd("Registros a editar: " . $id);
+        if(Auth::user()->can('permisos_vendedor')){
+            $permiso = Permiso::find($id);
+            return view('in.negocio.permiso.edit')
+                    ->with('permiso',$permiso);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -153,7 +150,22 @@ class PermissionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+        
+            $permiso = Permiso::find($id);
+            $permiso->display_name = $request->nombre;
+            $name = str_replace(' ', '_', $request->nombre);
+            $permiso->name = $name;
+            $permiso->description = $request->descripcion;
+            $permiso->estado = $request->estado;
+            $permiso->save();
+            return redirect()->route('in.permissions.listar')->with('success','Permiso ' . $permiso->display_name . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -171,5 +183,38 @@ class PermissionsController extends Controller
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
+    }
+
+    private function rules($isUpdate)
+    {
+        $rules =[
+            'nombre' => 'required|min:3|max:50',
+            'descripcion' => 'required|min:3|max:120'
+        ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
+    }
+
+    private function messages($isUpdate)
+    {
+        $messages = [ 
+            'nombre.required' => 'El campo nombre es requerido.',
+            'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
+            'nombre.max' => 'El campo nombre debe contener 120 caracteres como máximo.',
+            'descripcion.required' => 'El campo descripcion es requerido.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages;
     }
 }

@@ -45,7 +45,7 @@
 				</div>
 			</fieldset>
 			<br>
-			<fieldset name="datos-contacto">
+			<fieldset name="datos-residencia">
 				<legend>Datos de residencia</legend>
 				<div class="group size-2 sangria">
 					<label>Pais: </label>

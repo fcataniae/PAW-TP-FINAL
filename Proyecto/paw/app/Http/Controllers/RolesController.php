@@ -38,7 +38,7 @@ class RolesController extends Controller
             }
             $columnas = json_encode($columnas);
 
-            $registros = Rol::orderBy('id','ASC')->get();
+            $registros = Rol::orderBy('id','ASC')->where('name', '<>', 'superusuario')->get();
             $array = array();
             $contador = 1;
             foreach($registros as $r ){
@@ -110,17 +110,8 @@ class RolesController extends Controller
     {
         if(Auth::user()->can('permisos_vendedor')){
 
-            $this->validate($request, [
-                'nombre' => 'required|min:3|max:50',
-                'descripcion' => 'required|min:3|max:120',
-            ],[ 
-                'nombre.required' => 'El campo nombre es requerido.',
-                'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
-                'nombre.max' => 'El campo nombre debe contener 50 caracteres como máximo.',
-                'descripcion.required' => 'El campo descripcion es requerido.',
-                'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
-                'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
-            ]);
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $rol = new Rol();
             $rol->display_name = $request->nombre;
@@ -157,7 +148,30 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $rol = Rol::find($id);
+
+            $permisos = [];
+            if (Auth::user()->hasRole('superusuario')) {
+                $permisos = Permiso::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            }
+            else {
+                $permisos = Permiso::orderBy('id','ASC')
+                                ->where('estado', 'A')
+                                ->where('name','<>','crear_permiso')
+                                ->where('name','<>','eliminar_permiso')
+                                ->where('name','<>','modificar_permiso')->get();
+            }
+
+            // necesito el array de los permisos q contiene (solo los id's)
+            $my_permisos = $rol->permissions->pluck('id')->toArray(); // pasa un objeto a un array
+            return view('in.negocio.rol.edit')
+                    ->with('rol',$rol)
+                    ->with('permisos', $permisos)
+                    ->with('my_permisos',$my_permisos);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -169,7 +183,25 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $rol = Rol::find($id);
+            $rol->display_name = $request->nombre;
+            $name = str_replace(' ', '_', $request->nombre);
+            $rol->name = $name;
+            $rol->description = $request->descripcion;
+            $rol->estado = $request->estado;
+            $rol->save();
+
+            //sincronizo con la tabla pivot
+            $permisos = $request->permisos;
+            $rol->permissions()->sync($permisos);
+            return redirect()->route('in.roles.listar')->with('success','Rol ' . $rol->display_name . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -187,5 +219,38 @@ class RolesController extends Controller
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
+    }
+
+    private function rules($isUpdate)
+    {
+        $rules =[
+            'nombre' => 'required|min:3|max:50',
+            'descripcion' => 'required|min:3|max:120',
+        ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
+    }
+
+    private function messages($isUpdate)
+    {
+        $messages = [ 
+            'nombre.required' => 'El campo nombre es requerido.',
+            'nombre.min' => 'El campo nombre debe contener al menos 3 caracteres.',
+            'nombre.max' => 'El campo nombre debe contener 120 caracteres como máximo.',
+            'descripcion.required' => 'El campo descripcion es requerido.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 3 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 50 caracteres como máximo.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages;
     }
 }

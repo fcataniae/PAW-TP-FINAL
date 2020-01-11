@@ -118,7 +118,9 @@ class EmpleadosController extends Controller
     {
         if(Auth::user()->can('permisos_vendedor')){
             $validarUser = $request->crear_usuario == "SI" ? true : false;
-            $this->validate($request, $this->rules($validarUser), $this->messages($validarUser));
+            $this->validate($request, $this->rules($request->_method == 'PUT', $validarUser), 
+                                    $this->messages($request->_method == 'PUT', $validarUser));
+
             $empleado = new Empleado();
             $empleado->nombre = $request->nombre;
             $empleado->apellido = $request->apellido;
@@ -182,7 +184,34 @@ class EmpleadosController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $empleado = Empleado::find($id);
+            $tiposDocumento = [];
+            $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
+            $telFijo = [];
+            $celular = [];
+            foreach ($empleado->telefonos as $telefono){
+                switch ($telefono->tipo_telefono) {
+                    case "fijo":
+                        $tel = explode("-",$telefono->nro_telefono);
+                        $telFijo['area'] = $tel[0];
+                        $telFijo['numero'] = $tel[1];
+                        break;
+                    case "celular":
+                        $cel = explode("-",$telefono->nro_telefono);
+                        $celular['area'] = $cel[0];
+                        $celular['numero'] = $cel[1];
+                        break;
+                }
+            }
+            return view('in.negocio.empleado.edit')
+                        ->with('empleado',$empleado)
+                        ->with('telFijo',$telFijo)
+                        ->with('celular',$celular)
+                        ->with('tiposDocumento',$tiposDocumento);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -194,7 +223,83 @@ class EmpleadosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $validarUser = $request->crear_usuario == "SI" ? true : false;
+            $this->validate($request, $this->rules($request->_method == 'PUT', $validarUser), 
+                                    $this->messages($request->_method == 'PUT', $validarUser));
+            
+            $empleado = Empleado::find($id);
+            $empleado->nombre = $request->nombre;
+            $empleado->apellido = $request->apellido;
+            $empleado->cuil = $request->cuil;
+            $empleado->tipo_documento_id = $request->tipo_documento;
+            $empleado->nro_documento = $request->nro_documento;
+            $empleado->estado =  $request->estado;
+            if($empleado->save()){
+                $direccion = $empleado->direcciones[0];
+                $direccion->empleado_id = $empleado->id;
+                $direccion->pais = $request->pais;
+                $direccion->provincia = $request->provincia;
+                $direccion->localidad = $request->localidad;
+                $direccion->domicilio = $request->domicilio;
+                $direccion->save();
+
+                if($request->tel_fijo_caracteristica && $request->tel_fijo_numero){
+                    $telFijo = new Telefono();
+                    foreach ($empleado->telefonos as $telefono){
+                        if($telefono->tipo_telefono == "fijo"){
+                            $telFijo = $telefono;
+                            break;
+                        }
+                    }
+                    $telFijo->empleado_id = $empleado->id;
+                    $telFijo->tipo_telefono = 'fijo';
+                    $telFijo->nro_telefono = $request->tel_fijo_caracteristica . '-' . $request->tel_fijo_numero;
+                    $telFijo->save();
+                }
+
+                // no seteo telefono fijo borro si existe
+                if(!isset($request->tel_fijo_caracteristica) && !isset($request->tel_fijo_numero )){
+                    $telFijo = new Telefono();
+                    foreach ($empleado->telefonos as $telefono){
+                        if($telefono->tipo_telefono == "fijo"){
+                            $telFijo = $telefono;
+                            break;
+                        }
+                    }
+                    $telFijo->delete();
+                }
+
+                if($request->tel_cel_caracteristica && $request->tel_cel_numero){
+                    $celular = new Telefono();
+                    foreach ($empleado->telefonos as $telefono){
+                        if($telefono->tipo_telefono == "celular"){
+                            $celular = $telefono;
+                            break;
+                        }
+                    }
+                    $celular->empleado_id = $empleado->id;
+                    $celular->tipo_telefono = 'celular';
+                    $celular->nro_telefono = $request->tel_cel_caracteristica . '-' . $request->tel_cel_numero;
+                    $celular->save();
+                }
+
+                // no seteo celular borro si existe
+                if(!isset($request->tel_cel_caracteristica) && !isset($request->tel_cel_numero )){
+                    $celular = new Telefono();
+                    foreach ($empleado->telefonos as $telefono){
+                        if($telefono->tipo_telefono == "celular"){
+                            $celular = $telefono;
+                            break;
+                        }
+                    }
+                    $celular->delete();
+                }
+            }
+            return redirect()->route('in.empleados.listar')->with('success','Empleado ' . $empleado->nombre . " " . $empleado->apellido . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -208,7 +313,7 @@ class EmpleadosController extends Controller
         //
     }
 
-    private function rules($validarUser)
+    private function rules($isUpdate, $validarUser)
     {   
         $tiposDocumento = [];
         $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
@@ -248,10 +353,14 @@ class EmpleadosController extends Controller
             $rules['roles'] = $roles_rules;
         }
 
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
       return $rules;
     }
 
-    private function messages($validarUser)
+    private function messages($isUpdate, $validarUser)
     {
       $messages = [
             'nombre.required' => 'El campo nombre del empleado es obligatorio.',
@@ -283,6 +392,11 @@ class EmpleadosController extends Controller
             $messages['password.max'] = 'El campo contraseña debe contener 20 caracteres como máximo.';
             $messages['roles.required'] = 'El campo roles es obligatorio.';
             $messages['roles.in'] = 'Datos invalidos para el campo roles.';
+        }
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
         }
 
       return $messages;
