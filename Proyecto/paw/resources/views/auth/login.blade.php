@@ -9,11 +9,11 @@
 		{{csrf_field()}}
 		<div class="container">
 	    	<label for="name"><b>Nombre</b></label>
-	    	<input type="text" name="name"  value="{{ old('name') }}" placeholder="Ingrese Nombre">
+	    	<input type="text" name="name"  value="{{ old('name') }}" placeholder="Ingrese Nombre" autocomplete="off">
 			{!! $errors->first('name', '<span> :message </span>') !!}
 			<br><br>
 			<label for="password"><b>Password</b></label>
-			<input type="password"  name="password" placeholder="Ingrese Password">
+			<input type="password"  name="password" placeholder="Ingrese Password" autocomplete="off">
 			{!! $errors->first('password', '<span> :message </span>') !!}
 			<button type="submit">Login</button>
 	  	</div>
