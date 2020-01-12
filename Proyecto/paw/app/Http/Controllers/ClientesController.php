@@ -17,15 +17,15 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_cliente')){
 
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_cliente')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_cliente')){
                 $permisoEliminar = true;
             }
 
@@ -87,7 +87,7 @@ class ClientesController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_cliente')){
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.cliente.create')
@@ -105,7 +105,7 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_cliente')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -164,7 +164,7 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_cliente')){
             $cliente = Cliente::find($id);
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
@@ -185,7 +185,7 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_cliente')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -211,7 +211,7 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_cliente')){
             $cliente = Cliente::find($id);
             $cliente->delete();
             return redirect()->route('in.clientes.listar')->with('success', 'Cliente ' . $cliente->nombre . ' ' . $cliente->apellido . ' eliminado.');

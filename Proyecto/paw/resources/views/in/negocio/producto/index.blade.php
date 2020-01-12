@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Productos</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_producto'))
           <a href="{{ route('in.productos.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Productos

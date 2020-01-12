@@ -178,6 +178,7 @@ class Inserts extends Migration
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("12", "1");
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("13", "1");
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("14", "1");
+            INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("15", "1");
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("16", "1");
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("17", "1");
             INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES ("18", "1");

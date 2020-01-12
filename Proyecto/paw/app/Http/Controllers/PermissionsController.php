@@ -15,15 +15,15 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_permiso')){
 
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_permiso')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_permiso')){
                 $permisoEliminar = true;
             }
 
@@ -81,7 +81,7 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedoras')){
+        if(Auth::user()->can('crear_permiso')){
             return view('in.negocio.permiso.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -96,7 +96,7 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_permiso')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -132,7 +132,7 @@ class PermissionsController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_permiso')){
             $permiso = Permiso::find($id);
             return view('in.negocio.permiso.edit')
                     ->with('permiso',$permiso);
@@ -151,7 +151,7 @@ class PermissionsController extends Controller
     public function update(Request $request, $id)
     {
 
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_permiso')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
         
@@ -176,7 +176,7 @@ class PermissionsController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_permiso')){
             $permiso = Permiso::find($id);
             $permiso->delete();
             return redirect()->route('in.permissions.listar')->with('success', 'Permiso ' . $permiso->display_name . ' eliminado.');

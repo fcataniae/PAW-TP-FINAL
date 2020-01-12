@@ -20,15 +20,15 @@ class EmpleadosController extends Controller
      */
     public function index()
     {
-       if(Auth::user()->can('permisos_vendedor')){
+       if(Auth::user()->can('listar_empleado')){
 
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_empleado')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_empleado')){
                 $permisoEliminar = true;
             }
 
@@ -95,7 +95,7 @@ class EmpleadosController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_empleado')){
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
             $roles = [];
@@ -116,7 +116,7 @@ class EmpleadosController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_empleado')){
             $validarUser = $request->crear_usuario == "SI" ? true : false;
             $this->validate($request, $this->rules($request->_method == 'PUT', $validarUser), 
                                     $this->messages($request->_method == 'PUT', $validarUser));
@@ -184,7 +184,7 @@ class EmpleadosController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_empleado')){
             $empleado = Empleado::find($id);
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->where('descripcion','<>','CUIL')->get(); 
@@ -223,7 +223,7 @@ class EmpleadosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_empleado')){
             $validarUser = $request->crear_usuario == "SI" ? true : false;
             $this->validate($request, $this->rules($request->_method == 'PUT', $validarUser), 
                                     $this->messages($request->_method == 'PUT', $validarUser));
@@ -310,7 +310,13 @@ class EmpleadosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::user()->can('eliminar_empleado')){
+            $empleado = Empleado::find($id);
+            $empleado->delete();
+            return redirect()->route('in.empleados.listar')->with('success', 'Empleado ' . $empleado->nombre . " " . $empleado->apellido . ' eliminado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     private function rules($isUpdate, $validarUser)

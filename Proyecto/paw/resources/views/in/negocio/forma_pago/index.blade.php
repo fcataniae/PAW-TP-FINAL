@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Formas de Pago</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_forma_pago'))
           <a href="{{ route('in.forma_pago.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Formas de Pago

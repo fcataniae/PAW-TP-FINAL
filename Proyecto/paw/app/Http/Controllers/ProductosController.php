@@ -20,14 +20,14 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_producto')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_producto')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_producto')){
                 $permisoEliminar = true;
             }
 
@@ -89,7 +89,7 @@ class ProductosController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_producto')){
             $tipos = [];
             $tipos = Tipo::orderBy('id','ASC')->where('estado', 'A')->get();
             $talles = [];
@@ -111,7 +111,7 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_producto')){
             $this->validate($request, $this->rules($request->_method == 'PUT', null), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -200,7 +200,7 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_producto')){
             $producto = Producto::find($id);
             $tipos = [];
             $tipos = Tipo::orderBy('id','ASC')->where('estado', 'A')->get();
@@ -240,7 +240,7 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_producto')){
             $this->validate($request, $this->rules($request->_method == 'PUT', $id), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -268,7 +268,7 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_producto')){
             $producto = Producto::find($id);
             $producto->delete();
             return redirect()->route('in.productos.listar')->with('success', 'Producto ' . $producto->descripcion . ' eliminado.');

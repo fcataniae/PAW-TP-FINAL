@@ -15,14 +15,14 @@ class TiposDocumentoController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_tipo_documento')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_tipo_documento')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_tipo_documento')){
                 $permisoEliminar = true;
             }
 
@@ -80,7 +80,7 @@ class TiposDocumentoController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_tipo_documento')){
             return view('in.negocio.tipo_documento.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -95,7 +95,7 @@ class TiposDocumentoController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_tipo_documento')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -128,7 +128,7 @@ class TiposDocumentoController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_tipo_documento')){
             $tipo_documento = Tipo_Documento::find($id);
             return view('in.negocio.tipo_documento.edit')
                     ->with('tipo_documento', $tipo_documento);
@@ -146,7 +146,7 @@ class TiposDocumentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_tipo_documento')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -169,7 +169,7 @@ class TiposDocumentoController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_tipo_documento')){
             $tipo_documento = Tipo_Documento::find($id);
             $tipo_documento->delete();
             return redirect()->route('in.tipos_documento.listar')->with('success', 'TIpos de documento ' . $tipo_documento->descripcion . ' eliminado.');

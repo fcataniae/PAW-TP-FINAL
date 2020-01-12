@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Categorias Productos</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_categoria_producto'))
           <a href="{{ route('in.categorias.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Categorias

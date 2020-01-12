@@ -17,14 +17,14 @@ class UsersController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_usuario')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_usuario')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_usuario')){
                 $permisoEliminar = true;
             }
 
@@ -84,7 +84,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_usuario')){
             $empleados = [];
             $empleados = Empleado::orderBy('id','ASC')->where('estado', 'A')->get(); 
             $roles = [];
@@ -105,7 +105,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_usuario')){
             $this->validate($request, $this->rules($request->_method == 'PUT', null), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -145,7 +145,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_usuario')){
             $usuario = Usuario::find($id);
 
             $empleados = [];
@@ -174,7 +174,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_usuario')){
             $this->validate($request, $this->rules($request->_method == 'PUT',$id), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -203,7 +203,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_usuario')){
             $usuario = Usuario::find($id);
             $usuario->delete();
             return redirect()->route('in.users.listar')->with('success', 'Usuario ' . $usuario->name . ' eliminado.');

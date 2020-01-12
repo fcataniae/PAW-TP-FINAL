@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Tipos de Documento</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_tipo_documento'))
           <a href="{{ route('in.tipos_documento.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Tipos de Documento

@@ -16,15 +16,15 @@ class RolesController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_rol')){
 
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_rol')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_rol')){
                 $permisoEliminar = true;
             }
 
@@ -82,7 +82,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_rol')){
             $permisos = [];
             if (Auth::user()->hasRole('superusuario')) {
                 $permisos = Permiso::orderBy('id','ASC')->where('estado', 'A')->get(); 
@@ -108,7 +108,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_rol')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -148,7 +148,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_rol')){
             $rol = Rol::find($id);
 
             $permisos = [];
@@ -183,7 +183,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_rol')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -212,7 +212,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_rol')){
             $rol = Rol::find($id);
             $rol->delete();
             return redirect()->route('in.roles.listar')->with('success', 'Rol ' . $rol->display_name . ' eliminado.');

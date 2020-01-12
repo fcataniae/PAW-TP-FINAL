@@ -15,14 +15,14 @@ class FormaPagoController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_forma_pago')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_forma_pago')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_forma_pago')){
                 $permisoEliminar = true;
             }
 
@@ -80,7 +80,7 @@ class FormaPagoController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_forma_pago')){
             return view('in.negocio.forma_pago.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -95,7 +95,7 @@ class FormaPagoController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_forma_pago')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -128,7 +128,7 @@ class FormaPagoController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_forma_pago')){
             $formapago = Forma_Pago::find($id);
             return view('in.negocio.forma_pago.edit')
                     ->with('formapago', $formapago);
@@ -151,7 +151,7 @@ class FormaPagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_forma_pago')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -174,7 +174,7 @@ class FormaPagoController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_forma_pago')){
             $formapago = Forma_Pago::find($id);
             $formapago->delete();
             return redirect()->route('in.forma_pago.listar')->with('success', 'Forma de pago ' . $formapago->descripcion . ' eliminado.');

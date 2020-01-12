@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Clientes</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_cliente'))
           <a href="{{ route('in.clientes.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Clientes

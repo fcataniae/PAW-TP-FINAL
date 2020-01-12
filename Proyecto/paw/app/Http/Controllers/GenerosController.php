@@ -15,14 +15,14 @@ class GenerosController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_genero')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_genero')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_genero')){
                 $permisoEliminar = true;
             }
 
@@ -80,7 +80,7 @@ class GenerosController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_genero')){
             return view('in.negocio.genero.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -95,7 +95,7 @@ class GenerosController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_genero')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -128,7 +128,7 @@ class GenerosController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_genero')){
             $genero = Genero::find($id);
             return view('in.negocio.genero.edit')
                     ->with('genero',$genero);
@@ -146,7 +146,7 @@ class GenerosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_genero')){
 
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
@@ -169,7 +169,7 @@ class GenerosController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_genero')){
             $genero = Genero::find($id);
             $genero->delete();
             return redirect()->route('in.generos.listar')->with('success', 'Genero ' . $genero->descripcion . ' eliminado.');

@@ -15,14 +15,14 @@ class TallesController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('listar_talle_producto')){
             $permisoEditar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('modificar_talle_producto')){
                 $permisoEditar = true;
             }
 
             $permisoEliminar = false;
-            if(Auth::user()->can('permisos_vendedor')){
+            if(Auth::user()->can('eliminar_talle_producto')){
                 $permisoEliminar = true;
             }
 
@@ -80,7 +80,7 @@ class TallesController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_talle_producto')){
             return view('in.negocio.talle.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -95,7 +95,7 @@ class TallesController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('crear_talle_producto')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -127,7 +127,7 @@ class TallesController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_talle_producto')){
             $talle = Talle::find($id);
             return view('in.negocio.talle.edit')
                     ->with('talle', $talle);
@@ -145,7 +145,7 @@ class TallesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('modificar_talle_producto')){
             $this->validate($request, $this->rules($request->_method == 'PUT'), 
                                     $this->messages($request->_method == 'PUT'));
 
@@ -167,7 +167,7 @@ class TallesController extends Controller
      */
     public function destroy($id)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('eliminar_talle_producto')){
             $talle = Talle::find($id);
             $talle->delete();
             return redirect()->route('in.talles.listar')->with('success', 'Talle ' . $talle->descripcion . ' eliminado.');

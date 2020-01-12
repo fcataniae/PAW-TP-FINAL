@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+// namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 
-class InicioController extends Controller
-{
-    public function index(){
-    	return view('in.inicio');
-    }
-}
+// class InicioController extends Controller
+// {
+//     public function index(){
+//     	return view('in.inicio');
+//     }
+// }

@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Empleados</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_empleado'))
           <a href="{{ route('in.empleados.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Empleados

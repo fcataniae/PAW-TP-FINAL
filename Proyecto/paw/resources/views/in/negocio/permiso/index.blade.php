@@ -23,7 +23,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Permisos</strong></p>
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('crear_permiso'))
           <a href="{{ route('in.permissions.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
             Registrar Permisos
