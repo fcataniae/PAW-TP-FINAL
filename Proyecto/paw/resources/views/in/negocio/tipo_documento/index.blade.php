@@ -22,11 +22,11 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Tipos de documento</strong></p>
+		<p><strong>Tipos de Documento</strong></p>
 		@if(Entrust::can('permisos_vendedor'))
           <a href="{{ route('in.tipos_documento.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
-            Registrar Tipos de documento
+            Registrar Tipos de Documento
           </a>
         @endif
 		<br>

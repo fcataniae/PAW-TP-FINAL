@@ -48,7 +48,7 @@ class ProductosController extends Controller
             $contador = 1;
             foreach($registros as $r ){
                 $estado = "Inactivo";
-                if($r->estado = "A"){
+                if($r->estado == "A"){
                     $estado = "Activo";
                 }
 
@@ -112,7 +112,8 @@ class ProductosController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, $this->rules(), $this->messages());
+            $this->validate($request, $this->rules($request->_method == 'PUT', null), 
+                                    $this->messages($request->_method == 'PUT'));
 
             // if($request->precio_costo >= $request->precio_venta){
             //     return redirect()->back()->withErrors('El precio de venta no puede ser menor o igual al precio de costo');
@@ -199,7 +200,20 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $producto = Producto::find($id);
+            $tipos = [];
+            $tipos = Tipo::orderBy('id','ASC')->where('estado', 'A')->get();
+            $talles = [];
+            $talles = Talle::orderBy('id','ASC')->where('estado', 'A')->get();
+
+            return view('in.negocio.producto.edit')
+                    ->with('producto',$producto)
+                    ->with('tipos',$tipos)
+                    ->with('talles',$talles);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     public function findById($id)
@@ -226,7 +240,24 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT', $id), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $producto = Producto::find($id);
+            $producto->codigo = $request->codigo;
+            $producto->descripcion = $request->descripcion;
+            $producto->tipo_id = $request->tipo;
+            $producto->talle_id = $request->talle;
+            $producto->precio_costo = $request->precio_costo;
+            $producto->precio_venta = $request->precio_venta;
+            $producto->stock = $request->stock;
+            $producto->estado = $request->estado;
+            $producto->save();
+            return redirect()->route('in.productos.listar')->with('success','Producto ' . $producto->descripcion . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -246,7 +277,7 @@ class ProductosController extends Controller
         }
     }
 
-    private function rules()
+    private function rules($isUpdate, $producto)
     {
         Validator::extend('greater_than', function($attribute, $value, $parameters){
             $other = $parameters[0];
@@ -267,7 +298,7 @@ class ProductosController extends Controller
             $talles_rules = $talles_rules.','.$talles[$x]->id;
         }
 
-        return [
+        $rules = [
             'codigo' => 'required|min:4|max:15|unique:productos',
             'descripcion' => 'required|min:2|max:75',
             'tipo' => $tipos_rules,
@@ -276,11 +307,18 @@ class ProductosController extends Controller
             'precio_venta' => 'required|min:0|greater_than:precio_costo',
             'stock' => 'required|min:0'
         ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+            $rules['codigo'] = $rules['codigo'] . ',id,' . $producto; // debe ser unico, ignorando al producto actual
+        }
+
+        return $rules;
     }
 
-    private function messages()
+    private function messages($isUpdate)
     {
-        return [
+        $messages = [
             'codigo.required' => 'El campo codigo es obligatorio.',
             'codigo.min' => 'El campo codigo debe contener al menos 4 caracteres.',
             'codigo.max' => 'El campo codigo debe contener 15 caracteres como máximo.',
@@ -299,5 +337,12 @@ class ProductosController extends Controller
             'stock.required' => 'El campo codigo es obligatorio.',
             'stock.min' => 'El campo cantidad no puede ser menor a 0.'
         ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages;
     }
 }

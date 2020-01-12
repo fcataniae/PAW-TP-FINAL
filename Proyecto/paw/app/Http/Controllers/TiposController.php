@@ -42,7 +42,7 @@ class TiposController extends Controller
             $contador = 1;
             foreach($registros as $r ){
                 $estado = "Inactivo";
-                if($r->estado = "A"){
+                if($r->estado == "A"){
                     $estado = "Activo";
                 }
 
@@ -100,7 +100,8 @@ class TiposController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, $this->rules(), $this->messages());
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $tipo = new Tipo();
             $tipo->descripcion = $request->descripcion;
@@ -131,7 +132,16 @@ class TiposController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tipo = Tipo::find($id);
+            $categorias = [];
+            $categorias = Categoria::orderBy('id','ASC')->where('estado', 'A')->get();
+            return view('in.negocio.tipo.edit')
+                    ->with('tipo',$tipo)
+                    ->with('categorias',$categorias);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -143,7 +153,19 @@ class TiposController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $tipo = Tipo::find($id);
+            $tipo->descripcion = $request->descripcion;
+            $tipo->categoria_id = $request->categoria;
+            $tipo->estado = $request->estado;
+            $tipo->save();
+            return redirect()->route('in.tipos.listar')->with('success','Tipo ' . $tipo->descripcion . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -163,7 +185,7 @@ class TiposController extends Controller
         }
     }
 
-    private function rules()
+    private function rules($isUpdate)
     {
 
         $categorias = Categoria::where('estado', 'A')->get();
@@ -173,20 +195,33 @@ class TiposController extends Controller
             $categorias_rules = $categorias_rules.','.$categorias[$x]->id;
         }
 
-        return [
+        $rules = [
             'descripcion' => 'required|min:2|max:75',
             'categoria' => $categorias_rules
         ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
     }
 
-    private function messages()
+    private function messages($isUpdate)
     {
-      return [
-          'descripcion.required' => 'El campo descripcion es obligatorio.',
-          'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
-          'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
-          'categoria.required' => 'El campo categoria es obligatorio.',
-          'categoria.in' => 'Datos invalidos para el campo categoria.'
-      ];
+        $messages = [
+            'descripcion.required' => 'El campo descripcion es obligatorio.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
+            'categoria.required' => 'El campo categoria es obligatorio.',
+            'categoria.in' => 'Datos invalidos para el campo categoria.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+      return $messages;
     }
 }

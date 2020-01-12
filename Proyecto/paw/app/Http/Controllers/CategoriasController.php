@@ -42,7 +42,7 @@ class CategoriasController extends Controller
             $contador = 1;
             foreach($registros as $r ){
                 $estado = "Inactivo";
-                if($r->estado = "A"){
+                if($r->estado == "A"){
                     $estado = "Activo";
                 }
 
@@ -100,7 +100,8 @@ class CategoriasController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, $this->rules(), $this->messages());
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $categoria = new Categoria();
             $categoria->descripcion = $request->descripcion;
@@ -131,7 +132,16 @@ class CategoriasController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $categoria = Categoria::find($id);
+            $generos = [];
+            $generos = Genero::orderBy('id','ASC')->where('estado', 'A')->get();
+            return view('in.negocio.categoria.edit')
+                    ->with('categoria',$categoria)
+                    ->with('generos',$generos);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -143,7 +153,19 @@ class CategoriasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $categoria = Categoria::find($id);
+            $categoria->descripcion = $request->descripcion;
+            $categoria->genero_id = $request->genero;
+            $categoria->estado = $request->estado;
+            $categoria->save();
+            return redirect()->route('in.categorias.listar')->with('success','Categoria ' . $categoria->descripcion . ' modificada.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -163,9 +185,8 @@ class CategoriasController extends Controller
         }
     }
 
-    private function rules()
+    private function rules($isUpdate)
     {
-
         $generos = Genero::where('estado', 'A')->get();
 
         $generos_rules = 'required|in:'.$generos[0]->id;
@@ -173,20 +194,33 @@ class CategoriasController extends Controller
             $generos_rules = $generos_rules.','.$generos[$x]->id;
         }
 
-        return [
+        $rules = [
             'descripcion' => 'required|min:2|max:75',
             'genero' => $generos_rules
         ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
     }
 
-    private function messages()
+    private function messages($isUpdate)
     {
-      return [
-          'descripcion.required' => 'El campo descripcion es obligatorio.',
-          'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
-          'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
-          'genero.required' => 'El campo genero es obligatorio.',
-          'genero.in' => 'Datos invalidos para el campo genero.'
-      ];
+        $messages = [
+            'descripcion.required' => 'El campo descripcion es obligatorio.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.',
+            'genero.required' => 'El campo genero es obligatorio.',
+            'genero.in' => 'Datos invalidos para el campo genero.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages; 
     }
 }

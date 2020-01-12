@@ -41,7 +41,7 @@ class TallesController extends Controller
             $contador = 1;
             foreach($registros as $r ){
                 $estado = "Inactivo";
-                if($r->estado = "A"){
+                if($r->estado == "A"){
                     $estado = "Activo";
                 }
 
@@ -96,13 +96,8 @@ class TallesController extends Controller
     public function store(Request $request)
     {
         if(Auth::user()->can('permisos_vendedor')){
-            $this->validate($request, [
-                'descripcion' => 'required|min:2|max:75',
-            ],[ 
-                'descripcion.required' => 'El campo descripcion es requerido.',
-                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
-                'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.'
-            ]);
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $talle = new Talle();
             $talle->descripcion = $request->descripcion;
@@ -132,7 +127,13 @@ class TallesController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $talle = Talle::find($id);
+            return view('in.negocio.talle.edit')
+                    ->with('talle', $talle);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -144,7 +145,18 @@ class TallesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $talle = Talle::find($id);
+            $talle->descripcion = $request->descripcion;
+            $talle->estado = $request->estado;
+            $talle->save();
+            return redirect()->route('in.talles.listar')->with('success','Talle ' . $talle->descripcion . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -162,5 +174,34 @@ class TallesController extends Controller
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
+    }
+
+    private function rules($isUpdate)
+    {
+        $rules = [
+            'descripcion' => 'required|min:2|max:75',
+        ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
+    }
+
+    private function messages($isUpdate)
+    {
+        $messages = [ 
+            'descripcion.required' => 'El campo descripcion es requerido.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages;
     }
 }

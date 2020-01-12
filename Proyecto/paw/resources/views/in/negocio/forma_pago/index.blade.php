@@ -22,11 +22,11 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Formas de pago</strong></p>
+		<p><strong>Formas de Pago</strong></p>
 		@if(Entrust::can('permisos_vendedor'))
           <a href="{{ route('in.forma_pago.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
-            Registrar Formas de pago
+            Registrar Formas de Pago
           </a>
         @endif
 		<br>

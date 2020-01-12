@@ -55,7 +55,7 @@
 				</div>
 				<div class="group size-3 sangria">
 					<label>Precio de venta ($): </label>
-					<input type="number" name="precio_venta" id="precio_venta" value="0" min="0"accept=" " class="input size-6"  autocomplete="off">
+					<input type="number" name="precio_venta" id="precio_venta" value="0" min="0" class="input size-6"  autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Cantidad: </label>

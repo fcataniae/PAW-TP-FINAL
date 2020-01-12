@@ -42,7 +42,7 @@ class PermissionsController extends Controller
             $contador = 1;
             foreach($permisos as $p ){
                 $estado = "Inactivo";
-                if($p->estado = "A"){
+                if($p->estado == "A"){
                     $estado = "Activo";
                 }
 

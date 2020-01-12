@@ -41,7 +41,7 @@ class TiposDocumentoController extends Controller
             $contador = 1;
             foreach($registros as $r ){
                 $estado = "Inactivo";
-                if($r->estado = "A"){
+                if($r->estado == "A"){
                     $estado = "Activo";
                 }
 
@@ -97,13 +97,8 @@ class TiposDocumentoController extends Controller
     {
         if(Auth::user()->can('permisos_vendedor')){
 
-            $this->validate($request, [
-                'descripcion' => 'required|min:2|max:75',
-            ],[ 
-                'descripcion.required' => 'El campo descripcion es requerido.',
-                'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
-                'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.'
-            ]);
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
 
             $tipo_documento = new Tipo_Documento();
             $tipo_documento->descripcion = $request->descripcion;
@@ -133,7 +128,13 @@ class TiposDocumentoController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+            $tipo_documento = Tipo_Documento::find($id);
+            return view('in.negocio.tipo_documento.edit')
+                    ->with('tipo_documento', $tipo_documento);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -145,7 +146,19 @@ class TiposDocumentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(Auth::user()->can('permisos_vendedor')){
+
+            $this->validate($request, $this->rules($request->_method == 'PUT'), 
+                                    $this->messages($request->_method == 'PUT'));
+
+            $tipo_documento = Tipo_Documento::find($id);
+            $tipo_documento->descripcion = $request->descripcion;
+            $tipo_documento->estado = $request->estado;
+            $tipo_documento->save();
+            return redirect()->route('in.tipos_documento.listar')->with('success','Tipo de documento ' . $tipo_documento->descripcion . ' modificado.');
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
     }
 
     /**
@@ -163,5 +176,34 @@ class TiposDocumentoController extends Controller
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
+    }
+
+    private function rules($isUpdate)
+    {
+        $rules = [
+            'descripcion' => 'required|min:2|max:75',
+        ];
+
+        if($isUpdate){
+            $rules['estado'] = 'required|in:A,I';
+        }
+
+        return $rules;
+    }
+
+    private function messages($isUpdate)
+    {
+        $messages = [ 
+            'descripcion.required' => 'El campo descripcion es requerido.',
+            'descripcion.min' => 'El campo descripcion debe contener al menos 2 caracteres.',
+            'descripcion.max' => 'El campo descripcion debe contener 75 caracteres como máximo.'
+        ];
+
+        if($isUpdate){
+            $messages['estado.required'] = 'El campo estado es requerido.';
+            $messages['estado.in'] = 'Datos invalidos para el campo estado.';
+        }
+
+        return $messages;
     }
 }
