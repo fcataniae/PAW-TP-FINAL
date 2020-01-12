@@ -81,7 +81,7 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('permisos_vendedoras')){
             return view('in.negocio.permiso.create');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -103,7 +103,7 @@ class PermissionsController extends Controller
 
             $permiso = new Permiso();
             $permiso->display_name = $request->nombre;
-            $name = str_replace(' ', '_', $request->nombre);
+            $name = strtolower(str_replace(' ', '_', $request->nombre));
             $permiso->name = $name;
             $permiso->description = $request->descripcion;
             $permiso->save();
@@ -157,7 +157,7 @@ class PermissionsController extends Controller
         
             $permiso = Permiso::find($id);
             $permiso->display_name = $request->nombre;
-            $name = str_replace(' ', '_', $request->nombre);
+            $name = strtolower(str_replace(' ', '_', $request->nombre));
             $permiso->name = $name;
             $permiso->description = $request->descripcion;
             $permiso->estado = $request->estado;

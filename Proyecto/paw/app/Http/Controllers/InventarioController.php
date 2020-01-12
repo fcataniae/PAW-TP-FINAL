@@ -9,21 +9,21 @@ use Auth;
 class InventarioController extends Controller
 {
     public function index(){
-    	if(Auth::user()->can('permisos_repositor')){
+    	if(Auth::user()->can('gestionar_inventario')){
     		return view('in.inventario.index');
     	}else{
     		return redirect()->route('in.sinpermisos.sinpermisos');
     	}
     }
     public function stock(){
-      if(Auth::user()->can('permisos_repositor')){
+      if(Auth::user()->can('gestionar_inventario')){
         return view('in.inventario.stock');
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }
     }
     public function update(Request $request){
-      if(Auth::user()->can('permisos_repositor')){
+      if(Auth::user()->can('gestionar_inventario')){
         $this->validate($request,[
                'id' => 'required',
                'stock' => 'required|numeric|min:0',
@@ -41,7 +41,7 @@ class InventarioController extends Controller
       }
     }
     public function reposicion(){
-      if(Auth::user()->can('permisos_repositor')){
+      if(Auth::user()->can('gestionar_inventario')){
         $controller = new  ProductosController();
         $producto = json_decode($controller->findById(Input::get('id')),true);
         return view('in.inventario.reposicion')->with(['data'=>$producto]);

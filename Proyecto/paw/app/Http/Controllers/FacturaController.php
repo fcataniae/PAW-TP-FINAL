@@ -20,7 +20,7 @@ class FacturaController extends Controller
 
     public function crear()
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('gestionar_venta')){
             $productos = $this->productosAll();
             return view('in.ventas.crear-venta')->with('productos', $productos);
         }else{
@@ -30,7 +30,7 @@ class FacturaController extends Controller
 
     public function gestionar(Request $request)
     {
-        if(Auth::user()->can('permisos_vendedor')){
+        if(Auth::user()->can('gestionar_venta')){
             if ($request->has('Crear')) {
                 return $this->iniciar($request);
             }else if ($request->has('Confirmar')) {

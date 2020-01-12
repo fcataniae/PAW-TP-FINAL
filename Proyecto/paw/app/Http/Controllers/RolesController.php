@@ -115,7 +115,7 @@ class RolesController extends Controller
 
             $rol = new Rol();
             $rol->display_name = $request->nombre;
-            $name = str_replace(' ', '_', $request->nombre);
+            $name = strtolower(str_replace(' ', '_', $request->nombre));
             $rol->name = $name;
             $rol->description = $request->descripcion;
             $rol->save();
@@ -189,7 +189,7 @@ class RolesController extends Controller
 
             $rol = Rol::find($id);
             $rol->display_name = $request->nombre;
-            $name = str_replace(' ', '_', $request->nombre);
+            $name = strtolower(str_replace(' ', '_', $request->nombre));
             $rol->name = $name;
             $rol->description = $request->descripcion;
             $rol->estado = $request->estado;

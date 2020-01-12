@@ -1,31 +1,25 @@
 <nav>
 	<ul class="main-nav">
-		@if(Entrust::hasRole('superusuario'))
+		@if(Entrust::can('gestionar_negocio'))
 			<li class="negocio"><a href="#">Negocio</a></li>
+	    @endif
+
+	    @if(Entrust::can('gestionar_venta'))
 		    <li class="venta"><a href="#">Ventas</a></li>
+	    @endif
+
+	    @if(Entrust::can('gestionar_inventario'))
 		    <li class="inventario"><a href="#">Inventario</a></li>
+	    @endif
+
+	    @if(Entrust::can('gestionar_reporte'))
 		    <li class="reporte"><a href="{{ route('in.reportes')}}">Reporte</a></li>
 	    @endif
 
-	    @if(Entrust::hasRole('administrador'))
-			<li class="negocio"><a href="#">Negocio</a></li>
-		    <li class="reporte"><a href="#">Reporte</a></li>
-	    @endif
-
-	    @if(Entrust::hasRole('vendedor'))
-			<li class="negocio"><a href="#">Negocio</a></li>
-		    <li class="venta"><a href="#">Ventas</a></li>
-		@endif
-
-	    @if(Entrust::hasRole('repositor'))
-			<li class="negocio"><a href="#">Negocio</a></li>
-		    <li class="inventario"><a href="#">Inventario</a></li>
-		@endif
-
 	    <li><a><strong>{{ Auth::user()->name }}</strong></a>
 	        <ul>
-	        	<li><a href={{ route('in.inicio') }}>Datos Personales</a></li>
-	            <li><a href={{ route('in.inicio') }}>Configurar Cuenta</a></li>
+	        	<li><a href={{ route('in') }}>Datos Personales</a></li>
+	            <li><a href={{ route('in') }}>Configurar Cuenta</a></li>
 	            <li><a href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     Logout</a></li>
 	        </ul>

@@ -2,11 +2,11 @@
 	<span class="expand">&#9776;</span>
 
 	<ul class="unshow" >
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('gestionar_venta'))
 			<li><a href={{ route('in.facturas.crear') }}>Venta</a></li>
 		@endif
 
-		@if(Entrust::can('permisos_vendedor'))
+		@if(Entrust::can('gestionar_venta'))
 			<li><a href={{ route('in.facturas.reservas') }}>Reservas</a></li>
 		@endif
 
