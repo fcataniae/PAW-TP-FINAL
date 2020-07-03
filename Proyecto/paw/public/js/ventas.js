@@ -137,9 +137,10 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	precio.innerHTML = parseFloat(producto.precio_venta);
   	var inputPrecio = document.createElement('input');
 	inputPrecio.type = "hidden";
-	inputPrecio.name = "producto_precio[]" + nroDetalle;
+	inputPrecio.id = "precio_x_unidad_" + nroDetalle;
+	inputPrecio.name = "producto_precio[]";
 	inputPrecio.value = parseFloat(producto.precio_venta);
-	descripcion.appendChild(inputPrecio);
+	precio.appendChild(inputPrecio);
   	
   	var stock = row.insertCell();
   	stock.id = "stock_" + nroDetalle; 
@@ -244,7 +245,7 @@ function guardarCambios(id, producto, nuevaFactura){
 
 function calcularSubtotal1(id){
 	var cantidad = document.getElementById("cantidad_" + id).value;
-	var precio = document.getElementById("precio_" + id).innerHTML;
+	var precio = document.getElementById("precio_x_unidad_" + id).value;
 	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
 	calcularTotal1();
 }

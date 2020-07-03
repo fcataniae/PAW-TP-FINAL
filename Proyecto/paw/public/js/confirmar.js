@@ -52,7 +52,8 @@ function cargarCliente(){
 	var nro_cliente = document.getElementById("nro_cliente").value;
 	if(nro_cliente){
 		cliente = clientesAll.find(c => c.id == nro_cliente);
-		document.getElementById("tipo_documento").value = cliente.tipo_documento;
+		console.log(cliente);
+		document.getElementById("tipo_documento").value = cliente.tipo_documento_id;
 		document.getElementById("nro_documento").value = cliente.nro_documento;
 		document.getElementById("nombre").value = cliente.nombre;
 		document.getElementById("apellido").value = cliente.apellido;
@@ -96,6 +97,7 @@ function confirmarCompra(){
 		}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
 			indicarError("El pago debe ser mayor al total.");
 		}else{
+			// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
 			var input = document.createElement("input");
 			input.type = "hidden";
 			input.value = "Confirmar";
@@ -104,11 +106,12 @@ function confirmarCompra(){
 			document.getElementById("formulario").submit();
 		}
 	}else if(document.getElementById('forma_pago').value == 2){
+		// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
 		var input = document.createElement("input");
-		input.id = "confirmar"
 		input.type = "hidden";
-		input.value = "Confirmar";
+		input.id = "confirmar"
 		input.name = "Confirmar";
+		input.value = "Confirmar";
 		document.getElementById("formulario").appendChild(input);
 
 		var script = document.createElement('script');
@@ -148,6 +151,7 @@ function avanzar(boton){
 	if(hidden){
 		hidden.parentNode.removeChild(hidden);
 	}
+	// Es necesario el hidden para que el back sepa que accion se realizo, de lo contrario no recibe cual es la accion tomada
 	var input = document.createElement("input");
 	input.type = "hidden";
 	input.value = boton;

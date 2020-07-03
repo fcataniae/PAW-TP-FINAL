@@ -203,6 +203,7 @@ class FacturaController extends Controller
         foreach($clientesAll as $cliente ){
             array_push($array,array(
                     'id' =>  $cliente->id,
+                    'tipo_documento_id' => $cliente->tipoDocumento->id,
                     'tipo_documento' => $cliente->tipoDocumento->descripcion,
                     'nro_documento' => $cliente->nro_documento,
                     'nombre' => $cliente->nombre,

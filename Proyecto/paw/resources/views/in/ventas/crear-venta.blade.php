@@ -23,8 +23,8 @@
 @endsection
 @section('body-main')
 	<section class="main">
-		@include('partials.alert-message')
-		<div id="msjError"></div>
+		@include('partials.alert-message') 	<!-- Errores del BACK -->
+		<div id="msjError"></div> 			<!-- Errores en JavaScript -->
 		<p><strong>Venta</strong></p>
 		<fieldset name="Buscador">
 			<legend>Buscador</legend>
