@@ -50,26 +50,26 @@ var PAGINA_INICIAL = 0;
 
 function construirTabla(columns, values) {
   var contenido = document.getElementById("contenido");
-    var table = document.createElement("table");
+  var table = document.createElement("table");
   table.id = "customTable";
-    table.className="table";
-    var thead = document.createElement("thead");
-    var tbody = document.createElement("tbody");
-    var headRow = document.createElement("tr");
+  table.className="table";
+  var thead = document.createElement("thead");
+  var tbody = document.createElement("tbody");
+  var headRow = document.createElement("tr");
   var filters = [];
   // crea las columnas indicadas
-    columns.forEach(function(el) {
-      var th=document.createElement("th");
-      th.innerHTML = el.headerName;
+  columns.forEach(function(el) {
+    var th=document.createElement("th");
+    th.innerHTML = el.headerName;
     th.id =el.field;
     filters.push(el.field);
     if(el.width){
-    th.width = el.width;
+      th.width = el.width;
     }
-      headRow.appendChild(th);
-    });
-    thead.appendChild(headRow);
-    table.appendChild(thead);
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
   
   // remuevo solo el filtro de accion
   filters.splice( filters.indexOf('accion'), 1 );
@@ -94,7 +94,7 @@ function construirTabla(columns, values) {
   });
   tbody.appendChild(tr);  
   
-    table.appendChild(tbody);          
+  table.appendChild(tbody);          
   contenido.appendChild(table); 
 }
 
@@ -134,18 +134,14 @@ function filtrar(filters, values){
 function paginarAndVisualizarRegistros(num, inicio){
   var pagNow = inicio;
   var limSup;
-  var numPaginasFSt = "";
   var DatoI;
   var DatoF;
   var pagAnt;
   var pagSig;
-  var rutaIma=""; //Ruta base de las imagenes
 
   //Detecto el número "entero" de páginas
-  var numPaginas = registrosFiltrados.length /num; 
-  numPaginas = numPaginas.toString();
-  numPaginas = numPaginas.split(".");
-  numPaginasF = eval(numPaginas[0]);
+  var numPaginas = registrosFiltrados.length / num; 
+  numPaginasF = Math.trunc(numPaginas);
 
   //Si el resultado de la división anterior no es exacto le añado manualmente una página más
   if (registrosFiltrados.length % num != 0){ 
