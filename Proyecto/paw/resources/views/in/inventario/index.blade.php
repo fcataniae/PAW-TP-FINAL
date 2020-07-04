@@ -8,7 +8,6 @@
 	<script src="{{asset('js/utils.js')}}"></script>
 @endsection
 @section('body-header')
-	<h1 class="logo"><a href="#">Logo Tienda</a></h1>
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')

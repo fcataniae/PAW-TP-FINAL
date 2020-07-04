@@ -10,7 +10,7 @@
 	<body class="body-sinpermisos">
 		<h1>Ups!</h1>
 		<h3>No tienes acceso a este lugar!</h3>
-		<img src="../img/sinacceso.gif" alt="" />
+		<img src="../img/sinacceso.gif" alt="Sin acceso" />
 		<br><br>
 		<a href="{{ route('in') }}" class="button btn-gris" ><span><i class="fa fa-reply"></i></span> Volver a inicio</a>
 	</body>

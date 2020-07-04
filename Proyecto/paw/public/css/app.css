@@ -592,11 +592,9 @@
 	}
 
 	.logo {
-		margin: 0;
-		font-size: x-large;
+		margin-top: 4px;
 	}
 
-	.logo a,
 	.main-nav a {
 		padding: 5px 15px;
 		text-transform: uppercase;
