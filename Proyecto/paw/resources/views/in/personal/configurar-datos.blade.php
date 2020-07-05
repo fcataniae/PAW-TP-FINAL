@@ -16,7 +16,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<p><strong>Datos Personal</strong></p>
-		<form action="{{ route('in.users.actualizar.datospersonal', [$empleado->id]) }}" method="POST">
+		<form action="{{ route('in.users.actualizar.datospersonal') }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}
 			<fieldset name="datos-personales">

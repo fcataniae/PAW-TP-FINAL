@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User as Usuario;
+use App\Direccion as Direccion;
 use App\Empleado as Empleado;
+use App\Telefono as Telefono;
+use App\User as Usuario;
 use App\Role as Rol;
 use App\Tipo_Documento as Tipo_Documento;
 use Auth;
+use Hash;
 
 class UsersController extends Controller
 {
@@ -214,47 +217,130 @@ class UsersController extends Controller
     }
 
     public function getDatosPersonal(){
-        if(Auth::user()->can('modificar_empleado')){
-            $empleado = Empleado::find(Auth::user()->empleado_id);
-            $tipoDocumento = Tipo_Documento::find($empleado->tipo_documento_id); 
-            $telFijo = [];
-            $celular = [];
-            foreach ($empleado->telefonos as $telefono){
-                switch ($telefono->tipo_telefono) {
-                    case "fijo":
-                        $tel = explode("-",$telefono->nro_telefono);
-                        $telFijo['area'] = $tel[0];
-                        $telFijo['numero'] = $tel[1];
-                        break;
-                    case "celular":
-                        $cel = explode("-",$telefono->nro_telefono);
-                        $celular['area'] = $cel[0];
-                        $celular['numero'] = $cel[1];
-                        break;
-                }
+        $empleado = Empleado::find(Auth::user()->empleado_id);
+        $tipoDocumento = Tipo_Documento::find($empleado->tipo_documento_id); 
+        $telFijo = [];
+        $celular = [];
+        foreach ($empleado->telefonos as $telefono){
+            switch ($telefono->tipo_telefono) {
+                case "fijo":
+                    $tel = explode("-",$telefono->nro_telefono);
+                    $telFijo['area'] = $tel[0];
+                    $telFijo['numero'] = $tel[1];
+                    break;
+                case "celular":
+                    $cel = explode("-",$telefono->nro_telefono);
+                    $celular['area'] = $cel[0];
+                    $celular['numero'] = $cel[1];
+                    break;
             }
-            return view('in.personal.configurar-datos')
-                        ->with('empleado',$empleado)
-                        ->with('telFijo',$telFijo)
-                        ->with('celular',$celular)
-                        ->with('tipoDocumento',$tipoDocumento);
-        }else{
-            return redirect()->route('in.sinpermisos.sinpermisos');
         }
+        return view('in.personal.configurar-datos')
+                    ->with('empleado',$empleado)
+                    ->with('telFijo',$telFijo)
+                    ->with('celular',$celular)
+                    ->with('tipoDocumento',$tipoDocumento);
     }
 
     public function updateDatosPersonal(Request $request){
-        dd('PASO X ACA');
-        return null;
+        $rules = [
+            'pais' => 'required',
+            'provincia' => 'required',
+            'localidad' => 'required',
+            'domicilio' => 'required'
+        ];
+        $messages = [
+            'pais.required' => 'El campo pais es obligatorio.',
+            'provincia.required' => 'El campo provincia es obligatorio.',
+            'localidad.required' => 'El campo localidad es obligatorio.',
+            'domicilio.required' => 'El campo domicilio es obligatorio.'
+        ];
+        $this->validate($request, $rules, $messages);
+        
+        $empleado = Empleado::find(Auth::user()->empleado_id);
+        $direccion = $empleado->direcciones[0];
+        $direccion->empleado_id = $empleado->id;
+        $direccion->pais = $request->pais;
+        $direccion->provincia = $request->provincia;
+        $direccion->localidad = $request->localidad;
+        $direccion->domicilio = $request->domicilio;
+        $direccion->save();
+
+        if($request->tel_fijo_caracteristica && $request->tel_fijo_numero){
+            $telFijo = new Telefono();
+            foreach ($empleado->telefonos as $telefono){
+                if($telefono->tipo_telefono == "fijo"){
+                    $telFijo = $telefono;
+                    break;
+                }
+            }
+            $telFijo->empleado_id = $empleado->id;
+            $telFijo->tipo_telefono = 'fijo';
+            $telFijo->nro_telefono = $request->tel_fijo_caracteristica . '-' . $request->tel_fijo_numero;
+            $telFijo->save();
+        }
+
+        // no seteo telefono fijo borro si existe
+        if(!isset($request->tel_fijo_caracteristica) && !isset($request->tel_fijo_numero )){
+            $telFijo = new Telefono();
+            foreach ($empleado->telefonos as $telefono){
+                    if($telefono->tipo_telefono == "fijo"){
+                        $telFijo = $telefono;
+                        break;
+                    }
+                }
+            $telFijo->delete();
+        }
+
+        if($request->tel_cel_caracteristica && $request->tel_cel_numero){
+            $celular = new Telefono();
+            foreach ($empleado->telefonos as $telefono){
+                if($telefono->tipo_telefono == "celular"){
+                    $celular = $telefono;
+                    break;
+                }
+            }
+            $celular->empleado_id = $empleado->id;
+            $celular->tipo_telefono = 'celular';
+            $celular->nro_telefono = $request->tel_cel_caracteristica . '-' . $request->tel_cel_numero;
+            $celular->save();
+        }
+
+        // no seteo celular borro si existe
+        if(!isset($request->tel_cel_caracteristica) && !isset($request->tel_cel_numero )){
+            $celular = new Telefono();
+            foreach ($empleado->telefonos as $telefono){
+                if($telefono->tipo_telefono == "celular"){
+                    $celular = $telefono;
+                    break;
+                }
+            }
+            $celular->delete();
+        }
+        return redirect()->route('in.users.edit.datospersonal')->with('success','Los datos personales se han modificado.');
     }
 
     public function getDatosCuenta(){
-        return view('in.personal.configurar-cuenta');
+        $usuario = Auth::user();
+        return view('in.personal.configurar-cuenta')
+                    ->with('usuario',$usuario);
     }
 
     public function updateDatosCuenta(Request $request){
-        dd('PASO X ACA');
-        return null;
+        
+      if (Hash::check($request->password_actual, Auth::user()->password)) {
+        if($request->password_nuevo == $request->password_confirmacion){
+            $usuario = Auth::user();
+            $usuario->password = bcrypt($request->password_nuevo);
+            $usuario->save();
+            return redirect()->route('in.users.edit.datoscuenta')->with('success','La contraseña se ha modificado.');
+        }else{
+            return redirect()->back()->withErrors("La contraseña nueva no coincide.");
+        }
+      }else {
+        return redirect()->back()->withErrors("La contraseña actual no coincide.");
+      }
+
     }
 
     private function rules($isUpdate, $userId)
