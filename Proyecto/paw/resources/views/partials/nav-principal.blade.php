@@ -1,3 +1,9 @@
+@if(Auth::user() != null)
+	<a class="logo" href={{ route('in') }}>
+		<img src="/img/logo.png" alt="" width="40" height="40"/>
+	</a>
+@endif
+
 <nav>
 	<ul class="main-nav">
 		@if(Entrust::can('gestionar_negocio'))

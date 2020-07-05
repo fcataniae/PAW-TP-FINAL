@@ -9,9 +9,6 @@
 	</head>
 	<body>
 	    <header class="header no-print"> 
-	    	<a class="logo" href={{ route('in') }}>
-	    		<img src="/img/logo.png" alt="" width="40" height="40"/>
-	    	</a>
 	    	@yield('body-header') 
 	    </header>
 	    <main> 
