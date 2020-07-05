@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User as Usuario;
 use App\Empleado as Empleado;
 use App\Role as Rol;
+use App\Tipo_Documento as Tipo_Documento;
 use Auth;
 
 class UsersController extends Controller
@@ -210,6 +211,50 @@ class UsersController extends Controller
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
+    }
+
+    public function getDatosPersonal(){
+        if(Auth::user()->can('modificar_empleado')){
+            $empleado = Empleado::find(Auth::user()->empleado_id);
+            $tipoDocumento = Tipo_Documento::find($empleado->tipo_documento_id); 
+            $telFijo = [];
+            $celular = [];
+            foreach ($empleado->telefonos as $telefono){
+                switch ($telefono->tipo_telefono) {
+                    case "fijo":
+                        $tel = explode("-",$telefono->nro_telefono);
+                        $telFijo['area'] = $tel[0];
+                        $telFijo['numero'] = $tel[1];
+                        break;
+                    case "celular":
+                        $cel = explode("-",$telefono->nro_telefono);
+                        $celular['area'] = $cel[0];
+                        $celular['numero'] = $cel[1];
+                        break;
+                }
+            }
+            return view('in.personal.configurar-datos')
+                        ->with('empleado',$empleado)
+                        ->with('telFijo',$telFijo)
+                        ->with('celular',$celular)
+                        ->with('tipoDocumento',$tipoDocumento);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    public function updateDatosPersonal(Request $request){
+        dd('PASO X ACA');
+        return null;
+    }
+
+    public function getDatosCuenta(){
+        return view('in.personal.configurar-cuenta');
+    }
+
+    public function updateDatosCuenta(Request $request){
+        dd('PASO X ACA');
+        return null;
     }
 
     private function rules($isUpdate, $userId)
