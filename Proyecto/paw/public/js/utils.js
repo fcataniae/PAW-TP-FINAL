@@ -25,25 +25,31 @@ function controls(){
 }
 function sidenav(){
 
- let expands = document.querySelectorAll('nav.sidenav span.expand');
+ let expands = document.querySelectorAll('nav.sidenav div.expand');
  console.log(expands);
  expands.forEach( expand =>{
    expand.addEventListener('click', function(){
-     let sidenavul = document.querySelector('nav.sidenav.open ul.show');
      let sidenav = document.querySelector('nav.sidenav.open.sidenav-200');
-     if(!sidenav || !sidenavul){
-
-       sidenavul = document.querySelector('nav.sidenav.open ul');
+     let sidenavul = document.querySelector('nav.sidenav.open ul.show');
+     let sidenavtitle = document.querySelector('nav.sidenav.open div strong.show');
+     if(!sidenav || !sidenavul || !sidenavul){
        sidenav = document.querySelector('nav.sidenav.open');
+       sidenavtitle = document.querySelector('nav.sidenav.open div strong');
+       sidenavul = document.querySelector('nav.sidenav.open ul');
        sidenavul.classList.add('show');
+       sidenavtitle.classList.add('show');
        sidenav.classList.add('sidenav-200');
        sidenavul.classList.remove('unshow');
+       sidenavtitle.classList.remove('unshow');
      }else{
-       sidenavul = document.querySelector('nav.sidenav.open ul');
        sidenav = document.querySelector('nav.sidenav.open');
+       sidenavtitle = document.querySelector('nav.sidenav.open div strong');
+       sidenavul = document.querySelector('nav.sidenav.open ul');
        sidenavul.classList.add('unshow');
+       sidenavtitle.classList.add('unshow');
        sidenav.classList.remove('sidenav-200');
        sidenavul.classList.remove('show');
+       sidenavtitle.classList.remove('show');
      }
    });
   });

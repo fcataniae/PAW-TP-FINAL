@@ -541,7 +541,6 @@
 		display:inline-block;
 	  background-color: #257EAF;
 	  overflow-x: hidden;
-	  padding-top: 20px;
 	}
 
 	.sidenav a {
@@ -688,7 +687,6 @@
 	}
 	.sidenav{
 		width: 30px;
-		margin-top: 75px;
 	}
 	.show{
 		display: inline-block;
@@ -701,11 +699,11 @@
 	}
 	.expand{
 		align-content: center;
-	 cursor:pointer;
-	 vertical-align: center;
-	 font-size: 25px;
-	 padding: 5px;
-	 color: #000000;
+	 	cursor:pointer;
+	 	vertical-align: center;
+	 	font-size: 20px;
+	 	padding: 5px;
+	 	color: #000000;
 	}
 	.margin-main{
 		margin-left: 7vw;
