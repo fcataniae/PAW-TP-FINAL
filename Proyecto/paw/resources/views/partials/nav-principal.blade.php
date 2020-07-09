@@ -27,7 +27,7 @@
 	    		@if(Auth::user()->imagen != null)
                 	<img class="avatar" src="{{asset('img/usuarios').'/'.Auth::user()->imagen}}" alt="avatar" />
              	@else
-                    <img class="avatar" src="/img/fotoPerfil.jpg" alt=""/>
+                    <img class="avatar" src="{{asset('/img/fotoPerfil.jpg')}}" alt=""/>
 	    		@endif
 	    		<strong>{{ Auth::user()->name }}</strong>
 	    	</a>

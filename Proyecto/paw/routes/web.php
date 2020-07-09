@@ -82,7 +82,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('configurar/datos-personal','UsersController@getDatosPersonal')->name('in.users.edit.datospersonal');
         Route::put('configurar/datos-personal','UsersController@updateDatosPersonal')->name('in.users.actualizar.datospersonal');
         Route::get('configurar/datos-cuenta','UsersController@getDatosCuenta')->name('in.users.edit.datoscuenta');
-        Route::put('configurar/datos-cuenta','UsersController@updateDatosCuenta')->name('in.users.actualizar.datoscuenta');
+        Route::put('configurar/actualizar/datos-cuenta','UsersController@updateDatosCuenta')->name('in.users.actualizar.datoscuenta');
+        Route::put('configurar/actualizar/imagen-cuenta','UsersController@updateImagenCuenta')->name('in.users.actualizar.imagencuenta');
 
         Route::get('clientes/listar', 'ClientesController@index')->name('in.clientes.listar');
         Route::get('clientes/crear','ClientesController@create')->name('in.clientes.crear');

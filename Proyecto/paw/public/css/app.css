@@ -655,6 +655,58 @@
 	.body-sinpermisos {
   		text-align: center;
 	}
+
+	.imagen-all {
+		margin-top:5px;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.imagen-visual {
+		margin-right: 20px;
+	}
+
+	.imagen-visual > .avatar-grande {
+	  width: 100px;
+	  height: 100px;
+	  border: 1px solid #f8f8f8;
+	  margin-bottom: 5px;
+	}
+
+	.imagen-visual > .eliminar-imagen {
+		font-size: 14px;
+		color: #257EAF;
+		cursor: pointer;
+	}
+
+	.imagen-visual > .eliminar-imagen:hover {
+		text-decoration:underline;
+	}
+
+	.imagen-info {
+		color: white;
+		background-color: #257EAF;
+		border: 1px solid #1b8048;
+		border-radius: 5px;
+		text-align: center;
+		padding: 8px;
+		width: 150px;
+	}
+
+	.imagen-info > p {
+		font-size: 15px;
+		margin: 5px;
+	}
+
+	.error-imagen {
+		display: none;
+	}
+
+	.error-imagen span {
+		font-size: 14px;
+		color: red;
+	}
+
 }
 
 

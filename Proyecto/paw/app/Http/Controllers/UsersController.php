@@ -10,7 +10,9 @@ use App\User as Usuario;
 use App\Role as Rol;
 use App\Tipo_Documento as Tipo_Documento;
 use Auth;
+use File;
 use Hash;
+use Log;
 
 class UsersController extends Controller
 {
@@ -209,6 +211,7 @@ class UsersController extends Controller
     {
         if(Auth::user()->can('eliminar_usuario')){
             $usuario = Usuario::find($id);
+            File::delete(public_path().'/img/usuarios/'.$usuario->imagen);
             $usuario->delete();
             return redirect()->route('in.users.listar')->with('success', 'Usuario ' . $usuario->name . ' eliminado.');
         }else{
@@ -341,6 +344,46 @@ class UsersController extends Controller
         return redirect()->back()->withErrors("La contraseña actual no coincide.");
       }
 
+    }
+
+    public function updateImagenCuenta(Request $request){
+        $rules = [
+            'imagen_load' => 'image|mimes:jpg,jpeg,gif,png|max:500',
+            'imagen_cambiada' => 'required|in:0,1'
+        ];
+        $messages = [
+            'imagen_load.image' => 'El archivo debe ser una imagen.',
+            'imagen_load.mimes' => 'La imagen debe ser jpg, jpeg, png o gif.',
+            'imagen_load.max' => 'La imagen no debe pesar más de 500 kb.',
+            'imagen_cambiada.in' => 'Datos invalidos.'
+        ];
+        $this->validate($request, $rules, $messages);
+
+        $usuario = Auth::user();
+        $imagenVieja = $usuario->imagen;
+        $usuario = $this->updateImagen($imagenVieja, $usuario, $request);
+        $usuario->save();
+        return redirect()->route('in.users.edit.datoscuenta')->with('success','La imagen se ha modificado.');
+    }
+
+    private function updateImagen($imagenVieja, $usuario, $request){
+        //Guarda la Imagen. Manipular Imagenes y no colisiones de nombres
+        if ($request->imagen_load == null) {
+            if ($request->imagen_cambiada == 1) {
+                $usuario->imagen = null;
+                File::delete(public_path().'/img/usuarios/'.$imagenVieja);
+            }
+        }else{
+            if ($request->hasFile('imagen_load')) {
+                File::delete(public_path().'/img/usuarios/'.$imagenVieja);
+                $file = $request->file('imagen_load');
+                $name = 'image_' . time().'.'. $file->getClientOriginalExtension();
+                $path = public_path(). '/img/usuarios/';
+                $file->move($path, $name);
+                $usuario->imagen = $name;
+            }
+        }
+        return $usuario;
     }
 
     private function rules($isUpdate, $userId)
