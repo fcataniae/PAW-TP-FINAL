@@ -707,6 +707,19 @@
 		color: red;
 	}
 
+	.datos-modificables {
+		display: flex;
+		flex-direction: row;
+	}
+
+	#form-password, #form-imagen {
+		width: 100%;
+	}
+	
+	#cambiar-password, #cambiar-imagen {
+		height: 300px;
+	}
+
 }
 
 
@@ -759,6 +772,15 @@
 	}
 	.margin-main{
 		margin-left: 7vw;
+	}
+
+	.datos-modificables {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#form-password, #form-imagen {
+		width: 100%;
 	}
 }
 
