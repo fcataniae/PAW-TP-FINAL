@@ -190,7 +190,6 @@ function paginarAndVisualizarRegistros(num, inicio){
 
 function agregarRegistros(tbody, values, DatoI, DatoF){
   // carga los datos indicados
-  console.log(encabezados)
   for (DatoI; DatoI <= DatoF; DatoI++){
     let el = values[DatoI];
     if(el){
@@ -271,6 +270,20 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
           form.appendChild(bntEliminar);
           
           td.appendChild(form);
+          tr.appendChild(td);
+        }
+        if(el.action.js){
+          let btnJs = document.createElement('button');
+          btnJs.id = "editar_" + el.id;
+          btnJs.type = "button";
+          btnJs.style.display = "inline";
+          btnJs.className = "button-table btn-azul";
+        
+          btnJs.onclick = function(){
+            el.action.js()
+          };
+          btnJs.innerHTML = "<i class='fa fa-eye' aria-hidden='true'></i>";
+          td.appendChild(btnJs);
           tr.appendChild(td);
         }
       }

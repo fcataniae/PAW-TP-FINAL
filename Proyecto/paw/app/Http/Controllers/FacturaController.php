@@ -257,13 +257,13 @@ class FacturaController extends Controller
         }
 
         $columnas = array(
-            array('headerName' => "Nro", 'field' => "id"),
-            array('headerName' => "Importe", 'field' => "importe"),
-            array('headerName' => "Fecha Creacion", 'field' => "fecha_creacion"),
-            array('headerName' => "Empleado", 'field' => "empleado_id"),
-            array('headerName' => "Cliente", 'field' => "cliente_id"),
-            array('headerName' => "Forma de Pago", 'field' => "forma_pago_id"),
-            array('headerName' => "Estado", 'field' => "estado"),
+            array('headerName' => "Nro", 'field' => "id", 'width' => '10%'),
+            array('headerName' => "Importe", 'field' => "importe", 'width' => '15%'),
+            array('headerName' => "Fecha Creacion", 'field' => "fecha_creacion", 'width' => '15%'),
+            array('headerName' => "Empleado", 'field' => "empleado_id", 'width' => '15%'),
+            array('headerName' => "Cliente", 'field' => "cliente_id", 'width' => '15%'),
+            array('headerName' => "Forma de Pago", 'field' => "forma_pago_id", 'width' => '10%'),
+            array('headerName' => "Estado", 'field' => "estado", 'width' => '10%'),
           ); 
         $facturas = $facturas->get();
         $array = array();

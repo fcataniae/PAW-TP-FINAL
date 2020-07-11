@@ -2,11 +2,11 @@ var window = window || {},
     document = document || {},
     console = console || {};
 
-window.onload = function(){
+document.addEventListener("DOMContentLoaded", function () {
   initWindow();
   ajaxCall('GET','/in/forma_pago/all',completeFormaPago);
   ajaxCall('GET','/in/empleados/all',completeEmpleado);
-}
+});
 
 const filtros =  ['id','importe_desde','importe_hasta','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
 
@@ -15,7 +15,7 @@ var facturas = [];
 function initWindow(){
 
   let input = document.querySelector('section.main input.button-clean');
-  input.addEventListener('click',doSearch);
+  input.addEventListener('click', doSearch);
 }
 
 function doSearch(){
@@ -38,12 +38,21 @@ function doSearch(){
 
 function printTable(res){
   res = JSON.parse(res);
+  destroyTabla();
+  addJsHandler(res);
   encabezados = res.columnas;
   registrosFiltrados = res.registros;
   registros = res.registros;
-  destroyTabla();
   construirTabla(encabezados, registros);
   paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+}
+
+function addJsHandler(res){
+  res.columnas.push({headerName: 'Detalle', field: 'accion', width: '10%'});
+  res.registros.forEach(res => {
+    nroFac = res.id;
+    res['action'] = { js: returnDetails( nroFac) };
+  });
 }
 
 function showError(res,stat){
@@ -78,11 +87,16 @@ function completeFormaPago(res){
 
 }
 
+function returnDetails( nroFac) {
+  
+  return () => {
+    showDetails(nroFac);
+  }
+}
 
-function showDetails($event){
-  let nrofac = $event.target.nro;
-  console.log('factura nro: ' + nrofac);
-  ajaxCall('GET','/in/factura/get/detalles/'+nrofac, function(res){
+function showDetails(nroFac){
+  console.log('factura nro: ' + nroFac);
+  ajaxCall('GET','/in/factura/get/detalles/'+nroFac, function(res){
     let detalles =JSON.parse(res);
     console.log(detalles);
     let table,thead,tbody,tr,td,th;
@@ -119,7 +133,7 @@ function showDetails($event){
     table.appendChild(tbody);
     let container = document.createElement('div');
     container.appendChild(table);
-    openDialog('Detalles de factura nro: '+nrofac, container);
+    openDialog('Detalles de factura nro: '+nroFac, container);
   });
 }
 

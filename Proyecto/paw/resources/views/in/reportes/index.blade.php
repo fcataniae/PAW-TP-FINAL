@@ -7,14 +7,27 @@
 @endsection
 
 @section('head-js')
-	<script src="{{asset('js/reportes.js')}}"></script>
 	<script src="{{asset('js/tabla.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
+	<script src="{{asset('js/reportes.js')}}"></script>
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script>
 		var columnas;
 		var datos;
 	</script>
+	<style>
+		table{
+			table-layout: fixed;
+		}
+		td {
+			word-wrap:break-word;
+		}
+		input {
+			width: 100%;
+			padding: 10px;
+			margin: 0px;
+		}
+	</style>
 @endsection
 @section('body-header')
 	@include('partials.nav-principal')
