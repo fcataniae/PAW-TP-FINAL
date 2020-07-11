@@ -190,17 +190,21 @@ function paginarAndVisualizarRegistros(num, inicio){
 
 function agregarRegistros(tbody, values, DatoI, DatoF){
   // carga los datos indicados
+  console.log(encabezados)
   for (DatoI; DatoI <= DatoF; DatoI++){
     let el = values[DatoI];
     if(el){
       let tr = document.createElement("tr");
-      for (let col in el.dataJson) {
-        let td = document.createElement("td");
-        td.id = col + "_" + el.id;
-        td.headers = col;
-        td.innerHTML = el.dataJson[col];
-        tr.appendChild(td);
-      }
+      encabezados.forEach(col =>  {
+        field = col.field;
+        if(field in el.dataJson){
+          let td = document.createElement("td");
+          td.id = field + "_" + el.id;
+          td.headers = field;
+          td.innerHTML = el.dataJson[field];
+          tr.appendChild(td);
+        }
+      });
       
       // carga las acciones indicadas
       if(el.action){
@@ -440,6 +444,10 @@ function getCsrfToken(){
     }
  }
  return csrf;
+}
+
+function destroyTabla(){
+  document.querySelector('div#contenido').innerHTML = '';
 }
 
 document.addEventListener("DOMContentLoaded", function () {

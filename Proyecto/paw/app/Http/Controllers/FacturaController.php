@@ -255,6 +255,16 @@ class FacturaController extends Controller
         if(Input::get('estado')){
           $facturas->where('estado', '=', Input::get('estado'));
         }
+
+        $columnas = array(
+            array('headerName' => "Nro", 'field' => "id"),
+            array('headerName' => "Importe", 'field' => "importe"),
+            array('headerName' => "Fecha Creacion", 'field' => "fecha_creacion"),
+            array('headerName' => "Empleado", 'field' => "empleado_id"),
+            array('headerName' => "Cliente", 'field' => "cliente_id"),
+            array('headerName' => "Forma de Pago", 'field' => "forma_pago_id"),
+            array('headerName' => "Estado", 'field' => "estado"),
+          ); 
         $facturas = $facturas->get();
         $array = array();
         foreach ($facturas as $factu) {
@@ -267,17 +277,24 @@ class FacturaController extends Controller
             $forma = $factu->formaPago->descripcion ;
           }
           array_push($array,array(
-                    'id' =>  $factu->id,
-                    'cliente_id' => $cliente,
-                    'empleado_id' => $factu->empleado->nombre.' '.$factu->empleado->apellido,
-                    'forma_pago_id' => $forma,
-                    'estado' => $factu->estado,
-                    'fecha_creacion' => $factu->fecha_creacion,
-                    'importe' => $factu->importe,
+                    'id' => $factu->id,
+                    'dataJson' => array(
+                        'id' =>  $factu->id,
+                        'importe' => $factu->importe,
+                        'cliente_id' => $cliente,
+                        'empleado_id' => $factu->empleado->nombre.' '.$factu->empleado->apellido,
+                        'forma_pago_id' => $forma,
+                        'estado' => $factu->estado,
+                        'fecha_creacion' => $factu->fecha_creacion,
+                    ),
+                    'action' => ''
                   ));
         }
-
-      return json_encode($array);
+        $data = array(
+            'registros' => $array,
+            'columnas' => $columnas
+        );
+      return json_encode($data);
     }
 
     public function getDetalleById($id){

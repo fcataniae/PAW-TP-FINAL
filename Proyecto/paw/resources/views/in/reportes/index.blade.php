@@ -7,9 +7,14 @@
 @endsection
 
 @section('head-js')
-	<script src="{{asset('js/utils.js')}}"></script>
 	<script src="{{asset('js/reportes.js')}}"></script>
+	<script src="{{asset('js/tabla.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
+	<script src="{{asset('js/utils.js')}}"></script>
+	<script>
+		var columnas;
+		var datos;
+	</script>
 @endsection
 @section('body-header')
 	@include('partials.nav-principal')
@@ -99,6 +104,10 @@
 				<div class="form-group minified">
 					<input  type="submit" value="Filtrar" class="button-clean">
 				</div>
+				<br>
+				<div id="contenido"></div>
+				<br>
+				<div id="paginacion"></div>
 			</div>
 		</div>
 	</section>
