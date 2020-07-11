@@ -7,9 +7,13 @@
 @endsection
 
 @section('head-js')
+	<script src="{{asset('js/tabla.js')}}"></script>
 	<script src="{{asset('js/utils.js')}}"></script>
-	<script src="{{asset('js/stock.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
+	<script>
+		var columnas = '{!! $columnas !!}';
+		var datos = '{!! $registros !!}';
+	</script>
 @endsection
 @section('body-header')
 	@include('partials.nav-principal')
@@ -18,10 +22,10 @@
 
 	<section class="main">
 		<p><strong>Control de Stock</strong></p>
-		<span><strong>Filtros de busqueda:</strong></span>
-		<div class="container-table">
-
-		</div>
+		<br>
+		<div id="contenido"></div>
+		<br>
+		<div id="paginacion"></div>
 	</section>
 	@include('partials.alert-message')
 	

@@ -444,9 +444,11 @@ function getCsrfToken(){
 
 document.addEventListener("DOMContentLoaded", function () {
   csrf_token = getCsrfToken()
-  encabezados = jsonToObject(columnas);
-  registros = jsonToObject(datos);
-  registrosFiltrados = registros;
-  construirTabla(encabezados, registros);
-  paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+  if(columnas && registros){
+    encabezados = jsonToObject(columnas);
+    registros = jsonToObject(datos);
+    registrosFiltrados = registros;
+    construirTabla(encabezados, registros);
+    paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+  }
 });

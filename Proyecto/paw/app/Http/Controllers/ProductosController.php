@@ -174,22 +174,43 @@ class ProductosController extends Controller
 
           $productos = Producto::all();
 
+          $columnas = array(
+            array('headerName' => "Codigo", 'field' => "codigo"),
+            array('headerName' => "Descripcion", 'field' => "descripcion"),
+            array('headerName' => "Stock", 'field' => "stock"),
+            array('headerName' => "Talle", 'field' => "talle_id"),
+            array('headerName' => "Tipo", 'field' => "tipo_id"),
+            array('headerName' => "Categoria", 'field' => "categoria"),
+            array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+          );  
+
           $array =array();
           foreach($productos as $producto ){
-            array_push($array,array(    'id' =>  $producto->id,
-                      'descripcion' => $producto->descripcion,
-                      'stock' => $producto->stock,
-                      'precio_costo' => $producto->precio_costo,
-                      'estado' => $producto->estado,
-                      'codigo' => $producto->codigo,
-                      'precio_venta' => $producto->precio_venta,
-                      'talle_id'=> $producto->talle->descripcion,
-                      'tipo_id' => $producto->tipo->descripcion,
-                      'categoria' => $producto->tipo->categoria->descripcion)
-                      );
-          }
+            $estado = "Inactivo";
+            if($producto->estado == "A"){
+                $estado = "Activo";
+            }
+            $action = array();
+            $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
 
-          return json_encode($array);
+            array_push($array,array(
+                    'id' =>   $producto->id,
+                    'dataJson' => array('codigo' =>  $producto->codigo, 
+                                        'descripcion' =>  $producto->descripcion,
+                                        'stock' =>  $producto->stock,
+                                        'talle_id'=> $producto->talle->descripcion,
+                                        'tipo_id' => $producto->tipo->descripcion,
+                                        'categoria' => $producto->tipo->categoria->descripcion
+                                    ),
+                    'action' => $action
+                )
+            );
+          }
+          $data = array(
+              'columnas' => $columnas,
+              'registros' => $array
+          );
+          return $data;
       }
 
     /**
