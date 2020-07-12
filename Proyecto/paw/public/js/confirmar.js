@@ -62,7 +62,7 @@ function cargarCliente(){
 
 function agregarCliente(){
 	var tipo_documento = document.getElementById("tipo_documento");
-	var request = { "tipo_documento": tipo_documento[tipo_documento.selectedIndex].id, 
+	var request = { "tipo_documento": tipo_documento.value, 
 					"nro_documento": document.getElementById("nro_documento").value, 
 					"nombre": document.getElementById("nombre").value,
 					"apellido": document.getElementById("apellido").value };

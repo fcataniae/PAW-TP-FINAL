@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Exception;
 use App\Cliente as Cliente;
 use App\Tipo_Documento as Tipo_Documento;
 use Log;
