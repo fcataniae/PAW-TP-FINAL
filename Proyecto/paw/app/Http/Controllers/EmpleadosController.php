@@ -84,8 +84,23 @@ class EmpleadosController extends Controller
     }
 
     public function getAll(){
-        $emp = Empleado::all();
-        return json_encode($emp);
+        
+        if(Auth::user()->can('gestionar_reporte')){
+
+            $empleados = Empleado::all();
+            $array = array();
+            foreach($empleados as $emp ){
+
+                array_push($array,array(
+                        'id' => $emp->id, 
+                        'descripcion' => $emp->nro_documento.' - '.$emp->nombre.' '.$emp->apellido 
+                    )
+                );
+            }
+            return json_encode($array);
+        }else{
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
     }
 
     /**

@@ -4,13 +4,11 @@ var window = window || {},
 
 document.addEventListener("DOMContentLoaded", function () {
   initWindow();
-  ajaxCall('GET','/in/forma_pago/all',completeFormaPago);
-  ajaxCall('GET','/in/empleados/all',completeEmpleado);
+  ajaxCall('GET','/in/forma_pago',completeFormaPago);
+  ajaxCall('GET','/in/empleado',completeEmpleado);
+  ajaxCall('GET','/in/cliente',completeCliente);
 });
 
-const filtros =  ['id','importe_desde','importe_hasta','fecha_desde','fecha_hasta','empleado_id','cliente_id','forma_pago_id','estado'];
-
-var facturas = [];
 
 function initWindow(){
 
@@ -19,20 +17,20 @@ function initWindow(){
 }
 
 function doSearch(){
-  let arr = [];
-
-  for(let i = 0; i < filtros.length; i++){
-    console.log(filtros[i]);
-    let value = document.querySelector('input.form-input.minified#'+ filtros[i]).value;
+  let params = [];
+  let filters = document.querySelectorAll('input.form-input.minified');
+  filters.forEach( filter => {
+    let value = filter.value;
     if(value && value.trim() != ''){
-        let param = {
-          'query' : filtros[i],
-          'value' : value
-        };
-        arr.push(param);
-    }
+      let param = {
+        'query' : filter.id,
+        'value' : value
+      };
+      params.push(param);
   }
-  ajaxCallWParameters('GET','/in/filter/facturas',arr,printTable,showError);
+  });
+  
+  ajaxCallWParameters('GET','/in/factura',params,printTable,showError);
 }
 
 
@@ -60,31 +58,30 @@ function showError(res,stat){
   console.log(stat);
 }
 
+function completeDatalist(res, datalist){
+  let data = JSON.parse(res);
+  let dlist = document.querySelector('datalist#' + datalist);
+  let option;
+  data.forEach(d => {
+    option = document.createElement('option');
+    option.value = d.id;
+    option.innerHTML = d.descripcion;
+    dlist.appendChild(option);
+  });
+}
 function completeEmpleado(res){
 
-  let emps = JSON.parse(res);
-  let datalist = document.querySelector('datalist#empleados_data');
-  let option;
-  emps.forEach(e => {
-    option = document.createElement('option');
-    option.value = e.id;
-    option.innerHTML = e.nombre + ' ' + e.apellido;
-    datalist.appendChild(option);
-  });
-
+ completeDatalist(res, 'empleados_data');
 }
+
 function completeFormaPago(res){
 
-  let formas = JSON.parse(res);
-  let datalist = document.querySelector('datalist#forma_pago_data');
-  let option;
-  formas.forEach(f => {
-    option = document.createElement('option');
-    option.value =  f.id;
-    option.innerHTML = f.descripcion;
-    datalist.appendChild(option);
-  });
+  completeDatalist(res, 'forma_pago_data');
+}
 
+function completeCliente(res){
+
+  completeDatalist(res, 'cliente_data');
 }
 
 function returnDetails( nroFac) {

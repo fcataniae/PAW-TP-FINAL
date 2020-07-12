@@ -37,10 +37,20 @@
 		margin-bottom: 5px;
 		height: 40px;
 	}
-	.minified{
-		height: 20px;
-		max-width: 150px;
-		width: 150px
+	.minified {
+		height: 1rem;
+		min-width: 12rem;
+		max-width: 25%;
+	}
+	.filter-group{
+		display: inline-block;
+		margin-left: 1.2rem;
+		padding: 0 0.65rem 0 0.64rem;
+	}
+	.container-reportes{
+		margin-left: 1.75rem;
+		padding: 0.75rem;
+		margin-bottom: 1.25rem;
 	}
 	.padding-top{
 		padding-top: 5px;

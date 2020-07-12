@@ -139,7 +139,13 @@ class FormaPagoController extends Controller
 
 
     public function getAll(){
-      return json_encode(Forma_Pago::all());
+        
+        if(Auth::user()->can('gestionar_reporte')){
+
+             return json_encode(Forma_Pago::all());
+        }else{
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
     }
 
     /**

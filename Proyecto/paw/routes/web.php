@@ -44,9 +44,10 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inventario/actualizar', 'InventarioController@reposicion')->name('in.inventario.reposicion');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
         Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
-        Route::get('filter/facturas','FacturaController@doFilter');
-        Route::get('forma_pago/all','FormaPagoController@getAll');
-        Route::get('empleados/all','EmpleadosController@getAll');
+        Route::get('factura','FacturaController@doFilter');
+        Route::get('forma_pago','FormaPagoController@getAll');
+        Route::get('empleado','EmpleadosController@getAll');
+        Route::get('cliente','ClientesController@getAll');
         Route::get('factura/get/detalles/{id}','FacturaController@getDetalleById');
 
 

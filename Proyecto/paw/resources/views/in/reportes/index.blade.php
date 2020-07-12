@@ -37,7 +37,7 @@
 		<div class="container-reportes">
 			<div class="search-filters">
 				<dialog id="fac-details"></dialog>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="id">Nro</label>
 						<input  class="form-input minified"
 									  id="id"
@@ -47,7 +47,7 @@
 									  type="number">
 
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="importe_desde">Importe desde</label>
 						<input  class="form-input minified"
 										name="importe_desde"
@@ -55,28 +55,28 @@
 										placeholder="importe desde"
 										type="number" min="0">
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="importe_hasta">Importe hasta</label>
 						<input  class="form-input minified"
 										name="importe_hasta"
 										id="importe_hasta"
 										placeholder="importe hasta" type="number" min="0">
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="fecha_desde">Fecha desde</label>
 						<input  class="form-input minified"
 										name="fecha_desde"
 										id="fecha_desde"
 										placeholder="fecha desde" type="date">
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="fecha_hasta">Fecha hasta</label>
 						<input  class="form-input minified"
 										name="fecha_hasta"
 										id="fecha_hasta"
 										placeholder="fecha hasta" type="date">
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="empleado_id">Empleado</label>
 						<input  class="form-input minified"
 										id="empleado_id"
@@ -85,14 +85,15 @@
 						<datalist id="empleados_data">
 						</datalist>
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="cliente_id">Cliente</label>
 						<input  class="form-input minified"
 										id="cliente_id"
-										name="cliente_id"
+										name="cliente_id" list="cliente_data"
 										placeholder="cliente id" type="text">
+						<datalist id="cliente_data">
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="forma_pago_id">Forma de pago</label>
 						<input  class="form-input minified"
 										id="forma_pago_id"
@@ -101,7 +102,7 @@
 						<datalist id="forma_pago_data">
 						</datalist>
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 						<label class="padding-top" for="estaod">estado</label>
 						<input  class="form-input minified"
 										id="estado"
@@ -114,7 +115,7 @@
 							<option value="R">Reservada</option>
 						</datalist>
 				</div>
-				<div class="form-group minified">
+				<div class="filter-group ">
 					<input  type="submit" value="Filtrar" class="button-clean">
 				</div>
 				<br>

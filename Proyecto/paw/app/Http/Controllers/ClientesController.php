@@ -81,6 +81,25 @@ class ClientesController extends Controller
         }
     }
 
+    public function getAll(){
+        
+        if(Auth::user()->can('gestionar_reporte')){
+            $clientes = Cliente::orderBy('id','ASC')->get();
+            $array = array();
+            foreach($clientes as $cliente ){
+
+                array_push($array,array(
+                        'id' => $cliente->id, 
+                        'descripcion' => $cliente->nro_documento.' - '.$cliente->nombre.' '.$cliente->apellido 
+                    )
+                );
+            }
+            return json_encode($array);
+        }else{
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
