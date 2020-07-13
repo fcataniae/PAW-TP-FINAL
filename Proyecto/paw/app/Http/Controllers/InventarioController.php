@@ -38,6 +38,7 @@ class InventarioController extends Controller
     }
 
     public function update(Request $request){
+      
       if(Auth::user()->can('gestionar_inventario')){
 
         $this->validate($request,[

@@ -199,7 +199,7 @@ function indicarExito(msjExito){
 	}
 
 	var strong = document.createElement('strong');
-	strong.innerHTML = msjError;
+	strong.innerHTML = msjExito;
 
 	div.appendChild(span);
 	div.appendChild(strong);

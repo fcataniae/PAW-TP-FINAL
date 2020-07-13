@@ -2,7 +2,7 @@
 
 ## pre-requisitos
 
-* [PHP 7.4.8 instalado](https://www.php.net/releases/7_4_8.php)
+* [PHP 7.2.14 instalado](https://www.php.net/releases/7_2_14.php)
 * [Composer instalado](https://getcomposer.org/download/)
 * [Maria DB 10.5.4 instalado](https://downloads.mariadb.org/mariadb/10.5.4/)
 
