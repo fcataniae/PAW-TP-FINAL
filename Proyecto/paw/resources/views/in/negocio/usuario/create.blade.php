@@ -2,11 +2,22 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/multiselect.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 @endsection
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/multiselect.js')}}"></script>
+	<script>
+		var preSelected = {
+			multiselection: 'rolesSel',
+			selecteds: {!! collect(old("roles",[])) !!},
+			all: {!! collect($roles) !!},
+			submitName: 'roles[]',
+			label: 'Roles'
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -21,12 +32,12 @@
 			<fieldset name="usuario">
 				<div class="group size-6 sangria">
 					<label>Nombre: </label>
-					<input type="text" id="name" name="name" class="input size-6" autocomplete="off">
+					<input type="text" id="name" name="name" value="{{ old('name') }}" class="input size-6" autocomplete="off">
 
 				</div>
 				<div class="group size-5 sangria">
 					<label>Empleado: </label>
-					<input type="text" id="empleado" name="empleado" list="listaEmpleado" class="input size-6">
+					<input type="text" id="empleado" name="empleado" value="{{ old('empleado') }}" list="listaEmpleado" class="input size-6">
 					<datalist id="listaEmpleado">
 					   	@foreach($empleados as $empleado)
 						    <option value="{{$empleado->id}}">{{$empleado->nombre . " " . $empleado->apellido}}</option>
@@ -35,7 +46,7 @@
 				</div>
 				<div class="group size-6 sangria">
 					<label>E-mail: </label>
-					<input type="email" id="email" name="email" class="input size-8" autocomplete="off">
+					<input type="email" id="email" name="email" value="{{ old('email') }}" class="input size-8" autocomplete="off">
 
 				</div>
 				<div class="group size-5 sangria">
@@ -43,14 +54,8 @@
 					<input type="password" id="password" name="password" class="input size-4" autocomplete="off">
 
 				</div>
-				<div class="group size-12 sangria">
-					<label>Roles: </label>
-					<select name="roles[]" multiple class="input size-4">
-				    @foreach($roles as $rol)
-					    <option value="{{$rol->id}}">{{$rol->display_name}}</option>
-					@endforeach
-				  	</select>
-				</div>
+				<div id="rolesSel" class="group size-12 sangria">
+				</div> 
 			</fieldset>
 			<br>
 			<div align="center">

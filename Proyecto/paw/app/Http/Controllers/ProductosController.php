@@ -350,12 +350,12 @@ class ProductosController extends Controller
             'tipo.in' => 'Datos invalidos para el campo tipo.',
             'talle.required' => 'El campo talle es obligatorio.',
             'talle.in' => 'Datos invalidos para el campo talle.',
-            'precio_costo.required' => 'El campo codigo es obligatorio.',
+            'precio_costo.required' => 'El campo precio de costo es obligatorio.',
             'precio_costo.min' => 'El campo precio de costo no puede ser menor a 0.',
-            'precio_venta.required' => 'El campo codigo es obligatorio.',
+            'precio_venta.required' => 'El campo precio de venta es obligatorio.',
             'precio_venta.min' => 'El campo precio de venta no puede ser menor a 0.',
             'precio_venta.greater_than' => 'El precio de venta no puede ser menor o igual al precio de costo.',
-            'stock.required' => 'El campo codigo es obligatorio.',
+            'stock.required' => 'El campo stock es obligatorio.',
             'stock.min' => 'El campo cantidad no puede ser menor a 0.'
         ];
 

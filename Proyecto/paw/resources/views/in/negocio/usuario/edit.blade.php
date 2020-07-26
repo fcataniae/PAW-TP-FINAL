@@ -2,11 +2,22 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/multiselect.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 @endsection
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/multiselect.js')}}"></script>
+	<script>
+		var preSelected = {
+			multiselection: 'rolesSel',
+			selecteds: {!! collect($my_roles) !!},
+			all: {!! collect($roles) !!},
+			submitName: 'roles[]',
+			label: 'Roles'
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -46,14 +57,8 @@
 					    <option value="I" @if($usuario->estado == 'I') selected @endif >Inactivo</option>
 					</select>
 				</div>
-				<div class="group size-12 sangria">
-					<label>Roles: </label>
-					<select name="roles[]" multiple class="input size-4">
-				    @foreach($roles as $rol)
-					    <option value="{{$rol->id}}" @if(in_array($rol->id, $my_roles)) selected @endif >{{$rol->display_name}}</option>
-					@endforeach
-				  	</select>
-				</div>
+				<div id="rolesSel" class="group size-12 sangria">
+				</div> 
 			</fieldset>
 			<br>
 			<div align="center">

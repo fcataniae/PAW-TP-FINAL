@@ -1,0 +1,27 @@
+.seleccionados{
+    display: block;
+    width: 50%;
+    max-width: 50%;
+    margin: 0.5rem;
+}
+
+.div-selected{
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.15rem;
+    margin-left: 0.15rem;
+    margin-right: 0.15rem;
+}
+
+.div-selected::after{
+    content: attr(data-descr) ' x ';
+    cursor: pointer;
+    color: #FFFFFF;
+    background-color: #2EAED7;
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+}
+
+.none {
+    display: none!important;
+}

@@ -2,11 +2,22 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/multiselect.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 @endsection
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/multiselect.js')}}"></script>
+	<script>
+		var preSelected = {
+			multiselection: 'permisosSel',
+			selecteds: {!! collect($my_permisos) !!},
+			all: {!! collect($permisos) !!},
+			submitName: 'permisos[]',
+			label: 'Permisos'
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -35,14 +46,8 @@
 					<label>Descripcion: </label>
 					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6">{{ $rol->description }}</textarea>
 				</div>
-				<div class="group size-12 sangria">
-					<label>Permisos: </label>
-					<select name="permisos[]" multiple class="input size-4">
-				    @foreach($permisos as $permiso)
-					    <option value="{{$permiso->id}}" @if(in_array($permiso->id, $my_permisos)) selected @endif >{{ $permiso->display_name }}</option>
-					@endforeach
-				  	</select>
-				</div>
+				<div id="permisosSel" class="group size-12 sangria">
+				</div> 
 			</fieldset>
 			<br>
 			<div align="center">

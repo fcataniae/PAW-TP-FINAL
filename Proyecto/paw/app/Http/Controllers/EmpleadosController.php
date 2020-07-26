@@ -166,13 +166,15 @@ class EmpleadosController extends Controller
                     $celular->nro_telefono = $request->tel_cel_caracteristica . '-' . $request->tel_cel_numero;
                     $celular->save();
                 }
-
-                $usuario = new Usuario();
-                $usuario->name = $request->name;
-                $usuario->empleado_id = $empleado->id;
-                $usuario->email = $request->email;
-                $usuario->password = bcrypt($request->password); // se encripta la contraseña
-                $usuario->save();
+                if($validarUser){
+                    $usuario = new Usuario();
+                    $usuario->name = $request->name;
+                    $usuario->empleado_id = $empleado->id;
+                    $usuario->email = $request->email;
+                    $usuario->password = bcrypt($request->password); // se encripta la contraseña
+                    $usuario->save();
+                }
+               
             }
             return redirect()->route('in.empleados.listar')->with('success','Empleado ' . $empleado->nombre . " " . $empleado->apellido . ' agregado.');
         }else{
@@ -385,7 +387,7 @@ class EmpleadosController extends Controller
     {
       $messages = [
             'nombre.required' => 'El campo nombre del empleado es obligatorio.',
-            'apellido.required' => 'El campo nombre del empleado es obligatorio.',
+            'apellido.required' => 'El campo apellido del empleado es obligatorio.',
             'tipo_documento.required' => 'El campo tipo de documento es obligatorio.',
             'tipo_documento.in' => 'Datos invalidos para el campo tipo de documento.',
             'nro_documento.required' => 'El campo nro de documento es obligatorio.',

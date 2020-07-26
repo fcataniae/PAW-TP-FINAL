@@ -21,11 +21,11 @@
 			<fieldset name="categoria">
 				<div class="group size-8 sangria">
 					<label>Descripcion: </label>
-					<input type="text" name="descripcion" id="descripcion" class="input size-10"  autocomplete="off">
+					<input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion') }}" class="input size-10"  autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Genero: </label>
-					<input type="text" id="genero" name="genero" list="listaGenero" class="input size-6" autocomplete="off">
+					<input type="text" id="genero" name="genero"  value="{{ old('genero') }}" list="listaGenero" class="input size-6" autocomplete="off">
 					<datalist id="listaGenero">
 					   	@foreach($generos as $genero)
 						    <option value="{{$genero->id}}">{{$genero->descripcion}}</option>

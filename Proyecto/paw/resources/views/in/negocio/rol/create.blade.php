@@ -2,11 +2,22 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/multiselect.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 @endsection
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/multiselect.js')}}"></script>
+	<script>
+		var preSelected = {
+			multiselection: 'permisosSel',
+			selecteds: {!! collect(old("permisos",[])) !!},
+			all: {!! collect($permisos) !!},
+			submitName: 'permisos[]',
+			label: 'Permisos'
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -21,21 +32,14 @@
 			<fieldset name="Rol">
 				<div class="group size-12 sangria">
 					<label>Nombre: </label>
-					<input type="text" id="nombre" name="nombre" class="input size-4" autocomplete="off">
-
+					<input type="text" id="nombre" name="nombre" class="input size-4" value="{{ old('nombre') }}" autocomplete="off">
 				</div>
 				<div class="group size-12 sangria">
 					<label>Descripcion: </label>
-					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6" ></textarea>
+					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6" >{{ old('descripcion') }}</textarea>
 				</div>
-				<div class="group size-12 sangria">
-					<label>Permisos: </label>
-					<select name="permisos[]" multiple class="input size-4">
-				    @foreach($permisos as $permiso)
-					    <option value="{{$permiso->id}}">{{$permiso->display_name}}</option>
-					@endforeach
-				  	</select>
-				</div>
+				<div id="permisosSel" class="group size-12 sangria">
+				</div> 
 			</fieldset>
 			<br>
 			<div align="center">

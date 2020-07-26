@@ -21,12 +21,12 @@
 			<fieldset name="permiso">
 				<div class="group size-12 sangria">
 					<label>Nombre: </label>
-					<input type="text" id="nombre" name="nombre" class="input size-4" autocomplete="off">
+					<input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" class="input size-4" autocomplete="off">
 
 				</div>
 				<div class="group size-12 sangria">
 					<label>Descripcion: </label>
-					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6"></textarea>
+					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6">{{old('descripcion')}}</textarea>
 				</div>
 			</fieldset>
 			<br>

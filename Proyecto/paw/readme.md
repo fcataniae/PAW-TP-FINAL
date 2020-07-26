@@ -61,4 +61,4 @@ php artisan migrate
 php artisan serve --port=<puerto>
 ```
 
-* Abrir una ventana del navegador y dirigirse a [**_http://localhost:puerto_**](http://localhost:puerto) 
+* Abrir una ventana del navegador y dirigirse a [**_http://localhost:puerto_**](http://localhost:puerto)

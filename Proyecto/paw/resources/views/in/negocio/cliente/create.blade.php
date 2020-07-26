@@ -21,25 +21,25 @@
 			<fieldset name="cliente">
 				<div class="group size-6 sangria">
 					<label>Nombre: </label>
-					<input type="text" id="nombre" name="nombre" class="input size-5" autocomplete="off">
+					<input type="text" id="nombre" name="nombre"  value="{{ old('nombre') }}" class="input size-5" autocomplete="off">
 				</div>
 				<div class="group size-5 sangria">
 					<label>Apellido: </label>
-					<input type="text" id="apellido" name="apellido" class="input size-6" autocomplete="off">
+					<input type="text" id="apellido" name="apellido"  value="{{ old('apellido') }}" class="input size-6" autocomplete="off">
 				</div>
 				<div class="group-inline size-6 sangria">
 					<label>Documento: </label>
 					<br>
-					<select id="tipo_documento" name="tipo_documento" class="input">
+					<select id="tipo_documento" name="tipo_documento"  value="{{ old('tipo_documento') }}" class="input">
 					@foreach($tiposDocumento as $tipo)
 					    <option value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
 					@endforeach
 					</select>
-					<input type="number" id="nro_documento" name="nro_documento" min="0" class="input size-3" autocomplete="off">
+					<input type="number" id="nro_documento" name="nro_documento"  value="{{ old('nro_documento') }}" min="0" class="input size-3" autocomplete="off">
 				</div>
 				<div class="group size-5 sangria">
 					<label>E-mail: </label>
-					<input type="email" id="email" name="email" class="input size-7" autocomplete="off">
+					<input type="email" id="email" name="email"  value="{{ old('email') }}" class="input size-7" autocomplete="off">
 				</div>
 			</fieldset>
 			<br>

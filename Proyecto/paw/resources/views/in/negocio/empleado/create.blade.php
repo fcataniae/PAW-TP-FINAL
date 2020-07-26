@@ -22,25 +22,25 @@
 				<legend>Datos personales</legend>
 				<div class="group size-2 sangria">
 					<label>Nombre: </label>
-					<input type="text" id="nombre" name="nombre" class="input size-12" autocomplete="off">
+					<input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" class="input size-12" autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Apellido: </label>
-					<input type="text" id="apellido" name="apellido" class="input size-12" autocomplete="off">
+					<input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" class="input size-12" autocomplete="off">
 				</div>
 				<div class="group-inline size-3 sangria">
 					<label>Documento: </label>
 					<br>
-					<select id="tipo_documento" name="tipo_documento" class="input">
+					<select id="tipo_documento" name="tipo_documento" value="{{ old('tipo_documento') }}" class="input">
 					@foreach($tiposDocumento as $tipo)
 					    <option value="{{$tipo->id}}">{{$tipo->descripcion}}</option>
 					@endforeach
 					</select>
-					<input type="number" id="nro_documento" name="nro_documento" min="0" class="input size-8" autocomplete="off">
+					<input type="number" id="nro_documento" name="nro_documento" value="{{ old('nro_documento') }}" min="0" class="input size-8" autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>CUIL: </label>
-					<input type="number" id="cuil" name="cuil" min="0" class="input size-10"  autocomplete="off">
+					<input type="number" id="cuil" name="cuil" value="{{ old('cuil') }}" min="0" class="input size-10"  autocomplete="off">
 				</div>
 			</fieldset>
 			<br>
@@ -48,19 +48,19 @@
 				<legend>Datos de residencia</legend>
 				<div class="group size-2 sangria">
 					<label>Pais: </label>
-					<input type="text" id="pais" name="pais" class="input size-10" autocomplete="off">
+					<input type="text" id="pais" name="pais" value="{{ old('pais') }}" class="input size-10" autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Provincia: </label>
-					<input type="text" id="provincia" name="provincia" class="input size-10" autocomplete="off">
+					<input type="text" id="provincia" name="provincia" value="{{ old('provincia') }}" class="input size-10" autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Localidad: </label>
-					<input type="text" id="localidad" name="localidad" class="input size-10" autocomplete="off">
+					<input type="text" id="localidad" name="localidad" value="{{ old('localidad') }}" class="input size-10" autocomplete="off">
 				</div>
 				<div class="group size-3 sangria">
 					<label>Domicilio: </label>
-					<input type="text" id="domicilio" name="domicilio" class="input size-12" autocomplete="off">
+					<input type="text" id="domicilio" name="domicilio" value="{{ old('domicilio') }}" class="input size-12" autocomplete="off">
 				</div>
 			</fieldset>
 			<br>
