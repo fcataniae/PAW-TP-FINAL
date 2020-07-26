@@ -25,7 +25,7 @@
 	  margin-left: 20px;
 	  margin-right: 20px;
 	}
-	.form-input{
+	.form-input, .form-input:focus{
 		width: 100%;
 		display: block;
 		border: none;
@@ -37,7 +37,7 @@
 		margin-bottom: 5px;
 		height: 40px;
 	}
-	.minified {
+	.minified, .minified:focus{
 		height: 1rem;
 		min-width: 12rem;
 		max-width: 25%;
@@ -59,9 +59,6 @@
 	.form-area{
 		margin-left:15%;
 		border-radius: 6px;
-	}
-	textarea.form-area : invalid{
-		border: 2px solid red;
 	}
 
 	.form-error{
@@ -102,9 +99,6 @@
 		width: 35%;
 		padding: 10px;
 	}
-	.form-input: focus{
-		border: 2px solid blue;
-	}
 	.table-mg{
 		margin-top:5%;
 	}
@@ -125,10 +119,6 @@
 		margin-left: 15%;
 		margin-right: 15%;
 
-	}
-	.form-input: invalid{
-		border-color: red;
-		border: 2px;
 	}
 	.search-filters{
 		width: 100%;
@@ -260,6 +250,7 @@
 		padding: 5px;
 		margin-top: 5px;
 		margin-bottom: 5px;
+		cursor: pointer
 	}
 
 	.table {
@@ -268,7 +259,6 @@
 	}
 
 	.table td, .table th {
-	  border: 1px solid #ddd;
 	  padding: 8px;
 	}
 
@@ -819,13 +809,14 @@
 
     table {
   		border-collapse: collapse;
-  		width: 100%;
+		width: 100%;
+		border-radius: 0.5rem;
 	}
 
 	table th {
 	 	padding-top: 12px;
 	  	padding-bottom: 12px;
-	  	text-align: left;
+	  	text-align: center;
 	  	background-color: #257EAF;
 	  	color: white;
 	}

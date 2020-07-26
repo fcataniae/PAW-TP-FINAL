@@ -25,3 +25,13 @@
 .none {
     display: none!important;
 }
+@media screen and (min-width: 0px) and (max-width: 799px) {
+
+    .seleccionados{
+        display: block;
+        width: 100%!important;
+        max-width: 100%!important;
+        margin: 0.5rem;
+    }
+    
+}

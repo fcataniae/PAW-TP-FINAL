@@ -103,7 +103,7 @@
 						</datalist>
 				</div>
 				<div class="filter-group ">
-						<label class="padding-top" for="estaod">estado</label>
+						<label class="padding-top" for="estado">Estado</label>
 						<input  class="form-input minified"
 										id="estado"
 										name="estado" list="estado_data"
@@ -116,7 +116,7 @@
 						</datalist>
 				</div>
 				<div class="filter-group ">
-					<input  type="submit" value="Filtrar" class="button-clean">
+					<input  type="submit" value="Filtrar" class="button-clean button btn-form btn-azul">
 				</div>
 				<br>
 				<div id="contenido"></div>
