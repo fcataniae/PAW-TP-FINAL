@@ -42,14 +42,8 @@ function draw(preSelected){
         option.innerHTML = p.display_name;
         datalist.appendChild(option);
     });
-
-    let arr = preSelected.all.filter( a => {
-        return preSelected.selecteds.some(e => e == a.id);
-    });
     
-    appendPreselected(arr, select, span);
-
-
+    appendPreselected(preSelected.selecteds, select, span, datalist);
     parent.appendChild(label);
     parent.appendChild(select);
     parent.appendChild(span);
@@ -57,26 +51,29 @@ function draw(preSelected){
     parent.appendChild(datalist);
 }
 
-function appendPreselected(arr, to, displayIn) {
+function appendPreselected(arr, to, displayIn, datalist) {
 
-    arr.forEach(obj => {
-        if(obj){
-            append(obj, to, displayIn);
+    arr.forEach(o => {
+        if(o){
+            let obj = Array.prototype.slice.call(datalist.children).find( val => {
+                return val.value == o;
+            });
+            append(obj, to, displayIn, datalist);
         }
     });
 }
 
-function append(obj, to, displayIn){
+function append(obj, to, displayIn, datalist){
 
+    let json = JSON.parse(obj.getAttribute('data-value'));
     let div = document.createElement('div');
-    div.setAttribute('data-descr', obj.display_name);
+    div.setAttribute('data-descr', json.display_name);
     div.classList.add('div-selected');
     displayIn.appendChild(div);
-    let opt = document.createElement('option');
-    opt.value = obj.id;
-    opt.selected = true;
-    to.appendChild(opt);
-    div.addEventListener('click', onUnselect(displayIn, div, to, opt));
+    datalist.removeChild(obj);
+    obj.selected = true;
+    to.appendChild(obj);
+    div.addEventListener('click', onUnselect(displayIn, div, to, obj, datalist));
 }
 
 function isInput(type){
@@ -92,6 +89,7 @@ function onInput(to, displayIn){
             timeoutInput = setTimeout( () => {
                 e.preventDefault();
                 let selected = e.target.value;
+                let datalist = e.target.list;
                 let collection = e.target.list.children;
                 let arr = Array.prototype.slice.call( collection );
                 let obj = arr.find( a => {
@@ -99,17 +97,16 @@ function onInput(to, displayIn){
                     return val.id == selected;
                 });
                 if(obj){
-                    obj =  JSON.parse(obj.getAttribute('data-value'));
                     let toDisplay = document.getElementById(displayIn);
                     let select = document.getElementById(to);
                     collection = select.children;
                     arr = Array.prototype.slice.call(collection);
                     let exist = arr.find( a => {
-                        return a.value == obj.id;
+                        return a.value == obj.value;
                     });
                     if(!exist){
                         e.target.value = '';
-                        append(obj, select, toDisplay);
+                        append(obj, select, toDisplay, datalist);
                     }
                 }
             }, 200);
@@ -117,9 +114,11 @@ function onInput(to, displayIn){
     }
 }
 
-function onUnselect(target1, child1, target2, child2){
+function onUnselect(target1, child1, target2, child2, datalist){
     return () => {
         target1.removeChild(child1);
         target2.removeChild(child2);
+        child2.selected = false;
+        datalist.appendChild(child2);
     };
 }
