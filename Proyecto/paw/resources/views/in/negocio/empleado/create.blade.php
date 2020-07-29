@@ -2,11 +2,22 @@
 
 @section('head-css')
 	<link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/multiselect.css')}}"/>
 	<link rel="stylesheet" href="{{asset('font/font-awesome-4.7.0/css/font-awesome.css')}}">
 @endsection
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/multiselect.js')}}"></script>
+	<script>
+		var preSelected = {
+			multiselection: 'rolesSel',
+			selecteds: {!! collect(old("roles",[])) !!},
+			all: {!! collect($roles) !!},
+			submitName: 'roles[]',
+			label: 'Roles'
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -107,14 +118,8 @@
 					<input type="password" id="password" name="password" class="input size-8" autocomplete="off">
 
 				</div>
-				<div class="group size-12 sangria">
-					<label>Roles: </label>
-					<select name="roles[]" multiple class="input size-4">
-				    @foreach($roles as $rol)
-					    <option value="{{$rol->id}}">{{$rol->display_name}}</option>
-					@endforeach
-				  	</select>
-				</div>
+				<div id="rolesSel" class="group size-12 sangria">
+				</div> 
 			</fieldset>
 			<br>
 			<div align="center">
