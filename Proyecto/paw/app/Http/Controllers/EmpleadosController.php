@@ -441,7 +441,7 @@ class EmpleadosController extends Controller
             'streetAddress' => $direccion->domicilio 
         );  
         $json_ld = array(
-            '@context' => 'http://schema.org',
+            '@context' => 'https://schema.org/',
             '@type' => 'Person',
             'adress' => $direc,
             'email' => $empleado->users[0]->email,

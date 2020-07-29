@@ -228,10 +228,12 @@ class ProductosController extends Controller
             $talles = [];
             $talles = Talle::orderBy('id','ASC')->where('estado', 'A')->get();
 
+            $json_ld = $this->getJSONLdForProducto($producto);
             return view('in.negocio.producto.edit')
                     ->with('producto',$producto)
                     ->with('tipos',$tipos)
-                    ->with('talles',$talles);
+                    ->with('talles',$talles)
+                    ->with('json_ld', $json_ld);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -365,5 +367,32 @@ class ProductosController extends Controller
         }
 
         return $messages;
+    }
+
+    public function getJSONLdForProducto($producto){
+
+        $json_ld = array(
+            '@context' => 'https://schema.org/',
+            '@type' => 'Product',
+            'name' => $producto->codigo,
+            'description' => $producto->description,
+            'brand' => array(
+                    '@type'=> 'Thing',
+                    'name' => 'Brand name'
+            ),
+            'offers' => array(
+                '@type' => 'Offer',
+                'priceCurrency' => 'ARS',
+                'price' => $producto->precio_venta,
+                'itemCondition' => 'https://schema.org/NewCondition',
+                'availability' => 'http://schema.org/InStock',
+                'seller' => array(
+                    '@type' => 'Organization',
+                    'name' => 'Out Organization'
+                )
+            )
+        );
+
+        return json_encode($json_ld, JSON_UNESCAPED_SLASHES);
     }
 }
