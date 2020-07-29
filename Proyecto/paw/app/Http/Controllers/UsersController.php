@@ -16,6 +16,13 @@ use Log;
 
 class UsersController extends Controller
 {
+
+    protected $controller;
+    
+    public function __construct(){
+        $this->controller = new EmpleadosController();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -238,11 +245,13 @@ class UsersController extends Controller
                     break;
             }
         }
+        $json_ld = $this->controller->getJSONLdForEmpleado($empleado);
         return view('in.personal.configurar-datos')
                     ->with('empleado',$empleado)
                     ->with('telFijo',$telFijo)
                     ->with('celular',$celular)
-                    ->with('tipoDocumento',$tipoDocumento);
+                    ->with('tipoDocumento',$tipoDocumento)
+                    ->with('json_ld', $json_ld);
     }
 
     public function updateDatosPersonal(Request $request){

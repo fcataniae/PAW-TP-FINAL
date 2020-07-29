@@ -7,6 +7,9 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="application/ld+json">
+		{!! $json_ld !!} 
+	</script>
 @endsection
 
 @section('body-header')

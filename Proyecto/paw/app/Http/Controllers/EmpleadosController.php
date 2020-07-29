@@ -221,11 +221,13 @@ class EmpleadosController extends Controller
                         break;
                 }
             }
+            $json_ld =  $this->getJSONLdForEmpleado($empleado);
             return view('in.negocio.empleado.edit')
                         ->with('empleado',$empleado)
                         ->with('telFijo',$telFijo)
                         ->with('celular',$celular)
-                        ->with('tiposDocumento',$tiposDocumento);
+                        ->with('tiposDocumento',$tiposDocumento)
+                        ->with('json_ld', $json_ld);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -423,5 +425,33 @@ class EmpleadosController extends Controller
         }
 
       return $messages;
+    }
+
+    public function getJSONLdForEmpleado($empleado){
+
+        $direccion = $empleado->direcciones[0];
+        $jobTitle = '';
+        foreach( $empleado->users[0]->roles as $rol){
+            $jobTitle = $jobTitle.$rol->description.' ,';
+        }
+        $direc = array(
+            '@type' => 'PostalAddress',
+            'addressLocality' => $direccion->localidad,
+            'addressRegion' => $direccion->provincia,
+            'streetAddress' => $direccion->domicilio 
+        );  
+        $json_ld = array(
+            '@context' => 'http://schema.org',
+            '@type' => 'Person',
+            'adress' => $direc,
+            'email' => $empleado->users[0]->email,
+            'jobTitle' => $jobTitle,
+            'name' => $empleado->nombre.' '.$empleado->apellido,
+            'telephone' => $empleado->telefonos[0]->nro_telefono,
+            'image' => $empleado->users[0]->imagen
+
+        );
+
+        return json_encode($json_ld, JSON_UNESCAPED_SLASHES);
     }
 }
