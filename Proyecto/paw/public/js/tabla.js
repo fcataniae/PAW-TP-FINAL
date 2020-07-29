@@ -274,14 +274,22 @@ function agregarRegistros(tbody, values, DatoI, DatoF){
         }
         if(el.action.js){
           let btnJs = document.createElement('button');
-          btnJs.id = "editar_" + el.id;
+          btnJs.id = "js_" + el.id;
           btnJs.type = "button";
           btnJs.style.display = "inline";
           btnJs.className = "button-table btn-azul";
-        
-          btnJs.onclick = function(){
-            el.action.js()
-          };
+          btnJs.addEventListener("click", function(){
+            el.action.content()
+              .then(content => {
+                modal('volver',{ title: 'Detalles de factura',
+                width: null,
+                height: null,
+                content: content},
+                [ 'Volver', function(){
+                  console.log('volver')
+                }]);
+              });            
+          });
           btnJs.innerHTML = "<i class='fa fa-eye' aria-hidden='true'></i>";
           td.appendChild(btnJs);
           tr.appendChild(td);
@@ -406,6 +414,9 @@ function modal(id, data, ok, cancel) {
   t.innerHTML=data.title || '';
   ct.innerHTML=data.content || '';
   f.innerHTML='';
+  
+  p.style.maxWidth= 'auto'; //maxWidth default
+  p.style.maxHeight= 'auto'; //maxHeight default
   if (!isNaN(data.width)) p.style.maxWidth=data.width+'px';
   if (!isNaN(data.height)) p.style.maxHeight=data.height+'vh';
     
