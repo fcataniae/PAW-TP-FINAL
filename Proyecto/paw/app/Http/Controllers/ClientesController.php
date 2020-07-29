@@ -188,9 +188,11 @@ class ClientesController extends Controller
             $cliente = Cliente::find($id);
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
+            $json_ld = $this->getJSONLdForCliente($cliente);
             return view('in.negocio.cliente.edit')
                     ->with('cliente',$cliente)
-                    ->with('tiposDocumento',$tiposDocumento);
+                    ->with('tiposDocumento',$tiposDocumento)
+                    ->with('json_ld',$json_ld);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -290,5 +292,17 @@ class ClientesController extends Controller
         }
         
         return $messages;
+    }
+
+    public function getJSONLdForCliente($cliente){
+
+        $json_ld = array(
+            '@context' => 'https://schema.org/',
+            '@type' => 'Person',
+            'email' => $cliente->email,
+            'name' => $cliente->nombre.' '.$cliente->apellido,
+        );
+
+        return json_encode($json_ld, JSON_UNESCAPED_SLASHES);
     }
 }
