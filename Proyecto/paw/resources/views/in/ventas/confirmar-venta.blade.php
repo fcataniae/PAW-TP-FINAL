@@ -54,7 +54,7 @@
 				<br>
 				<br>
 				<div class="group-inline">
-					<label for="nro_documento">Documento: </label>
+					<label for="tipo_documento">Documento: </label>
 					<select id="tipo_documento" name="tipo_documento" class="input">
 					    @foreach($tiposDocumento as $tipo)
 						    <option value="{{$tipo->id}}">{{$tipo->descripcion}}</option>

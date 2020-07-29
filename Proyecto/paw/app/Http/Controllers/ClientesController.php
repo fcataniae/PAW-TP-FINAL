@@ -157,7 +157,7 @@ class ClientesController extends Controller
         if($nuevo_cliente->save()){
             $array = array(
                     'id' =>  $nuevo_cliente->id,
-                    'tipo_documento' => $nuevo_cliente->tipoDocumento->descripcion,
+                    'tipo_documento_id' => $nuevo_cliente->tipo_documento_id,
                     'nro_documento' => $nuevo_cliente->nro_documento,
                     'nombre' => $nuevo_cliente->nombre,
                     'apellido' => $nuevo_cliente->apellido);

@@ -13,6 +13,13 @@
 		var columnas = '{!! $columnas !!}';
 		var datos = '{!! $registros !!}';
 	</script>
+	<script type="application/ld+json">
+		{
+		"@context": "https://schema.org",
+		"@type": "Table",
+		"about": "list of document types"
+		}
+	</script>
 @endsection
 
 @section('body-header')

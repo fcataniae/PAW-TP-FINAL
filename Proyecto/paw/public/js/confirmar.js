@@ -76,6 +76,11 @@ function agregarCliente(){
 			document.getElementById("es_cliente").value = "SI";
 			document.getElementById("nro_cliente").value = cliente.id;
 			document.getElementById("datos_cliente").style.display = "inline-block";	
+			Array.prototype.slice.call(document.getElementById("tipo_documento").children).forEach( c =>{
+				if(c.value == cliente.tipo_documento_id){
+					c.selected = true;
+				}
+			});
 			document.getElementById("tipo_documento").disabled = true;
 			document.getElementById("nro_documento").readOnly = true;
 			document.getElementById("nombre").readOnly = true;

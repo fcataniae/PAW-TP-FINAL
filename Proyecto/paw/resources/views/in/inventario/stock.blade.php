@@ -14,6 +14,13 @@
 		var columnas = '{!! $columnas !!}';
 		var datos = '{!! $registros !!}';
 	</script>
+	<script type="application/ld+json">
+		{
+		"@context": "https://schema.org",
+		"@type": "Table",
+		"about": "list of stock of products"
+		}
+	</script>
 @endsection
 @section('body-header')
 	@include('partials.nav-principal')

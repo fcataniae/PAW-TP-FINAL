@@ -28,6 +28,13 @@
 			margin: 0px;
 		}
 	</style>
+	<script type="application/ld+json">
+		{
+		"@context": "https://schema.org",
+		"@type": "Table",
+		"about": "list of invoices"
+		}
+	</script>
 @endsection
 @section('body-header')
 	@include('partials.nav-principal')
