@@ -32,7 +32,7 @@ DB_USERNAME=<usuario>
 DB_PASSWORD=<password>
 ```
 
-* En la carpeta de instalacion de PHP agregar al archivo **_php.ini_** las siguientes lineas donde **PATH_TO_CERT** debe referenciar a la ubicacion del archivo **_cacert.pem_** que se encuentra en la carpeta **_x_** del proyecto, y es utilizado para la integracion con la api de MercadoPago
+* En la carpeta de instalacion de PHP agregar al archivo **_php.ini_** las siguientes lineas donde **PATH_TO_CERT** debe referenciar a la ubicacion del archivo **_cacert.pem_** que se encuentra **_en la carpeta de fuentes del proyecto_**, y es utilizado para la integracion con la api de MercadoPago
 
 ```ini
 curl.cainfo=PATH_TO_CERT
