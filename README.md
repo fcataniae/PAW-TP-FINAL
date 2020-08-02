@@ -1,6 +1,8 @@
 # PAW-TP-FINAL
 Trabajo practico final para la materia Programación en Ambiente Web - 2019
 
+[Pre-requisitos y ejecución del proyecto](/Proyecto/paw/readme.md)
+
 
 ## Propuesta: SISTEMA DE VENTA PARA TIENDA DE ROPA
 
