@@ -7,7 +7,6 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
-	<script src="{{asset('js/reservas.js')}}"></script>
 	<script src="{{asset('js/tabla.js')}}"></script>
 	<script>
 		var columnas = '{!! $columnas !!}';

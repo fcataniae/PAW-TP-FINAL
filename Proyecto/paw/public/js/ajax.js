@@ -84,3 +84,24 @@ function ajaxCallWithParametersAndRequest(method, url, params, request ,callback
     req.send(JSON.stringify(request));
   }
 }
+
+// usado para metodo -> onunload
+function ajaxWithFetch(method, url, request){
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var metas = document.getElementsByTagName('meta');
+      for (i=0; i<metas.length; i++) {
+        if (metas[i].getAttribute("name") == "csrf-token") {
+          myHeaders.append("X-CSRF-Token", metas[i].getAttribute("content"));
+        }
+    }
+
+    fetch(url, {
+      method: method,
+      body: JSON.stringify(request),
+      headers: myHeaders,
+      keepalive: true
+    }).catch(error => console.log('Error:', error))
+    .then(response => console.log('Success:', response));
+}

@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	cargarListaClientes();
 });
 
+window.onbeforeunload = function(e) {
+  return true;
+};
+
+window.onunload = function(e) {
+  return true;
+};
+
 function cargarListaClientes(){
 	var datalist = document.getElementById("clientes_data");
 	clientesAll.forEach(c => {
@@ -163,6 +171,13 @@ function avanzar(boton){
 	input.name = boton;
 	document.getElementById("formulario").appendChild(input);
 	document.getElementById("formulario").submit();
+}
+
+// se desactiva onbeforeunload y onunload para poder avanzar
+function enviar(event){
+	window.onbeforeunload = null;
+	window.onunload = null;
+	return true;
 }
 
 function indicarError(msjError){

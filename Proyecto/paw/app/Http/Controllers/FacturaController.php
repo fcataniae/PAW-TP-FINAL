@@ -13,6 +13,7 @@ use App\Producto as Producto;
 use App\Tipo_Documento as Tipo_Documento;
 use Carbon\Carbon;
 use MercadoPago;
+use Log;
 
 class FacturaController extends Controller
 {
@@ -54,6 +55,13 @@ class FacturaController extends Controller
         if($request->producto_id == null || count($request->producto_id) == 0){
             return redirect()->back()->withErrors('No se encontraron productos asociado a la compra.');
         }
+
+        for($i = 0; $i < count($request->producto_id); $i++){
+            if($request->producto_cantidad[$i] <= 0){
+               return redirect()->back()->withErrors('Se detectaron productos sin cantidad definida.'); 
+            }
+        }
+
         $nueva_factura = new Factura();
         $nueva_factura->importe = $request->total;
         $nueva_factura->fecha_creacion = Carbon::now();
@@ -151,7 +159,31 @@ class FacturaController extends Controller
 
 
     private function continuar(Request $request){
-        return redirect()->action('FacturaController@confirmar', ['id' => $request->id]);
+        if($request->producto_id == null || count($request->producto_id) == 0){
+            return redirect()->back()->withErrors('No se encontraron productos asociado a la compra.');
+        }
+
+        for($i = 0; $i < count($request->producto_id); $i++){
+            if($request->producto_cantidad[$i] <= 0){
+               return redirect()->back()->withErrors('Se detectaron productos sin cantidad definida.'); 
+            }
+        }
+
+        $factura = Factura::find($request->id);
+        $factura->estado = "C";
+        $factura->empleado_id = Auth::user()->empleado->id;
+        if($factura->save()){
+            Detalle::where('factura_id', '=', $factura->id)->delete();
+            for($i = 0; $i < count($request->producto_id); $i++){
+                $nuevo_detalle = new Detalle();
+                $nuevo_detalle->factura_id = $factura->id;
+                $nuevo_detalle->producto_id = $request->producto_id[$i];
+                $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
+                $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
+                $nuevo_detalle->save();
+            }
+            return redirect()->action('FacturaController@confirmar', ['id' => $factura->id]);
+        }
     }
 
     private function anular(Request $request)
@@ -362,6 +394,14 @@ class FacturaController extends Controller
                 );
             }
         return json_encode($array);
+    }
+
+    public function updateAjax(Request $request, $id){
+        Log::info("Factura a reservar por recarga de pagina, id: " . $id);
+        $factura = Factura::find($id);
+        $factura->estado = "R";
+        $factura->save();
+        return $factura->id;
     }
 
 }

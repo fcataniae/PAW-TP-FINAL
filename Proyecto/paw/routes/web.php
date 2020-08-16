@@ -153,6 +153,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('facturas/{id}/editar','FacturaController@editar')->name('in.facturas.editar');
         Route::get('facturas/{id}/comprobante','FacturaController@comprobante')->name('in.facturas.comprobante');
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
+        Route::put('facturas-ajax/{id}','FacturaController@updateAjax')->name('in.facturas.updateAjax');
 
         Route::post('detalles','DetallesController@store')->name('in.detalles.store');
         Route::post('detalles/{id}','DetallesController@update')->name('in.detalles.update');

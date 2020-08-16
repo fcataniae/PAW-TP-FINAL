@@ -7,12 +7,31 @@ var producto = {},
 
 document.addEventListener("DOMContentLoaded", function () {
 		productosAll = JSON.parse(productosAll);
+		detallesAll = JSON.parse(detalles);
+		ajustarStockProductosReservados();
 		opcionesValoresABuscar();
-		// detalles = JSON.parse(detalles);
-		// detalles.forEach(d => {
-
-		// });
 });
+
+
+window.onunload = function(e) {
+	if(factura != null){
+		var f = JSON.parse(factura);
+		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id, null);
+	}
+  	return '';
+};
+
+function ajustarStockProductosReservados(){
+	productosAll.find( p => {
+		if(detallesAll){
+			detallesAll.find( d => {
+				if(p.id == d.producto_id){
+					p.stock = p.stock + d.cantidad;
+				}
+			});
+		}
+	});
+}
 
 function opcionesValoresABuscar(){
 	var datalist = document.getElementById("valor_a_buscar_data");
@@ -25,53 +44,38 @@ function opcionesValoresABuscar(){
 	});
 };
 
-function buscar(){
+function agregarProducto(){
+
+	if(window.onbeforeunload == null){
+		window.onbeforeunload = function(e) {
+			return '';
+		};
+	}
+	
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
 	if(valor_a_buscar){
 		producto = productosAll.find(p => p.codigo == valor_a_buscar);
-		cargarProducto(producto);
-	}
-}
-
-function cargarProducto(producto) {
-	document.getElementById("descripcion").value = producto.categoria + ", " + producto.tipo +", " + producto.descripcion;
-	document.getElementById("talle").value = producto.talle;
-	document.getElementById("precio").value = producto.precio_venta;
-	document.getElementById("stock").value = producto.stock;
-	document.getElementById("cantidad").value = 1;
-}
-
-function agregarDetalle(nuevaFactura){
-	var cantidad = document.getElementById("cantidad").value;
-	if(cantidad){
-		var seleccionado = controlarProductoSeleccionado(producto);
-		if(!seleccionado){
-			if(cantidad <= producto.stock){
-				producto.cantidad = cantidad;
-				if(nuevaFactura){
-					console.log("es nueva solicitud");
-					nroDetalle++;
-					agregarFila(producto,nroDetalle,true);
-					calcularTotal1();
-				}else{
-					console.log("es modificacion solicitud");
-					insertarDetalle(producto);
-				}
+		if(producto.stock <= 0){
+			indicarError("Producto sin stock.");
+		}else{
+			producto.cantidad = 0;
+			var seleccionado = controlarProductoSeleccionado(producto);
+			if(!seleccionado){
+				nroDetalle++;
+				agregarFila(producto,nroDetalle);
+				calcularTotal();
 				limpiarCampos();
 				var error = document.getElementById('msjError');
 				error.innerHTML = "";
 			}else{
-				indicarError("Producto sin stock suficiente.");
+				indicarError("Producto ya seleccionado.");
 			}
-		}else{
-			indicarError("Producto ya seleccionado.");
 		}
 	}
 }
 
 function controlarProductoSeleccionado(producto){
 	var length = document.getElementById("tabla_detalles").rows.length;
-	console.log("length",length);
 	var encontrado = false;
 	var i = 1;
 	while ( !encontrado && i < length ){
@@ -83,25 +87,7 @@ function controlarProductoSeleccionado(producto){
 	return encontrado;
 } 
 
-function insertarDetalle(producto){
-	var nroFactura = document.getElementById("nro_factura").value;
-	var request = { "factura_id": nroFactura, 
-					"producto_id": producto.id, 
-					"cantidad": producto.cantidad,
-					"precio_venta": producto.precio_venta };
-	ajaxCallWithParametersAndRequest('POST','/in/detalles', null, request,
-		function(respuesta){
-			var respuestaJson = JSON.parse(respuesta);
-			agregarFila(producto, respuestaJson.nro_detalle, false);
-			document.getElementById("total").value = respuestaJson.importe_factura;
-		},
-		function(){		
-			indicarError("No se pudo agregar detalle.");
-	});
-}
-
-
-function agregarFila(producto, nroDetalle, nuevaFactura){
+function agregarFila(producto, nroDetalle){
 	var table  = document.getElementById("tabla_detalles").getElementsByTagName('tbody')[0];
 	var row = table.insertRow();
 	row.id = "nro_detalle_" + nroDetalle;
@@ -154,7 +140,6 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
 	inputCantidad.id = "cantidad_" + nroDetalle;
 	inputCantidad.min = 0;
 	inputCantidad.value = producto.cantidad;
-	inputCantidad.readOnly = true;
 	inputCantidad.className = "input";
   	cantidad.appendChild(inputCantidad);
 
@@ -168,7 +153,7 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	var btnEditar = document.createElement('button');
   	btnEditar.id = "editar_" + nroDetalle;
   	btnEditar.type = "button";
-  	btnEditar.style.display = "inline";
+  	btnEditar.style.display = "none";
   	btnEditar.className = "button-table btn-azul";
   	btnEditar.addEventListener("click", function(){
   		editarDetalle(nroDetalle);
@@ -190,10 +175,10 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
    	var btnGuardar = document.createElement('button');
   	btnGuardar.id = "guardar_" + nroDetalle;
   	btnGuardar.type = "button";
-  	btnGuardar.style.display = "none";
+  	btnGuardar.style.display = "inline";
   	btnGuardar.className = "button-table btn-verde";
   	btnGuardar.addEventListener("click", function(){
-  		guardarCambios(nroDetalle, producto, nuevaFactura);
+  		guardarCambios(nroDetalle);
   	});
   	btnGuardar.innerHTML = "<i class='fa fa-floppy-o' aria-hidden='true'>";
   	accion.appendChild(btnGuardar);
@@ -204,10 +189,23 @@ function agregarFila(producto, nroDetalle, nuevaFactura){
   	btnEliminar.style.display = "inline";
   	btnEliminar.className = "button-table btn-rojo";
   	btnEliminar.addEventListener("click", function(){
-  		eliminarDetalle(nroDetalle, nuevaFactura);
+  		eliminarDetalle(nroDetalle);
   	});
   	btnEliminar.innerHTML = "<i class='fa fa-trash-o' aria-hidden='true'></i>";
   	accion.appendChild(btnEliminar);
+}
+
+function calcularTotal(){
+	var length = document.getElementById("tabla_detalles").rows.length;
+	var total = 0;
+	for(var i = 1; i < length; i++){
+		total = total + parseInt(document.getElementById("tabla_detalles").rows[i].cells[8].innerHTML);
+	}
+	document.getElementById("total").value = total;
+}
+
+function limpiarCampos(){
+	document.getElementById("valor_a_buscar").value = null;
 }
 
 function editarDetalle(id){
@@ -219,20 +217,15 @@ function editarDetalle(id){
 	document.getElementById("deshacer_" + id).style.display = "inline";
 }
 
-function guardarCambios(id, producto, nuevaFactura){
+function guardarCambios(id){
 	var cantidad = document.getElementById("cantidad_" + id).value;
+	var stock = parseInt(document.getElementById("stock_" + id).innerHTML);
+	console.log(stock);
+	console.log(cantidad);
 	if(cantidad <= 0){
 		indicarError("Cantidad solicitada debe ser mayor a cero.");
-	}else if(cantidad <= producto.stock){
-		producto.cantidad = cantidad;
-		if(nuevaFactura){
-			console.log("es nueva solicitud");
-			calcularSubtotal1(id);
-		}else{
-			console.log("es modificacion solicitud");
-			actualizarDetalle(id);
-		}
-
+	}else if(cantidad <= stock){
+		calcularSubtotal(id);
 		document.getElementById("cantidad_" + id).readOnly = true;
 		document.getElementById("editar_" + id).style.display = "inline";
 		document.getElementById("eliminar_" + id).style.display = "inline";
@@ -243,67 +236,17 @@ function guardarCambios(id, producto, nuevaFactura){
 	}
 }
 
-function calcularSubtotal1(id){
+function calcularSubtotal(id){
 	var cantidad = document.getElementById("cantidad_" + id).value;
 	var precio = document.getElementById("precio_x_unidad_" + id).value;
 	document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
-	calcularTotal1();
+	calcularTotal();
 }
 
-function actualizarDetalle(id){
-	var cantidad = document.getElementById("cantidad_" + id).value;
-	var precio = document.getElementById("precio_" + id).innerHTML;
-	var request = { "cantidad": cantidad, "precio": precio };
-	ajaxCallWithParametersAndRequest('POST','/in/detalles/' + id,null,request,
-		function(importe){
-			document.getElementById("subtotal_" + id).innerHTML = cantidad * precio;
-			document.getElementById("total").value = importe;
-		},
-		function(){
-			document.getElementById("cantidad_" + id).readOnly = true;
-			document.getElementById("cantidad_" + id).value = document.getElementById("cantidad_" + id).getAttribute("data-value-old");
-			document.getElementById("editar_" + id).style.display = "inline";
-			document.getElementById("eliminar_" + id).style.display = "inline";
-			document.getElementById("guardar_" + id).style.display = "none";
-			document.getElementById("deshacer_" + id).style.display = "none";		
-			indicarError("No se pudo actualizar detalle.");
-	});
-}
-
-function eliminarDetalle(id, nuevaFactura){
-
-	if(nuevaFactura){
-		console.log("es nueva solicitud");
-		var detalle = document.getElementById('nro_detalle_' + id);
-		detalle.parentNode.removeChild(detalle);
-		calcularTotal1();
-	}else{
-		console.log("es modificacion solicitud");
-		borrarDetalle(id);
-	}
-}
-
-function borrarDetalle(id){
-	ajaxCallWithParametersAndRequest('DELETE','/in/detalles/' + id + '/destroy', null, null,
-		function(importe){
-			var detalle = document.getElementById('nro_detalle_' + id);
-			detalle.parentNode.removeChild(detalle);
-			document.getElementById("total").value = importe;
-		},
-		function(){	
-			indicarError("No se pudo eliminar detalle.");	
-	});
-}
-
-
-
-function calcularTotal1(){
-	var length = document.getElementById("tabla_detalles").rows.length;
-	var total = 0;
-	for(var i = 1; i < length; i++){
-		total = total + parseInt(document.getElementById("tabla_detalles").rows[i].cells[8].innerHTML);
-	}
-	document.getElementById("total").value = total;
+function eliminarDetalle(id){
+	var detalle = document.getElementById('nro_detalle_' + id);
+	detalle.parentNode.removeChild(detalle);
+	calcularTotal();
 }
 
 function deshacerCambios(id){
@@ -315,13 +258,31 @@ function deshacerCambios(id){
 	document.getElementById("deshacer_" + id).style.display = "none";	
 }
 
-function limpiarCampos(){
-	document.getElementById("valor_a_buscar").value = null;
-	document.getElementById("descripcion").value = null;
-	document.getElementById("talle").value = null;
-	document.getElementById("precio").value = null;
-	document.getElementById("stock").value = null;
-	document.getElementById("cantidad").value = null;
+// Se controla la correcta carga de cantidad por producto y se desactiva onbeforeunload para poder avanzar
+function enviar(event){
+	if(event.submitter.defaultValue == "Anular"){
+		window.onunload = null;
+		window.onbeforeunload = null;
+		return true;
+	}
+
+	let correctaCarga = true;
+	var length = document.getElementById("tabla_detalles").rows.length;
+	for(var i = 1; i < length; i++){
+		let cantidad = parseInt(document.getElementById("tabla_detalles").rows[i].cells[7].children[0].value);
+		if(cantidad <= 0){
+			correctaCarga = false;
+			break;
+		}
+	}
+	if(!correctaCarga){
+		indicarError("Se detectaron productos sin cantidad definida.");
+		return false;
+	}else{
+		window.onunload = null;
+		window.onbeforeunload = null;
+		return true;
+	}
 }
 
 function indicarError(msjError){

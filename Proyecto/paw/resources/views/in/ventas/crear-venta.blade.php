@@ -7,6 +7,7 @@
 	<script src="{{asset('js/ajax.js')}}"></script>
 	<script>
 		var productosAll = '{!! $productos !!}';
+		var factura = null;
 		var detalles = null;
 	</script>
 
@@ -25,43 +26,16 @@
 		@include('partials.alert-message') 	<!-- Errores del BACK -->
 		<div id="msjError"></div> 			<!-- Errores en JavaScript -->
 		<p><strong>Venta</strong></p>
-		<fieldset name="Buscador">
-			<legend>Buscador</legend>
-			<div class="group">
-				<label for="buscar_por">Producto: </label>
-				<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
-				<datalist id="valor_a_buscar_data"></datalist>
-			</div>
-			<button onClick="buscar()" class="button-table"><i class="fa fa-search" aria-hidden="true"></i></button>
-			<br>
-			<br>
-			<div class="group">
-				<label>Descripcion: </label>
-				<input type="text" id="descripcion" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Talle: </label>
-				<input type="text" id="talle" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Precio: </label>
-				<input type="number" id="precio" id="precio" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Stock: </label>
-				<input type="number" id="stock" min="0" class="input" readonly>
-			</div>
-			<div class="group">
-				<label>Cantidad: </label>
-				<input type="number" id="cantidad" min="0" class="input">
-			</div>
-			<button onClick="agregarDetalle(true)" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
-		</fieldset>
-		<br>
-		<form action="{{ route('in.facturas.gestionar')}}" method="POST">
+		<form action="{{ route('in.facturas.gestionar')}}" method="POST" onsubmit="return enviar(event);">
 			{{ csrf_field() }}
 			<fieldset name="Detalles">
-				<legend>Detalles</legend>
+				<legend>Productos</legend>
+				<div style="margin: 10px">
+					<label for="buscar_por">Producto: </label>
+					<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
+					<datalist id="valor_a_buscar_data"></datalist>
+					<input type="button" id="agregar" onClick="agregarProducto()" name="Agregar" value="Agregar" class="button-table btn-azul">
+				</div>
 				<!-- Tabla -->
 			    <table id="tabla_detalles" border="1" class="table">
 				    <!-- columnas de la tabla -->
@@ -82,15 +56,18 @@
 				    <!-- contenido de la tabla -->
 				    <tbody></tbody>
 				</table>
+				
 			</fieldset>
 			<br>
 			<fieldset name="Total">
 				<legend>Total</legend>
-				<label for="total">Total ($): </label>
-				<input type="number" id="total" name="total" min="0" value="0" class="input" readonly>
+				<div align="right" style="margin-right: 10px">
+					<label for="total">Total ($): </label>
+					<input type="number" id="total" name="total" min="0" value="0" class="input" readonly>
+				<div>
 			</fieldset>
 			<br>
-			<input type="submit" name="Crear" value="Crear" class="button btn-form btn-azul">
+			<input type="submit" id="submit" name="Crear" value="Crear" class="button btn-form btn-azul">
 		</form>
 	</section>
 @endsection
