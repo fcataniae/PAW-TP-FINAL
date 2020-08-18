@@ -77,7 +77,7 @@ class InventarioController extends Controller
     public function guardarRemito(Request $request){
       if(Auth::user()->can('gestionar_inventario')){
         $this->saveRemito($request);
-        return redirect()->route('in.inventario.stock');
+        return redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }

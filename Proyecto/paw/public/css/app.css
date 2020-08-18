@@ -628,7 +628,7 @@
 
 	.main-nav li ul {
 		display:none;
-		position:absolute;
+		position:fixed;
 	}
 	.main-nav li:hover > ul {
 		display:block;

@@ -26,14 +26,13 @@
 	@include('partials.nav-principal')
 @endsection
 @section('body-main')
-
 	<section class="main">
+		@include('partials.alert-message')
 		<p><strong>Control de Stock</strong></p>
 		<br>
 		<div id="contenido"></div>
 		<br>
 		<div id="paginacion"></div>
 	</section>
-	@include('partials.alert-message')
 	
 @endsection
