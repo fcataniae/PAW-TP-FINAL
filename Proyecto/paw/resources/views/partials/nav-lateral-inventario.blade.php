@@ -7,7 +7,9 @@
 		@if(Entrust::can('gestionar_inventario'))
 			<li ><a href={{ route('in.inventario.stock') }}>Control Stock</a></li>
 		@endif
-
+		@if(Entrust::can('gestionar_inventario'))
+			<li ><a href={{ route('in.inventario.reposicion') }}>Actualizar Stock</a></li>
+		@endif
 
 	</ul>
 </nav>

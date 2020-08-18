@@ -375,7 +375,7 @@ class FacturaController extends Controller
     //     //
     // }
 
-    private function productosAll(){
+    public function productosAll(){
         $productosAll = Producto::all();
         $array =array();
         foreach($productosAll as $producto ){

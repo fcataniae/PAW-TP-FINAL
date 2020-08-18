@@ -180,8 +180,8 @@ class ProductosController extends Controller
             array('headerName' => "Stock", 'field' => "stock"),
             array('headerName' => "Talle", 'field' => "talle_id"),
             array('headerName' => "Tipo", 'field' => "tipo_id"),
-            array('headerName' => "Categoria", 'field' => "categoria"),
-            array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+            array('headerName' => "Categoria", 'field' => "categoria")#,
+           # array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
           );  
 
           $array =array();
@@ -190,8 +190,8 @@ class ProductosController extends Controller
             if($producto->estado == "A"){
                 $estado = "Activo";
             }
-            $action = array();
-            $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
+           # $action = array();
+           # $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
 
             array_push($array,array(
                     'id' =>   $producto->id,
@@ -201,8 +201,8 @@ class ProductosController extends Controller
                                         'talle_id'=> $producto->talle->descripcion,
                                         'tipo_id' => $producto->tipo->descripcion,
                                         'categoria' => $producto->tipo->categoria->descripcion
-                                    ),
-                    'action' => $action
+                                    )#,
+                #    'action' => $action
                 )
             );
           }
