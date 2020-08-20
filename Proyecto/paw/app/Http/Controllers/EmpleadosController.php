@@ -118,8 +118,9 @@ class EmpleadosController extends Controller
             $roles = [];
             $roles = Rol::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.empleado.create')
+                            ->with('ruta', 'in.empleados.listar')
                             ->with('title','Alta de empleado')
-                            ->with('subtitle','Negocio > Empleados')
+                            ->with('subtitle','Empleados')
                             ->with('tiposDocumento',$tiposDocumento)
                             ->with('roles',$roles);
         }else{
@@ -227,8 +228,9 @@ class EmpleadosController extends Controller
             }
             $json_ld =  $this->getJSONLdForEmpleado($empleado);
             return view('in.negocio.empleado.edit')
+                        ->with('ruta', 'in.empleados.listar')
                         ->with('title','Modificación de empleado')
-                        ->with('subtitle','Negocio > Empleados')
+                        ->with('subtitle','Empleados')
                         ->with('empleado',$empleado)
                         ->with('telFijo',$telFijo)
                         ->with('celular',$celular)

@@ -84,8 +84,9 @@ class GenerosController extends Controller
     {
         if(Auth::user()->can('crear_genero')){
             return view('in.negocio.genero.create')
+                ->with('ruta', 'in.generos.listar')
                 ->with('title','Alta de genero')
-                ->with('subtitle','Negocio > Generos');
+                ->with('subtitle','Generos');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -135,8 +136,9 @@ class GenerosController extends Controller
         if(Auth::user()->can('modificar_genero')){
             $genero = Genero::find($id);
             return view('in.negocio.genero.edit')
+                    ->with('ruta', 'in.generos.listar')
                     ->with('title','Modificación de genero')
-                    ->with('subtitle','Negocio > Generos')
+                    ->with('subtitle','Generos')
                     ->with('genero',$genero);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

@@ -84,8 +84,9 @@ class FormaPagoController extends Controller
     {
         if(Auth::user()->can('crear_forma_pago')){
             return view('in.negocio.forma_pago.create')
+                ->with('ruta', 'in.forma_pago.listar')
                 ->with('title','Alta de forma de pago')
-                ->with('subtitle','Negocio > Formas de pago');
+                ->with('subtitle','Formas de pago');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -135,8 +136,9 @@ class FormaPagoController extends Controller
         if(Auth::user()->can('modificar_forma_pago')){
             $formapago = Forma_Pago::find($id);
             return view('in.negocio.forma_pago.edit')
+                    ->with('ruta', 'in.forma_pago.listar')
                     ->with('title','Modificación de forma de pago')
-                    ->with('subtitle','Negocio > Formas de pago')
+                    ->with('subtitle','Formas de pago')
                     ->with('formapago', $formapago);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

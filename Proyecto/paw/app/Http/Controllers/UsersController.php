@@ -105,8 +105,9 @@ class UsersController extends Controller
             $roles = [];
             $roles = Rol::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.usuario.create')
+                ->with('ruta', 'in.users.listar')
                 ->with('title','Alta de usuario')
-                ->with('subtitle','Negocio > Usuarios')
+                ->with('subtitle','Usuarios')
                 ->with('empleados',$empleados)
                 ->with('roles',$roles);
         }else{
@@ -173,8 +174,9 @@ class UsersController extends Controller
             // necesito el array de los permisos q contiene (solo los id's)
             $my_roles = $usuario->roles->pluck('id')->toArray(); // pasa un objeto a un array
             return view('in.negocio.usuario.edit')
+                    ->with('ruta', 'in.users.listar')
                     ->with('title','Modificación de usuario')
-                    ->with('subtitle','Negocio > Usuarios')
+                    ->with('subtitle','Usuarios')
                     ->with('usuario',$usuario)
                     ->with('empleados', $empleados)
                     ->with('roles', $roles)

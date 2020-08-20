@@ -1,8 +1,13 @@
 
-@if($title )
-	<h2 class="title"> {{ $title }} </h2>
+@if(isset($title) &&  isset($subtitle) )
+	<h2 class="title"> {{ $title }} <small>{{ $subtitle }}</small></h2>
+	<hr class="no-margin">
+	
 @endif
-@if( $subtitle)
-	<h3 class="subtitle"> {{ $subtitle }} </h3>
-@endif
-<hr class="no-margin">
+@isset($ruta)
+	<ol class="path">
+		<li><a href="{{ route($ruta) }}">{{ $subtitle }}</a>
+		</li>
+		<li class="active">{{ $title }} </li>
+	</ol>
+@endisset	
