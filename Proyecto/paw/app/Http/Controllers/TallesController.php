@@ -66,6 +66,8 @@ class TallesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.talle.index')
+                    ->with('title','Talles')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -81,7 +83,9 @@ class TallesController extends Controller
     public function create()
     {
         if(Auth::user()->can('crear_talle_producto')){
-            return view('in.negocio.talle.create');
+            return view('in.negocio.talle.create')
+                ->with('title','Alta de talle')
+                ->with('subtitle','Negocio > Talles');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -130,6 +134,8 @@ class TallesController extends Controller
         if(Auth::user()->can('modificar_talle_producto')){
             $talle = Talle::find($id);
             return view('in.negocio.talle.edit')
+                    ->with('title','Modificacón de talle')
+                    ->with('subtitle','Negocio > Talles')
                     ->with('talle', $talle);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

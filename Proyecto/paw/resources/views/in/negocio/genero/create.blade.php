@@ -15,7 +15,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Registrar Genero</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.generos.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="genero">

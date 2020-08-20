@@ -15,7 +15,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Tipo Producto</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.tipos.actualizar', [$tipo->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

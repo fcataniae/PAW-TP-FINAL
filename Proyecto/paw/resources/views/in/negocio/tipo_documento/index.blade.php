@@ -28,7 +28,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Tipos de Documento</strong></p>
+		@include('partials.menulayout')
 		@if(Entrust::can('crear_tipo_documento'))
           <a href="{{ route('in.tipos_documento.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>

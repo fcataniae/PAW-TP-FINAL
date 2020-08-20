@@ -36,6 +36,8 @@ class InventarioController extends Controller
         $data = $this->controller->showAll();
 
         return view('in.inventario.stock')
+          ->with('subtitle','Inventario')
+          ->with('title','Control de Stock')
           ->with('columnas', json_encode($data['columnas']))
           ->with('registros',json_encode($data['registros']));
       }else{
@@ -68,7 +70,10 @@ class InventarioController extends Controller
       if(Auth::user()->can('gestionar_inventario')){
 
         $productos = $this->fcontroller->productosAll();
-        return view('in.inventario.reposicion')->with('productos',$productos);
+        return view('in.inventario.reposicion')
+        ->with('subtitle','Inventario')
+        ->with('title','Actualizar Stock')
+        ->with('productos',$productos);
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }

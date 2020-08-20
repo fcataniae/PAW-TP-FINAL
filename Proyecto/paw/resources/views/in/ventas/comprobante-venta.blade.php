@@ -15,7 +15,7 @@
 @endsection
 @section('body-main')
 	<section class="main">
-		<p><strong>Ticket de compra</strong></p>
+		@include('partials.menulayout')
 		<fieldset>
 			<legend>Información</legend>
 			<div class="group-inline">

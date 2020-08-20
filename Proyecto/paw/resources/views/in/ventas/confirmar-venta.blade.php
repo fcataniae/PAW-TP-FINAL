@@ -22,7 +22,7 @@
 	<section class="main">
 		@include('partials.alert-message')
 		<div id="msjInfo"></div>
-		<p><strong>Venta</strong></p>
+		@include('partials.menulayout')
 		<form id="formulario" action="{{ route('in.facturas.gestionar')}}" method="POST" onsubmit="return enviar(event);">
 			{{ csrf_field() }}
 			<fieldset name="Total">

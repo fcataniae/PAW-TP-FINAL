@@ -26,7 +26,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Usuario</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.users.actualizar', [$usuario->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

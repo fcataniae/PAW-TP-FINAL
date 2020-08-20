@@ -28,7 +28,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Control de Stock</strong></p>
+		@include('partials.menulayout')
 		<br>
 		<div id="contenido"></div>
 		<br>

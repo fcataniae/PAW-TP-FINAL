@@ -15,7 +15,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Forma de Pago</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.forma_pago.actualizar', [$formapago->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

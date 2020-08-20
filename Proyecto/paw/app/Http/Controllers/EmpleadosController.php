@@ -76,6 +76,8 @@ class EmpleadosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.empleado.index')
+                    ->with('title','Empleados')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -116,6 +118,8 @@ class EmpleadosController extends Controller
             $roles = [];
             $roles = Rol::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.empleado.create')
+                            ->with('title','Alta de empleado')
+                            ->with('subtitle','Negocio > Empleados')
                             ->with('tiposDocumento',$tiposDocumento)
                             ->with('roles',$roles);
         }else{
@@ -223,6 +227,8 @@ class EmpleadosController extends Controller
             }
             $json_ld =  $this->getJSONLdForEmpleado($empleado);
             return view('in.negocio.empleado.edit')
+                        ->with('title','Modificación de empleado')
+                        ->with('subtitle','Negocio > Empleados')
                         ->with('empleado',$empleado)
                         ->with('telFijo',$telFijo)
                         ->with('celular',$celular)

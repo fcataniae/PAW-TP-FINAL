@@ -74,6 +74,8 @@ class ClientesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.cliente.index')
+                    ->with('title','Clientes')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -111,6 +113,8 @@ class ClientesController extends Controller
             $tiposDocumento = [];
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.cliente.create')
+                    ->with('title','Alta de cliente')
+                    ->with('subtitle','Negocio > Clientes')
                     ->with('tiposDocumento',$tiposDocumento);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -190,6 +194,8 @@ class ClientesController extends Controller
             $tiposDocumento = Tipo_Documento::orderBy('id','ASC')->where('estado', 'A')->get(); 
             $json_ld = $this->getJSONLdForCliente($cliente);
             return view('in.negocio.cliente.edit')
+                    ->with('title','Modificación de cliente')
+                    ->with('subtitle','Negocio > Clientes')
                     ->with('cliente',$cliente)
                     ->with('tiposDocumento',$tiposDocumento)
                     ->with('json_ld',$json_ld);

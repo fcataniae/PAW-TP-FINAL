@@ -75,6 +75,8 @@ class ProductosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.producto.index')
+                    ->with('title','Productos')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -96,6 +98,8 @@ class ProductosController extends Controller
             $talles = Talle::orderBy('id','ASC')->where('estado', 'A')->get();
 
             return view('in.negocio.producto.create')
+                    ->with('title','Alta de producto')
+                    ->with('subtitle','Negocio > Productos')
                     ->with('tipos',$tipos)
                     ->with('talles',$talles);
         }else{
@@ -230,6 +234,8 @@ class ProductosController extends Controller
 
             $json_ld = $this->getJSONLdForProducto($producto);
             return view('in.negocio.producto.edit')
+                    ->with('title','Modificación de productos')
+                    ->with('subtitle','Negocio > Productos')
                     ->with('producto',$producto)
                     ->with('tipos',$tipos)
                     ->with('talles',$talles)

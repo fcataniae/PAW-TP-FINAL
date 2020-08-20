@@ -25,6 +25,25 @@
 	  margin-left: 20px;
 	  margin-right: 20px;
 	}
+	.no-margin{
+		margin: 0 0 1rem 0 !important;
+	}
+	.title{
+		margin-bottom: 0!important;
+		font-weight: 500;
+		line-height: 1.2;
+		font-size: 2rem;
+		margin-top: 0.5rem !important;
+	}
+	.subtitle{
+		margin-bottom: .5rem;
+		font-weight: 300;
+		line-height: 1.2;
+		font-size: 1rem;
+		margin-top: 0 !important;
+		color: #777;
+	}
+	
 	.form-input, .form-input:focus{
 		width: 100%;
 		display: block;

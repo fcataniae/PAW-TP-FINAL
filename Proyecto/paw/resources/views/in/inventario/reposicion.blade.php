@@ -25,7 +25,7 @@
 	<section class="main">
 		@include('partials.alert-message') 	<!-- Errores del BACK -->
 		<div id="msjError"></div> 			<!-- Errores en JavaScript -->
-		<p><strong>Actualizar Stock</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.inventario.submit')}}" method="POST" enctype="multipart/form-data" onsubmit="return enviar(event);">
 			{{ csrf_field() }}
 			<fieldset name="Detalles">
