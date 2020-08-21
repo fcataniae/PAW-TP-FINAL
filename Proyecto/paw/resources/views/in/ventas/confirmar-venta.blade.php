@@ -7,6 +7,7 @@
 	<script src="{{asset('js/confirmar.js')}}"></script>
 	<script>
 		var clientesAll = '{!! $clientes !!}';
+		var factura = '{!!$factura!!}';
 	</script>
 @endsection
 
@@ -47,7 +48,7 @@
 					</select>
 				</div>
 				<div class="group-inline" id="datos_cliente" style="display:none">
-					<label for="nro_cliente"> Nro Cliente: </label>
+					<label for="nro_cliente"> Cliente: </label>
 					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data" onChange="cargarCliente()" class="input">
 					<datalist id="clientes_data"></datalist>
 				</div>
@@ -89,10 +90,10 @@
 				</div>
 			</fieldset>
 			<br>
-			<input type="submit" onclick="avanzar('Anular')" name="Anular" value="Anular" class="button btn-form btn-rojo">
-			<input type="submit" onclick="avanzar('Reservar')" name="Reservar" value="Reservar" class="button btn-form btn-gris">
-			<input type="submit" onclick="avanzar('Modificar')" name="Modificar" value="Modificar" class="button btn-form btn-celeste">
-			<input type="button" id="Confirmar" onClick="confirmarCompra()" name="Confirmar" value="Pagar" class="button btn-form btn-azul">
+			<input type="submit" name="Anular" value="Anular" class="button btn-form btn-rojo">
+			<input type="submit" name="Reservar" value="Reservar" class="button btn-form btn-gris">
+			<input type="submit" name="Modificar" value="Modificar" class="button btn-form btn-celeste">
+			<input type="submit" id="Confirmar" name="Confirmar" value="Pagar" class="button btn-form btn-azul">
 		</form>
 	</section>
 @endsection

@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 window.onunload = function(e) {
 	if(factura != null){
 		var f = JSON.parse(factura);
-		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id, null);
+		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id + '/reservar', null);
 	}
   	return '';
 };

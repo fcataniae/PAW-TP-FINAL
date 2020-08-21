@@ -396,12 +396,21 @@ class FacturaController extends Controller
         return json_encode($array);
     }
 
-    public function updateAjax(Request $request, $id){
+    public function reservarAjax(Request $request, $id){
         Log::info("Factura a reservar por recarga de pagina, id: " . $id);
         $factura = Factura::find($id);
         $factura->estado = "R";
         $factura->save();
         return $factura->id;
     }
+
+    public function anularAjax(Request $request, $id){
+        Log::info("Factura a anular por recarga de pagina, id: " . $id);
+        $factura = Factura::find($id);
+        $factura->estado = "A";
+        $factura->save();
+        return $factura->id;
+    }
+
 
 }

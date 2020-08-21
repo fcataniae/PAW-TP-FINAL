@@ -11,12 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	cargarListaClientes();
 });
 
-window.onbeforeunload = function(e) {
-  return true;
+window.onunload = function(e) {
+	if(factura != null){
+		var f = JSON.parse(factura);
+		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id + '/anular', null);
+	}
+  	return '';
 };
 
-window.onunload = function(e) {
-  return true;
+window.onbeforeunload = function(e) {
+  return '';
 };
 
 function cargarListaClientes(){
@@ -102,44 +106,6 @@ function agregarCliente(){
 	});
 }
 
-function confirmarCompra(){
-	if(document.getElementById('forma_pago').value == 1){
-		console.log(document.getElementById('efectivo').value );
-		if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
-			indicarError("Debe ingresar el pago.");
-		}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
-			indicarError("El pago debe ser mayor al total.");
-		}else{
-			// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
-			var input = document.createElement("input");
-			input.type = "hidden";
-			input.value = "Confirmar";
-			input.name = "Confirmar";
-			document.getElementById("formulario").appendChild(input);
-			document.getElementById("formulario").submit();
-		}
-	}else if(document.getElementById('forma_pago').value == 2){
-		// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
-		var input = document.createElement("input");
-		input.type = "hidden";
-		input.id = "confirmar"
-		input.name = "Confirmar";
-		input.value = "Confirmar";
-		document.getElementById("formulario").appendChild(input);
-
-		var script = document.createElement('script');
-		script.id = "mercadopago";
-		script.src = mercadopagoJS;
-		script.setAttribute("data-public-key", mercadopagoPublicKey);
-		script.setAttribute("data-summary-product-label", "Total");
-		script.setAttribute("data-summary-product", document.getElementById('total').value);
-		script.setAttribute("data-transaction-amount", document.getElementById('total').value);
-		script.setAttribute("data-open", "true");
-		script.style.display = "none";
-		document.getElementById("formulario").appendChild(script);
-	}
-}
-
 function definirFormaPago(){
 	if(document.getElementById('forma_pago').value == 1){
 		document.getElementById('forma_pago_efectivo').style.display = "inline-block";
@@ -158,26 +124,54 @@ function definirFormaPago(){
 	}
 }
 
-//es necesario ya que el script de mercadopago anula la funcionalidad de los botones del formulario
-function avanzar(boton){
-	var hidden = document.getElementById("confirmar");
-	if(hidden){
-		hidden.parentNode.removeChild(hidden);
-	}
-	// Es necesario el hidden para que el back sepa que accion se realizo, de lo contrario no recibe cual es la accion tomada
-	var input = document.createElement("input");
-	input.type = "hidden";
-	input.value = boton;
-	input.name = boton;
-	document.getElementById("formulario").appendChild(input);
-	document.getElementById("formulario").submit();
-}
-
-// se desactiva onbeforeunload y onunload para poder avanzar
+// se realizan los controles necesarios y se desactiva onbeforeunload y onunload para poder avanzar
 function enviar(event){
+	if(event.submitter.defaultValue == "Pagar"){
+		console.log("Se controla el pago en efectivo");
+		if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
+			indicarError("Debe ingresar el pago.");
+			return false;
+		}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
+			indicarError("El pago debe ser mayor al total.");
+			return false;
+		}
+	}
+
 	window.onbeforeunload = null;
 	window.onunload = null;
-	return true;
+
+	if(event.submitter.defaultValue != "Continuar"){
+		console.log("Se avanza sin uso de mercado pago.");
+
+		// Se remueve el hidden creado para mercado pago en caso q exista
+		var hidden = document.getElementById("confirmar");
+		if(hidden){
+	    	hidden.parentNode.removeChild(hidden);
+		}
+		return true;
+	}else{
+		console.log("Se agrega mercado pago.");
+		
+		// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
+		var input = document.createElement("input");
+		input.type = "hidden";
+		input.id = "confirmar"
+		input.name = "Confirmar";
+		input.value = "Confirmar";
+		document.getElementById("formulario").appendChild(input);
+
+		var script = document.createElement('script');
+		script.id = "mercadopago";
+		script.src = mercadopagoJS;
+		script.setAttribute("data-public-key", mercadopagoPublicKey);
+		script.setAttribute("data-summary-product-label", "Total");
+		script.setAttribute("data-summary-product", document.getElementById('total').value);
+		script.setAttribute("data-transaction-amount", document.getElementById('total').value);
+		script.setAttribute("data-open", "true");
+		script.style.display = "none";
+		document.getElementById("formulario").appendChild(script);
+		return false;
+	}
 }
 
 function indicarError(msjError){
