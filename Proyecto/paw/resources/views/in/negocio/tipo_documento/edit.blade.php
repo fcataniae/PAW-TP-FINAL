@@ -15,7 +15,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Tipos de Documentos</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.tipos_documento.actualizar', [$tipo_documento->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

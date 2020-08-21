@@ -75,6 +75,8 @@ class ProductosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.producto.index')
+                    ->with('title','Productos')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -96,6 +98,9 @@ class ProductosController extends Controller
             $talles = Talle::orderBy('id','ASC')->where('estado', 'A')->get();
 
             return view('in.negocio.producto.create')
+                    ->with('ruta', 'in.productos.listar')
+                    ->with('title','Alta de producto')
+                    ->with('subtitle','Productos')
                     ->with('tipos',$tipos)
                     ->with('talles',$talles);
         }else{
@@ -180,8 +185,8 @@ class ProductosController extends Controller
             array('headerName' => "Stock", 'field' => "stock"),
             array('headerName' => "Talle", 'field' => "talle_id"),
             array('headerName' => "Tipo", 'field' => "tipo_id"),
-            array('headerName' => "Categoria", 'field' => "categoria"),
-            array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+            array('headerName' => "Categoria", 'field' => "categoria")#,
+           # array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
           );  
 
           $array =array();
@@ -190,8 +195,8 @@ class ProductosController extends Controller
             if($producto->estado == "A"){
                 $estado = "Activo";
             }
-            $action = array();
-            $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
+           # $action = array();
+           # $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
 
             array_push($array,array(
                     'id' =>   $producto->id,
@@ -201,8 +206,8 @@ class ProductosController extends Controller
                                         'talle_id'=> $producto->talle->descripcion,
                                         'tipo_id' => $producto->tipo->descripcion,
                                         'categoria' => $producto->tipo->categoria->descripcion
-                                    ),
-                    'action' => $action
+                                    )#,
+                #    'action' => $action
                 )
             );
           }
@@ -230,6 +235,9 @@ class ProductosController extends Controller
 
             $json_ld = $this->getJSONLdForProducto($producto);
             return view('in.negocio.producto.edit')
+                    ->with('ruta', 'in.productos.listar')
+                    ->with('title','Modificación de productos')
+                    ->with('subtitle','Productos')
                     ->with('producto',$producto)
                     ->with('tipos',$tipos)
                     ->with('talles',$talles)

@@ -67,6 +67,8 @@ class CategoriasController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.categoria.index')
+                    ->with('title','Categoria de producto')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -85,6 +87,9 @@ class CategoriasController extends Controller
             $generos = [];
             $generos = Genero::orderBy('id','ASC')->where('estado', 'A')->get();
             return view('in.negocio.categoria.create')
+                    ->with('ruta', 'in.categorias.listar')
+                    ->with('title','Alta categoria de producto')
+                    ->with('subtitle','Categoria de producto')
                     ->with('generos',$generos);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -137,6 +142,9 @@ class CategoriasController extends Controller
             $generos = [];
             $generos = Genero::orderBy('id','ASC')->where('estado', 'A')->get();
             return view('in.negocio.categoria.edit')
+                    ->with('ruta', 'in.categorias.listar')
+                    ->with('title','Modificación categoria de producto')
+                    ->with('subtitle','Categoria')
                     ->with('categoria',$categoria)
                     ->with('generos',$generos);
         }else{

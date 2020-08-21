@@ -28,7 +28,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Formas de Pago</strong></p>
+		@include('partials.menulayout')
 		@if(Entrust::can('crear_forma_pago'))
           <a href="{{ route('in.forma_pago.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>

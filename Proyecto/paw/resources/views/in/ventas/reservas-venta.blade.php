@@ -28,7 +28,7 @@
 
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Reservas</strong></p>
+		@include('partials.menulayout')
 		<br>
 		<div id="contenido"></div>
 		<br>

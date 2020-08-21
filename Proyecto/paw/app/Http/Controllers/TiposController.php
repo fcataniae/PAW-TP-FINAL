@@ -67,6 +67,8 @@ class TiposController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.tipo.index')
+                    ->with('title','Tipos de producto')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -85,6 +87,9 @@ class TiposController extends Controller
             $categorias = [];
             $categorias = Categoria::orderBy('id','ASC')->where('estado', 'A')->get();
             return view('in.negocio.tipo.create')
+                    ->with('ruta', 'in.tipos.listar')
+                    ->with('title','Alta de tipo de producto')
+                    ->with('subtitle','Tipos de producto')
                     ->with('categorias',$categorias);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -137,6 +142,9 @@ class TiposController extends Controller
             $categorias = [];
             $categorias = Categoria::orderBy('id','ASC')->where('estado', 'A')->get();
             return view('in.negocio.tipo.edit')
+                    ->with('ruta', 'in.tipos.listar')
+                    ->with('title','Modificación de tipos de producto')
+                    ->with('subtitle','Tipos de producto')
                     ->with('tipo',$tipo)
                     ->with('categorias',$categorias);
         }else{

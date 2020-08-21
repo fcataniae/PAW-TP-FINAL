@@ -15,7 +15,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Genero</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.generos.actualizar', [$genero->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

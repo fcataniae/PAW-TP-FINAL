@@ -41,6 +41,7 @@
 @endsection
 @section('body-main')
 	<section class="main">
+		@include('partials.menulayout')
 		<div class="container-reportes">
 			<div class="search-filters">
 				<dialog id="fac-details"></dialog>

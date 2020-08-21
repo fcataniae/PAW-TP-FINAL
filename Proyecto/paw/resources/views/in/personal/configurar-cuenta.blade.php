@@ -16,7 +16,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Datos Cuenta</strong></p>
+		@include('partials.menulayout')
 		<fieldset id="datos-cuenta">
 			<legend>Datos de usuario</legend>
 			<div class="group size-3 sangria">

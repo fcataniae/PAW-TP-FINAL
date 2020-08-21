@@ -28,7 +28,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Roles</strong></p>
+		@include('partials.menulayout')
 		@if(Entrust::can('crear_rol'))
           <a href="{{ route('in.roles.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>

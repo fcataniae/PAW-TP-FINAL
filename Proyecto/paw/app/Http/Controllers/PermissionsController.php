@@ -67,6 +67,8 @@ class PermissionsController extends Controller
             $permisos = json_encode($array);
 
             return view('in.negocio.permiso.index')
+                    ->with('title','Permisos')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('permisos',$permisos);
         }else{
@@ -82,7 +84,10 @@ class PermissionsController extends Controller
     public function create()
     {
         if(Auth::user()->can('crear_permiso')){
-            return view('in.negocio.permiso.create');
+            return view('in.negocio.permiso.create')
+                ->with('ruta', 'in.permissions.listar')
+                ->with('title','Alta de permiso')
+                ->with('subtitle','Permisos');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -135,6 +140,9 @@ class PermissionsController extends Controller
         if(Auth::user()->can('modificar_permiso')){
             $permiso = Permiso::find($id);
             return view('in.negocio.permiso.edit')
+                    ->with('ruta', 'in.permissions.listar')
+                    ->with('title','Modificación de permiso')
+                    ->with('subtitle','Permisos')
                     ->with('permiso',$permiso);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

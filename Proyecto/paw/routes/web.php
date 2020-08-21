@@ -38,12 +38,13 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
 
         Route::get('reportes', 'ReportesController@index')->name('in.reportes');
         // Route::get('inicio', 'InicioController@index')->name('in.inicio');
-
+        
         Route::get('inventario', 'InventarioController@index')->name('in.inventario.index');
         Route::get('inventario/stock', 'InventarioController@stock')->name('in.inventario.stock');
         Route::get('inventario/actualizar', 'InventarioController@reposicion')->name('in.inventario.reposicion');
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
         Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
+        Route::post('inventario/actualizar','InventarioController@guardarRemito')->name('in.inventario.submit');
         Route::get('factura','FacturaController@doFilter');
         Route::get('forma_pago','FormaPagoController@getAll');
         Route::get('empleado','EmpleadosController@getAll');

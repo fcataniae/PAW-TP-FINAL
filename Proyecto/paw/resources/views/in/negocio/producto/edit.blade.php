@@ -18,7 +18,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Modificar Producto</strong></p>
+		@include('partials.menulayout')
 		<form action="{{ route('in.productos.actualizar', [$producto->id]) }}" method="POST">
 			{{method_field('PUT')}}
 			{{ csrf_field() }}

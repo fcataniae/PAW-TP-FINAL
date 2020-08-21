@@ -83,6 +83,8 @@ class UsersController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.usuario.index')
+                    ->with('title','Usuarios')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -103,6 +105,9 @@ class UsersController extends Controller
             $roles = [];
             $roles = Rol::orderBy('id','ASC')->where('estado', 'A')->get(); 
             return view('in.negocio.usuario.create')
+                ->with('ruta', 'in.users.listar')
+                ->with('title','Alta de usuario')
+                ->with('subtitle','Usuarios')
                 ->with('empleados',$empleados)
                 ->with('roles',$roles);
         }else{
@@ -169,6 +174,9 @@ class UsersController extends Controller
             // necesito el array de los permisos q contiene (solo los id's)
             $my_roles = $usuario->roles->pluck('id')->toArray(); // pasa un objeto a un array
             return view('in.negocio.usuario.edit')
+                    ->with('ruta', 'in.users.listar')
+                    ->with('title','Modificación de usuario')
+                    ->with('subtitle','Usuarios')
                     ->with('usuario',$usuario)
                     ->with('empleados', $empleados)
                     ->with('roles', $roles)
@@ -247,6 +255,8 @@ class UsersController extends Controller
         }
         $json_ld = $this->controller->getJSONLdForEmpleado($empleado);
         return view('in.personal.configurar-datos')
+                    ->with('title','Datos personales')
+                    ->with('subtitle','')
                     ->with('empleado',$empleado)
                     ->with('telFijo',$telFijo)
                     ->with('celular',$celular)
@@ -335,6 +345,8 @@ class UsersController extends Controller
     public function getDatosCuenta(){
         $usuario = Auth::user();
         return view('in.personal.configurar-cuenta')
+                    ->with('title','Datos de la cuenta')
+                    ->with('subtitle','')
                     ->with('usuario',$usuario);
     }
 

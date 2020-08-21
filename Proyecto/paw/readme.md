@@ -4,7 +4,7 @@
 
 * [PHP 7.2.14 instalado](https://www.php.net/releases/7_2_14.php)
 * [Composer instalado](https://getcomposer.org/download/)
-* [Maria DB 10.5.4 instalado](https://downloads.mariadb.org/mariadb/10.5.4/)
+* [Maria DB 10.3.13 instalado](https://downloads.mariadb.org/mariadb/10.3.13/)
 
 ## configuración
 

@@ -68,6 +68,8 @@ class RolesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.rol.index')
+                    ->with('title','Roles')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -94,7 +96,11 @@ class RolesController extends Controller
                                 ->where('name','<>','eliminar_permiso')
                                 ->where('name','<>','modificar_permiso')->get();
             }
-            return view('in.negocio.rol.create')->with('permisos',$permisos);
+            return view('in.negocio.rol.create')
+                    ->with('ruta', 'in.roles.listar')
+                    ->with('title','Alta de rol')
+                    ->with('subtitle','Roles')
+                    ->with('permisos',$permisos);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -166,6 +172,9 @@ class RolesController extends Controller
             // necesito el array de los permisos q contiene (solo los id's)
             $my_permisos = $rol->permissions->pluck('id')->toArray(); // pasa un objeto a un array
             return view('in.negocio.rol.edit')
+                    ->with('ruta', 'in.roles.listar')
+                    ->with('title','Modificación de rol')
+                    ->with('subtitle','Roles')
                     ->with('rol',$rol)
                     ->with('permisos', $permisos)
                     ->with('my_permisos',$my_permisos);

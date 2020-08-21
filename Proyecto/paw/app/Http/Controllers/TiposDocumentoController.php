@@ -66,6 +66,8 @@ class TiposDocumentoController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.tipo_documento.index')
+                    ->with('title','Tipos de documento')
+                    ->with('subtitle','Negocio')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -81,7 +83,10 @@ class TiposDocumentoController extends Controller
     public function create()
     {
         if(Auth::user()->can('crear_tipo_documento')){
-            return view('in.negocio.tipo_documento.create');
+            return view('in.negocio.tipo_documento.create')
+                ->with('ruta', 'in.tipos_documento.listar')
+                ->with('title','Alta de tipos de documento')
+                ->with('subtitle','Tipos de documento');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
         }
@@ -131,6 +136,9 @@ class TiposDocumentoController extends Controller
         if(Auth::user()->can('modificar_tipo_documento')){
             $tipo_documento = Tipo_Documento::find($id);
             return view('in.negocio.tipo_documento.edit')
+                    ->with('ruta', 'in.tipos_documento.listar')
+                    ->with('title','Modificación de tipos de documento')
+                    ->with('subtitle','Tipos de documento')
                     ->with('tipo_documento', $tipo_documento);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

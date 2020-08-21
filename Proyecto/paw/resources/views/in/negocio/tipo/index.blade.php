@@ -28,7 +28,7 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.alert-message')
-		<p><strong>Tipos Producto</strong></p>
+		@include('partials.menulayout')
 		@if(Entrust::can('crear_tipo_producto'))
           <a href="{{ route('in.tipos.crear') }}" class="button btn-azul">
             <span><i class="fa fa-plus"></i></span>
