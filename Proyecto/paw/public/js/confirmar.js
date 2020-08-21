@@ -3,10 +3,11 @@ var window = window || {},
     console = console || {};
 
 var cliente = {};
-var mercadopagoJS = "https://www.mercadopago.com.ar/integrations/v1/web-tokenize-checkout.js";
-var mercadopagoPublicKey = "TEST-22871e7e-19c6-4dc9-8a7e-fbfdf88e459c";
+var mercadopagoJS = "";
+var mercadopagoPublicKey = "";
 
 document.addEventListener("DOMContentLoaded", function () {
+	cargarConfiguracionMP();
 	clientesAll = JSON.parse(clientesAll);
 	cargarListaClientes();
 });
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 window.onunload = function(e) {
 	if(factura != null){
 		var f = JSON.parse(factura);
-		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id + '/anular', null);
+		ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id + '/reservar', null);
 	}
   	return '';
 };
@@ -22,6 +23,18 @@ window.onunload = function(e) {
 window.onbeforeunload = function(e) {
   return '';
 };
+
+function cargarConfiguracionMP(){
+	ajaxCallWithParametersAndRequest('GET','/in/facturas/datos-configuracion-mp', null, null,
+		function(res){
+			let datos = JSON.parse(res);
+			mercadopagoJS = datos["mercadopagoJS"];
+			mercadopagoPublicKey = datos["mercadopagoPublicKey"];
+		},
+		function(){		
+			console.log("No se pudo cargar configuracion.");
+	});
+}
 
 function cargarListaClientes(){
 	var datalist = document.getElementById("clientes_data");

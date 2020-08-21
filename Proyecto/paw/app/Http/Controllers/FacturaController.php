@@ -17,7 +17,6 @@ use Log;
 
 class FacturaController extends Controller
 {
-    private $mercadopagoAccessToken = "TEST-202198097498865-072823-771eef5b00a6985e46f43c8fb7e6ec05-456100370";
 
     public function crear()
     {
@@ -92,7 +91,7 @@ class FacturaController extends Controller
                 return redirect()->back()->withErrors('El pago es menor al importe total a cobrar.');
             }
         }else if($request->forma_pago == 2){
-            MercadoPago\SDK::setAccessToken($this->mercadopagoAccessToken);
+            MercadoPago\SDK::setAccessToken(env("MP_ACCESSTOKEN"));
             $token = $request->token;
             $payment_method_id = $request->payment_method_id;
             $installments = $request->installments;
@@ -106,7 +105,7 @@ class FacturaController extends Controller
             $payment->payment_method_id = $payment_method_id;
             $payment->issuer_id = $issuer_id;
             $payment->payer = array(
-                "email" => "test_user_49142815@testuser.com"
+                "email" => env("MP_MAIL_REFERENCIA")
             );
 
             // Guarda y postea el pago
@@ -421,6 +420,16 @@ class FacturaController extends Controller
         $factura->estado = "A";
         $factura->save();
         return $factura->id;
+    }
+
+    public function getDatosConfiguracionMP(){
+
+        $datosConfigMP = array(
+                'mercadopagoJS' => env("MP_JAVASCRIPT"),
+                'mercadopagoPublicKey' => env("MP_PUBLICKEY")
+            );
+
+        return json_encode($datosConfigMP);
     }
 
 
