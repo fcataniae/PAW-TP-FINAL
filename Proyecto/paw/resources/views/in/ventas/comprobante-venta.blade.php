@@ -16,6 +16,17 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.menulayout')
+		<fieldset class="no-screen" style="margin-top: 10px; margin-bottom: 10px">
+			<legend>Tienda</legend>
+			<div style="text-align: center;">
+					<img class="logo" src="/img/logo.png" alt="" width="60" height="60"/>
+					<br>
+					<p> <strong> Nombre: </strong> {{$nombreEmpresa}} </p>
+					<p> <strong> CUIT: </strong> {{$cuitEmpresa}} </p>
+					<p> <strong> Dirección: </strong> {{$direccionEmpresa}} </p>
+			</div>
+		</fieldset>
+
 		<fieldset>
 			<legend>Información</legend>
 			<div class="group-inline">
@@ -31,8 +42,8 @@
 
 		@if($factura->cliente != null)
 			<fieldset>
-				<legend>Datos del cliente</legend>
-								<div class="group-inline">
+				<legend>Cliente</legend>
+					<div class="group-inline">
 						<label for="nro_documento">Documento: </label>
 						<input type="text" id="tipo_documento" name="tipo_documento" class="input" size="2" value= "{{$factura->cliente->tipoDocumento->descripcion}}" readonly>
 						<input type="text" id="nro_documento" name="nro_documento" class="input" size="10" value="{{$factura->cliente->nro_documento}}" readonly>
@@ -101,4 +112,9 @@
 			<a href="{{ route('in.facturas.crear') }}" class="button btn-celeste no-print"><i class="fa fa-reply" aria-hidden="true"></i> Volver a inicio</a>
 			<a onclick="window.print();" class="button btn-verde no-print"><i class="fa fa-print" aria-hidden="true"></i> Imprimir ticket</a>
 	</section>
+
+	<div class="footer no-screen">
+  		<p><small> * Los productos solo pueden ser devueltos dentro de las 48 hs de realizada su compra y en buenas condiciones.</small></p>
+	</div>
+
 @endsection

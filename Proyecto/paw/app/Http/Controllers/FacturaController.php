@@ -143,7 +143,10 @@ class FacturaController extends Controller
                 ->with('subtitle', 'Ventas')
                 ->with('title', 'Ticket de compra')
                 ->with('factura',$factura)
-                ->with('detalles',$detalles);
+                ->with('detalles',$detalles)
+                ->with('nombreEmpresa', env("EMP_NOMBRE"))
+                ->with('cuitEmpresa', env("EMP_CUIT"))
+                ->with('direccionEmpresa', env("EMP_DIRECCION"));
     }
 
     private function modificar(Request $request)
