@@ -46,10 +46,10 @@
 				            <th>Tipo</th>
 				            <th>Producto</th>
 				            <th>Talle</th>
-				            <th>Precio ($)</th>
+				            <th>Precio</th>
 				            <th>Stock</th>
 				            <th style="width:150px">Cantidad</th>
-				            <th>Subtotal ($)</th>
+				            <th>Subtotal</th>
 				            <th style="width:100px">Acción</th>
 				        </tr>
 				    </thead>

@@ -90,7 +90,7 @@ class FacturaController extends Controller
             if($request->efectivo < $factura->importe){
                 return redirect()->back()->withErrors('El pago es menor al importe total a cobrar.');
             }
-        }else if($request->forma_pago == 2){
+        }else if($request->forma_pago == 2 || $request->forma_pago == 3){
             MercadoPago\SDK::setAccessToken(env("MP_ACCESSTOKEN"));
             $token = $request->token;
             $payment_method_id = $request->payment_method_id;

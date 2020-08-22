@@ -134,6 +134,9 @@ function definirFormaPago(){
 	}else if(document.getElementById('forma_pago').value == 2){
 		document.getElementById('forma_pago_efectivo').style.display = "none";
 		document.getElementById('Confirmar').value = "Continuar";
+	}else if(document.getElementById('forma_pago').value == 3){
+		document.getElementById('forma_pago_efectivo').style.display = "inline-block";
+		document.getElementById('Confirmar').value = "Continuar";
 	}
 }
 
@@ -173,13 +176,24 @@ function enviar(event){
 		input.value = "Confirmar";
 		document.getElementById("formulario").appendChild(input);
 
+		let total = document.getElementById('total').value;
+		if(document.getElementById('forma_pago').value == 3){
+			let pagoEfectivo = document.getElementById('efectivo').value;
+			total = total - pagoEfectivo;
+		}
+
+		if(total <= 0){
+			indicarError("El total para pagar con tarjeta es menor (o igual) a 0.");
+			return false;
+		}
+
 		var script = document.createElement('script');
 		script.id = "mercadopago";
 		script.src = mercadopagoJS;
 		script.setAttribute("data-public-key", mercadopagoPublicKey);
 		script.setAttribute("data-summary-product-label", "Total");
-		script.setAttribute("data-summary-product", document.getElementById('total').value);
-		script.setAttribute("data-transaction-amount", document.getElementById('total').value);
+		script.setAttribute("data-summary-product", total);
+		script.setAttribute("data-transaction-amount", total);
 		script.setAttribute("data-open", "true");
 		script.style.display = "none";
 		document.getElementById("formulario").appendChild(script);
