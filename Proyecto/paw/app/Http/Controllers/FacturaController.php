@@ -23,8 +23,9 @@ class FacturaController extends Controller
         if(Auth::user()->can('gestionar_venta')){
             $productos = $this->productosAll();
             return view('in.ventas.crear-venta')
+                ->with('ruta', 'in.facturas.crear')
                 ->with('subtitle', 'Ventas')
-                ->with('title', 'Crear Venta')
+                ->with('title', 'Crear venta')
                 ->with('productos', $productos);
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
@@ -140,6 +141,7 @@ class FacturaController extends Controller
         $factura = Factura::find($id);
         $detalles = Detalle::where('factura_id', '=', $factura->id)->orderBy('id','DESC')->get();
         return view('in.ventas.comprobante-venta')
+                ->with('ruta', 'in.facturas.crear')
                 ->with('subtitle', 'Ventas')
                 ->with('title', 'Ticket de compra')
                 ->with('factura',$factura)
@@ -231,6 +233,7 @@ class FacturaController extends Controller
         $facturas = json_encode($array);
 
         return view('in.ventas.reservas-venta')
+            ->with('ruta', 'in.facturas.crear')
             ->with('subtitle', 'Ventas')
             ->with('title', 'Reservas')
             ->with('columnas', $columnas)
@@ -259,8 +262,9 @@ class FacturaController extends Controller
         $formapago = [];
         $formapago = Forma_Pago::orderBy('id','ASC')->where('estado', 'A')->get();         
         return view('in.ventas.confirmar-venta')
+                ->with('ruta', 'in.facturas.crear')
                 ->with('subtitle', 'Ventas')
-                ->with('title', 'Finalizar Venta')
+                ->with('title', 'Confirmar venta')
                 ->with('factura',$factura)
                 ->with('clientes',$clientes)
                 ->with('tiposDocumento',$tiposDocumento)
@@ -376,8 +380,9 @@ class FacturaController extends Controller
         $detalles = Detalle::where('factura_id', '=', $factura->id)->orderBy('id','DESC')->get();
         $productos = $this->productosAll();
         return view('in.ventas.editar-venta')
+                ->with('ruta', 'in.facturas.crear')
                 ->with('subtitle', 'Ventas')
-                ->with('title', 'Continuar venta')
+                ->with('title', 'Modificar venta')
                 ->with('factura',$factura)
                 ->with('detalles',$detalles)
                 ->with('productos',$productos);

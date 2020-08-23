@@ -40,14 +40,14 @@
 			<br>
 			<fieldset name="Buscador">
 				<legend>Cliente</legend>
-				<div class="group-inline">
+				<div class="group-inline required">
 					<label for="es_cliente">Es cliente? </label>
 					<select onChange="determinarCliente()" id="es_cliente" name="es_cliente" class="input">
 					    <option id="1" value="NO" selected>NO</option>
 					    <option id="2" value="SI">SI</option>
 					</select>
 				</div>
-				<div class="group-inline" id="datos_cliente" style="display:none">
+				<div class="group-inline required" id="datos_cliente" style="display:none">
 					<label for="nro_cliente"> Cliente: </label>
 					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data" onChange="cargarCliente()" class="input">
 					<datalist id="clientes_data"></datalist>
@@ -76,15 +76,15 @@
 			<br>
 			<fieldset name="Detalles">
 				<legend>Forma de Pago</legend>
-				<div class="group-inline">
-					<label for="forma_pago">Forma de Pago: </label>
+				<div class="group-inline required">
+					<label class="required" for="forma_pago">Forma de Pago: </label>
 					<select id="forma_pago" name="forma_pago" onClick="definirFormaPago()" class="input">
 					    @foreach($formapago as $forma)
 						    <option value="{{$forma->id}}">{{$forma->descripcion}}</option>
 						@endforeach
 					</select>
 				</div>
-				<div id="forma_pago_efectivo" class="group-inline">
+				<div id="forma_pago_efectivo" class="group-inline required">
 					<label for="efectivo">Dinero($): </label>
 					<input type="number" id="efectivo" name="efectivo" min="0" class="input">
 				</div>

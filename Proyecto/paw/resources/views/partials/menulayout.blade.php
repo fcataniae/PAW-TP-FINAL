@@ -5,7 +5,7 @@
 	
 @endif
 @isset($ruta)
-	<ol class="path">
+	<ol class="path no-print">
 		<li><a href="{{ route($ruta) }}">{{ $subtitle }}</a>
 		</li>
 		<li class="active">{{ $title }} </li>
