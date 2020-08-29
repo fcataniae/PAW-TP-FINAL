@@ -74,8 +74,9 @@ class ClientesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.cliente.index')
-                    ->with('title','Clientes')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.clientes.listar')
+                    ->with('title','Tabla de clientes')
+                    ->with('subtitle','Clientes')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
