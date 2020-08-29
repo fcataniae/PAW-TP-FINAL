@@ -18,6 +18,11 @@
 			label: 'Roles'
 		};
 	</script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -31,15 +36,15 @@
 			{{ csrf_field() }}
 			<fieldset name="datos-personales">
 				<legend>Datos personales</legend>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" class="input size-12" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Apellido: </label>
 					<input type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" class="input size-12" autocomplete="off">
 				</div>
-				<div class="group-inline size-3 sangria">
+				<div class="group-inline size-3 sangria required">
 					<label>Documento: </label>
 					<br>
 					<select id="tipo_documento" name="tipo_documento" value="{{ old('tipo_documento') }}" class="input">
@@ -49,7 +54,7 @@
 					</select>
 					<input type="number" id="nro_documento" name="nro_documento" value="{{ old('nro_documento') }}" min="0" class="input size-8" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>CUIL: </label>
 					<input type="number" id="cuil" name="cuil" value="{{ old('cuil') }}" min="0" class="input size-10"  autocomplete="off">
 				</div>
@@ -57,19 +62,19 @@
 			<br>
 			<fieldset name="datos-residencia">
 				<legend>Datos de residencia</legend>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>Pais: </label>
 					<input type="text" id="pais" name="pais" value="{{ old('pais') }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Provincia: </label>
 					<input type="text" id="provincia" name="provincia" value="{{ old('provincia') }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Localidad: </label>
 					<input type="text" id="localidad" name="localidad" value="{{ old('localidad') }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Domicilio: </label>
 					<input type="text" id="domicilio" name="domicilio" value="{{ old('domicilio') }}" class="input size-12" autocomplete="off">
 				</div>
@@ -104,21 +109,21 @@
 			<br>
 			<fieldset id="datos-usuario" name="datos-usuario" style="display:none">
 				<legend>Datos de usuario</legend>
-				<div class="group size-5 sangria">
+				<div class="group size-5 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="name" name="name" class="input size-6" autocomplete="off">
 
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>E-mail: </label>
 					<input type="email" id="email" name="email" class="input size-12" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Contraseña: </label>
 					<input type="password" id="password" name="password" class="input size-8" autocomplete="off">
 
 				</div>
-				<div id="rolesSel" class="group size-12 sangria">
+				<div id="rolesSel" class="group size-12 sangria required">
 				</div> 
 			</fieldset>
 			<br>

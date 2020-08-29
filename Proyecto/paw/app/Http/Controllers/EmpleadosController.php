@@ -76,8 +76,9 @@ class EmpleadosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.empleado.index')
-                    ->with('title','Empleados')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.empleados.listar')
+                    ->with('title','Table de empleados')
+                    ->with('subtitle','Empleados')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{

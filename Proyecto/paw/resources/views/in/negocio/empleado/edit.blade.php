@@ -7,8 +7,13 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
-	<script type="application/ld+json">
+{{-- 	<script type="application/ld+json">
 		{!! $ld !!} 
+	</script> --}}
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
 	</script>
 @endsection
 
@@ -24,15 +29,15 @@
 			{{ csrf_field() }}
 			<fieldset name="datos-personales">
 				<legend>Datos personales</legend>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="nombre" name="nombre" value="{{ $empleado->nombre }}" class="input size-12" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-2 sangria required">
 					<label>Apellido: </label>
 					<input type="text" id="apellido" name="apellido" value="{{ $empleado->apellido }}" class="input size-12" autocomplete="off">
 				</div>
-				<div class="group-inline size-3 sangria">
+				<div class="group-inline size-3 sangria required">
 					<label>Documento: </label>
 					<br>
 					<select id="tipo_documento" name="tipo_documento" class="input">
@@ -42,11 +47,11 @@
 					</select>
 					<input type="number" id="nro_documento" name="nro_documento" min="0" value="{{ $empleado->nro_documento }}" class="input size-6" autocomplete="off">
 				</div>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>CUIL: </label>
 					<input type="number" id="cuil" name="cuil" min="0" value="{{ $empleado->cuil }}" class="input size-12"  autocomplete="off">
 				</div>
-				<div class="group size-1 sangria">
+				<div class="group size-2 sangria required">
 					<label>Estado: </label>
 					<select id="estado" name="estado" class="input">
 					    <option value="A" @if($empleado->estado == 'A') selected @endif >Activo</option>
@@ -57,19 +62,19 @@
 			<br>
 			<fieldset name="datos-residencia">
 				<legend>Datos de residencia</legend>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>Pais: </label>
 					<input type="text" id="pais" name="pais" value="{{ $empleado->direcciones[0]->pais }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Provincia: </label>
 					<input type="text" id="provincia" name="provincia" value="{{ $empleado->direcciones[0]->provincia }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Localidad: </label>
 					<input type="text" id="localidad" name="localidad" value="{{ $empleado->direcciones[0]->localidad }}" class="input size-10" autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Domicilio: </label>
 					<input type="text" id="domicilio" name="domicilio" value="{{ $empleado->direcciones[0]->domicilio }}" class="input size-12" autocomplete="off">
 				</div>
