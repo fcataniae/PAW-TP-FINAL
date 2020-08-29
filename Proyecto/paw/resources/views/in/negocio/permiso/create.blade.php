@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -19,12 +24,12 @@
 		<form action="{{ route('in.permissions.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="permiso">
-				<div class="group size-12 sangria">
+				<div class="group size-12 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" class="input size-4" autocomplete="off">
 
 				</div>
-				<div class="group size-12 sangria">
+				<div class="group size-12 sangria required">
 					<label>Descripcion: </label>
 					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6">{{old('descripcion')}}</textarea>
 				</div>

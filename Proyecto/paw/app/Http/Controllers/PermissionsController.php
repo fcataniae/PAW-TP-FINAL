@@ -67,8 +67,9 @@ class PermissionsController extends Controller
             $permisos = json_encode($array);
 
             return view('in.negocio.permiso.index')
-                    ->with('title','Permisos')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.permissions.listar')
+                    ->with('title','Tabla de permisos')
+                    ->with('subtitle','Permisos')
                     ->with('columnas', $columnas)
                     ->with('permisos',$permisos);
         }else{
