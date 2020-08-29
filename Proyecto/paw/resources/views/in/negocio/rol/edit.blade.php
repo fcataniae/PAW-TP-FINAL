@@ -18,6 +18,11 @@
 			label: 'Permisos'
 		};
 	</script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -31,18 +36,18 @@
 			{{method_field('PUT')}}
 			{{ csrf_field() }}
 			<fieldset name="permiso">
-				<div class="group size-6 sangria">
+				<div class="group size-6 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="nombre" name="nombre" value="{{ $rol->display_name }}" class="input size-8" autocomplete="off">
 				</div>
-				<div class="group size-5 sangria">
+				<div class="group size-5 sangria required">
 					<label>Estado: </label>
 					<select id="estado" name="estado" class="input">
 					    <option value="A" @if($rol->estado == 'A') selected @endif >Activo</option>
 					    <option value="I" @if($rol->estado == 'I') selected @endif >Inactivo</option>
 					</select>
 				</div>
-				<div class="group size-12 sangria">
+				<div class="group size-12 sangria required">
 					<label>Descripcion: </label>
 					<textarea name="descripcion" id="descripcion" rows="5" class="textarea size-6">{{ $rol->description }}</textarea>
 				</div>

@@ -68,8 +68,9 @@ class RolesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.rol.index')
-                    ->with('title','Roles')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.roles.listar')
+                    ->with('title','Table de roles')
+                    ->with('subtitle','Roles')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
