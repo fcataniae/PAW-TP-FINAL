@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -20,11 +25,11 @@
 			{{method_field('PUT')}}
 			{{ csrf_field() }}
 			<fieldset name="tipo">
-				<div class="group size-6 sangria">
+				<div class="group size-6 sangria required">
 					<label>Descripcion: </label>
 					<input type="text" name="descripcion" id="descripcion" value="{{ $tipo->descripcion }}" class="input size-12"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Categoria: </label>
 					<input type="text" id="categoria" name="categoria" list="listaCategoria" value="{{ $tipo->categoria_id }}" class="input size-6" autocomplete="off">
 					<datalist id="listaCategoria">
@@ -33,7 +38,7 @@
 						@endforeach
 					</datalist>
 				</div>
-				<div class="group size-2 sangria">
+				<div class="group size-2 sangria required">
 					<label>Estado: </label>
 					<select id="estado" name="estado" class="input">
 					    <option value="A" @if($tipo->estado == 'A') selected @endif >Activo</option>

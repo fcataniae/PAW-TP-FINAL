@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -19,11 +24,11 @@
 		<form action="{{ route('in.tipos.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="tipo">
-				<div class="group size-8 sangria">
+				<div class="group size-8 sangria required">
 					<label>Descripcion: </label>
 					<input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion') }}" class="input size-10"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Categoria: </label>
 					<input type="text" id="categoria" name="categoria" value="{{ old('categoria') }}" list="listaCategoria" class="input size-6" autocomplete="off">
 					<datalist id="listaCategoria">
