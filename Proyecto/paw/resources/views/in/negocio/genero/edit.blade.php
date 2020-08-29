@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -20,11 +25,11 @@
 			{{method_field('PUT')}}
 			{{ csrf_field() }}
 			<fieldset name="genero">
-				<div class="group size-8 sangria">
+				<div class="group size-8 sangria required">
 					<label>Descripcion: </label>
 					<input type="text" name="descripcion" id="descripcion" value="{{ $genero->descripcion }}" class="textarea size-9"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Estado: </label>
 					<select id="estado" name="estado" class="input">
 					    <option value="A" @if($genero->estado == 'A') selected @endif >Activo</option>

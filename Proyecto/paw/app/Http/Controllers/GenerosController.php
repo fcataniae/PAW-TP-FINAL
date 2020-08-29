@@ -66,8 +66,9 @@ class GenerosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.genero.index')
-                    ->with('title','Generos')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.generos.listar')
+                    ->with('title','Tabla de generos')
+                    ->with('subtitle','Generos')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
