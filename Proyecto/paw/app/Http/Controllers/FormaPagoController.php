@@ -66,8 +66,9 @@ class FormaPagoController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.forma_pago.index')
-                    ->with('title','Formas de pago')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.forma_pago.listar')
+                    ->with('title','Tabla de formas de pago')
+                    ->with('subtitle','Formas de pago')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
