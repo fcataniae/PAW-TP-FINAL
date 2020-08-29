@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -19,7 +24,7 @@
 		<form action="{{ route('in.talles.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="talle">
-				<div class="group size-12 sangria">
+				<div class="group size-12 sangria required">
 					<label>Descripcion: </label>
 					<input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion') }}" class="input size-6"  autocomplete="off">
 				</div>

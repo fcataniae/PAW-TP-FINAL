@@ -66,8 +66,9 @@ class TallesController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.talle.index')
-                    ->with('title','Talles')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.talles.listar')
+                    ->with('title','Tabla de talles')
+                    ->with('subtitle','Talles')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -136,7 +137,7 @@ class TallesController extends Controller
             $talle = Talle::find($id);
             return view('in.negocio.talle.edit')
                     ->with('ruta', 'in.talles.listar')
-                    ->with('title','Modificacón de talle')
+                    ->with('title','Modificación de talle')
                     ->with('subtitle','Talles')
                     ->with('talle', $talle);
         }else{
