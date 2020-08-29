@@ -18,6 +18,11 @@
 			label: 'Roles'
 		};
 	</script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -30,12 +35,12 @@
 		<form action="{{ route('in.users.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="usuario">
-				<div class="group size-6 sangria">
+				<div class="group size-6 sangria required">
 					<label>Nombre: </label>
 					<input type="text" id="name" name="name" value="{{ old('name') }}" class="input size-6" autocomplete="off">
 
 				</div>
-				<div class="group size-5 sangria">
+				<div class="group size-5 sangria required">
 					<label>Empleado: </label>
 					<input type="text" id="empleado" name="empleado" value="{{ old('empleado') }}" list="listaEmpleado" class="input size-6">
 					<datalist id="listaEmpleado">
@@ -44,17 +49,17 @@
 						@endforeach
 					</datalist>
 				</div>
-				<div class="group size-6 sangria">
+				<div class="group size-6 sangria required">
 					<label>E-mail: </label>
 					<input type="email" id="email" name="email" value="{{ old('email') }}" class="input size-8" autocomplete="off">
 
 				</div>
-				<div class="group size-5 sangria">
+				<div class="group size-5 sangria required">
 					<label>Contraseña: </label>
 					<input type="password" id="password" name="password" class="input size-4" autocomplete="off">
 
 				</div>
-				<div id="rolesSel" class="group size-12 sangria">
+				<div id="rolesSel" class="group size-12 sangria required">
 				</div> 
 			</fieldset>
 			<br>

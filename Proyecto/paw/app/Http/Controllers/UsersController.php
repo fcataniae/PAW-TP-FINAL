@@ -83,8 +83,9 @@ class UsersController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.usuario.index')
-                    ->with('title','Usuarios')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.users.listar')
+                    ->with('title','Tabla de usuarios')
+                    ->with('subtitle','Usuarios')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
