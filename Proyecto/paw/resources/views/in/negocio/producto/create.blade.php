@@ -7,6 +7,11 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script type="text/javascript">
+		window.onbeforeunload = function(e) {
+		  return '';
+		};
+	</script>
 @endsection
 
 @section('body-header')
@@ -19,15 +24,15 @@
 		<form action="{{ route('in.productos.guardar')}}" method="POST">
 			{{ csrf_field() }}
 			<fieldset name="producto-descripcion">
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Codigo: </label>
 					<input type="text" name="codigo" id="codigo" value="{{ old('codigo') }}" class="input size-6"  autocomplete="off">
 				</div>
-				<div class="group size-8 sangria">
+				<div class="group size-8 sangria required">
 					<label>Descripcion: </label>
 					<input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion') }}" class="input size-6"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Tipo: </label>
 					<input type="text" id="tipo" name="tipo" value="{{ old('tipo') }}" list="listaTipo" class="input size-6" autocomplete="off">
 					<datalist id="listaTipo">
@@ -36,7 +41,7 @@
 						@endforeach
 					</datalist>
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Talle: </label>
 					<input type="text" id="talle" name="talle" value="{{ old('talle') }}" list="listaTalle" class="input size-6" autocomplete="off">
 					<datalist id="listaTalle">
@@ -48,15 +53,15 @@
 			</fieldset>
 			<br>
 			<fieldset name="producto-valores">
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Precio de costo ($): </label>
 					<input type="number" name="precio_costo" id="precio_costo" value="{{ old('precio_costo') }}" value="0" min="0" class="input size-6"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Precio de venta ($): </label>
 					<input type="number" name="precio_venta" id="precio_venta" value="{{ old('precio_venta') }}" value="0" min="0" class="input size-6"  autocomplete="off">
 				</div>
-				<div class="group size-3 sangria">
+				<div class="group size-3 sangria required">
 					<label>Cantidad: </label>
 					<input type="number" name="stock" id="stock" value="{{ old('stock') }}" value="0" min="0" class="input size-6"  autocomplete="off">
 				</div>

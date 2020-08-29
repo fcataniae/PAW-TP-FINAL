@@ -75,8 +75,9 @@ class ProductosController extends Controller
             $registros = json_encode($array);
 
             return view('in.negocio.producto.index')
-                    ->with('title','Productos')
-                    ->with('subtitle','Negocio')
+                    ->with('ruta', 'in.productos.listar')
+                    ->with('title','Tabla de productos')
+                    ->with('subtitle','Productos')
                     ->with('columnas', $columnas)
                     ->with('registros',$registros);
         }else{
@@ -236,7 +237,7 @@ class ProductosController extends Controller
             $json_ld = $this->getJSONLdForProducto($producto);
             return view('in.negocio.producto.edit')
                     ->with('ruta', 'in.productos.listar')
-                    ->with('title','Modificación de productos')
+                    ->with('title','Modificación de producto')
                     ->with('subtitle','Productos')
                     ->with('producto',$producto)
                     ->with('tipos',$tipos)
