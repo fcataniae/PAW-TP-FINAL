@@ -7,9 +7,9 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
-{{-- 	<script type="application/ld+json">
-		{!! $ld !!} 
-	</script> --}}
+	<script type="application/ld+json">
+		{!! $json_ld !!} 
+	</script> 
 	<script type="text/javascript">
 		window.onbeforeunload = function(e) {
 		  return '';
