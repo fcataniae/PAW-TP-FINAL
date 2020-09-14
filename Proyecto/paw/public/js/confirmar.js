@@ -153,9 +153,6 @@ function enviar(event){
 		}
 	}
 
-	window.onbeforeunload = null;
-	window.onunload = null;
-
 	if(event.submitter.defaultValue != "Continuar"){
 		console.log("Se avanza sin uso de mercado pago.");
 
@@ -164,7 +161,19 @@ function enviar(event){
 		if(hidden){
 	    	hidden.parentNode.removeChild(hidden);
 		}
-		return true;
+
+		window.onbeforeunload = null;
+		window.onunload = null;
+
+		//Es necesario debido a que MP inhabilita los demas botones del formulario; return true no funciona.
+		var input = document.createElement("input");
+		input.type = "hidden";
+		input.name = event.submitter.name;
+		input.value = event.submitter.name;
+
+		document.getElementById("formulario").appendChild(input);
+		document.getElementById("formulario").submit();
+		//return true;
 	}else{
 		console.log("Se agrega mercado pago.");
 		
@@ -187,6 +196,15 @@ function enviar(event){
 			return false;
 		}
 
+		window.onbeforeunload = null;
+		window.onunload = null;
+
+		// Elimino el div que se puedo haber creado anteriormente
+		var mpViejo = document.getElementsByClassName("mp-mercadopago-checkout-wrapper")[0];
+		if(mpViejo){
+			mpViejo.parentNode.removeChild(mpViejo);
+		}
+
 		var script = document.createElement('script');
 		script.id = "mercadopago";
 		script.src = mercadopagoJS;
@@ -197,6 +215,36 @@ function enviar(event){
 		script.setAttribute("data-open", "true");
 		script.style.display = "none";
 		document.getElementById("formulario").appendChild(script);
+		setTimeout(() => {
+			var mp = document.getElementsByClassName("mp-mercadopago-checkout-wrapper")[0];
+			// en caso que se cierre MP necesito eliminar todo lo generado y volver a agregar los metodos unload y beforeunload
+			mp.addEventListener('DOMNodeRemoved', function(){
+
+				var hidden = document.getElementById("confirmar");
+				if(hidden){
+			    	hidden.parentNode.removeChild(hidden);
+				}
+				
+				var script = document.getElementById("mercadopago");
+				if(script){
+					script.parentNode.removeChild(script);
+				}
+
+				window.onunload = function(e) {
+					if(factura != null){
+						var f = JSON.parse(factura);
+						ajaxWithFetch("PUT", '/in/facturas-ajax/' + f.id + '/reservar', null);
+					}
+					return '';
+				};
+
+				window.onbeforeunload = function(e) {
+					return '';
+				};
+
+			}, false);
+		},2000);
+		
 		return false;
 	}
 }
