@@ -142,8 +142,9 @@ function definirFormaPago(){
 
 // se realizan los controles necesarios y se desactiva onbeforeunload y onunload para poder avanzar
 function enviar(event){
-	if(event.submitter.defaultValue == "Pagar"){
-		console.log("Se controla el pago en efectivo");
+	if(event.submitter.defaultValue != "Continuar"){
+		console.log("Se avanza sin uso de mercado pago.");
+
 		if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
 			indicarError("Debe ingresar el pago.");
 			return false;
@@ -151,10 +152,6 @@ function enviar(event){
 			indicarError("El pago debe ser mayor al total.");
 			return false;
 		}
-	}
-
-	if(event.submitter.defaultValue != "Continuar"){
-		console.log("Se avanza sin uso de mercado pago.");
 
 		// Se remueve el hidden creado para mercado pago en caso q exista
 		var hidden = document.getElementById("confirmar");
@@ -186,8 +183,14 @@ function enviar(event){
 		document.getElementById("formulario").appendChild(input);
 
 		let total = document.getElementById('total').value;
+
+		// verifico si parte del pago es en efectivo para descontar del total con tarjeta
 		if(document.getElementById('forma_pago').value == 3){
 			let pagoEfectivo = document.getElementById('efectivo').value;
+			if(pagoEfectivo == null || pagoEfectivo == 0){
+				indicarError("Debe ingresar el pago en efectivo, el mismo debe ser mayor a 0.");
+				return false;
+			}
 			total = total - pagoEfectivo;
 		}
 
