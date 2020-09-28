@@ -144,13 +144,15 @@ function definirFormaPago(){
 function enviar(event){
 	if(event.submitter.defaultValue != "Continuar"){
 		console.log("Se avanza sin uso de mercado pago.");
-
-		if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
-			indicarError("Debe ingresar el pago.");
-			return false;
-		}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
-			indicarError("El pago debe ser mayor al total.");
-			return false;
+		
+		if(event.submitter.defaultValue == "Pagar"){
+			if(document.getElementById('efectivo').value == null || document.getElementById('efectivo').value == ""){
+				indicarError("Debe ingresar el pago.");
+				return false;
+			}else if(parseInt(document.getElementById('efectivo').value) < parseInt(document.getElementById('total').value)){
+				indicarError("El pago debe ser mayor al total.");
+				return false;
+			}
 		}
 
 		// Se remueve el hidden creado para mercado pago en caso q exista
