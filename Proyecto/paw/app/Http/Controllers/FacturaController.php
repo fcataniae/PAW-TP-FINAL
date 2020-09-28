@@ -198,6 +198,7 @@ class FacturaController extends Controller
     private function anular(Request $request)
     {
         $factura = Factura::find($request->id);
+        Detalle::where('factura_id', '=', $factura->id)->delete();
         $factura->estado = "A";
         if($factura->save()){
             return redirect()->route('in.facturas.crear')->with('success','La solicitud ha sido anulada correctamente.');
