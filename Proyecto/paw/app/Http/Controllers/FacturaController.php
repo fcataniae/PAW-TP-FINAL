@@ -14,6 +14,7 @@ use App\Tipo_Documento as Tipo_Documento;
 use Carbon\Carbon;
 use MercadoPago;
 use Log;
+use DB;
 
 class FacturaController extends Controller
 {
@@ -72,17 +73,34 @@ class FacturaController extends Controller
         $nueva_factura->empleado_id = Auth::user()->empleado->id;
         $nueva_factura->cliente_id = null;
         $nueva_factura->forma_pago_id = null;
-        if($nueva_factura->save()){
-            for($i = 0; $i < count($request->producto_id); $i++){
-                $nuevo_detalle = new Detalle();
-                $nuevo_detalle->factura_id = $nueva_factura->id;;
-                $nuevo_detalle->producto_id = $request->producto_id[$i];
-                $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
-                $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
-                $nuevo_detalle->save();
-            }
-            return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);
+        
+        DB::beginTransaction();
+        try{
+            $nueva_factura->save();
+        }catch(\Exception $e){
+            log::info($e->getMessage()); 
+            DB::rollback();
+            return redirect()->back()->withErrors('No se pudo dar de alta la factura.'); 
         }
+
+        for($i = 0; $i < count($request->producto_id); $i++){
+            $nuevo_detalle = new Detalle();
+            $nuevo_detalle->factura_id = $nueva_factura->id;;
+            $nuevo_detalle->producto_id = $request->producto_id[$i];
+            $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
+            $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
+            
+            try{
+                $nuevo_detalle->save();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                DB::rollback();
+                return redirect()->back()->withErrors('No se pudo dar de alta la factura.'); 
+            }
+        }
+        DB::commit();
+
+        return redirect()->action('FacturaController@confirmar', ['id' => $nueva_factura->id]);
     }
 
    private function finalizar(Request $request){
@@ -110,9 +128,15 @@ class FacturaController extends Controller
             );
 
             // Guarda y postea el pago
-            $payment->save();
+            try{
+                $payment->save();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('Error al cobrar por Mercado Pago.'); 
+            }
+
             if($payment->id == null){
-                return redirect()->back()->withErrors("Error al cobrar por Mercado Pago.");
+                return redirect()->back()->withErrors("Error al obtener el ID del pago.");
             }else if($payment->status != "approved"){
                 $payment = MercadoPago\Payment::find_by_id($payment->id);
                 $payment->status = "cancelled";
@@ -182,15 +206,25 @@ class FacturaController extends Controller
         $factura->estado = "C";
         $factura->empleado_id = Auth::user()->empleado->id;
         if($factura->save()){
-            Detalle::where('factura_id', '=', $factura->id)->delete();
-            for($i = 0; $i < count($request->producto_id); $i++){
-                $nuevo_detalle = new Detalle();
-                $nuevo_detalle->factura_id = $factura->id;
-                $nuevo_detalle->producto_id = $request->producto_id[$i];
-                $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
-                $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
-                $nuevo_detalle->save();
+            
+            DB::beginTransaction();
+            try{
+                Detalle::where('factura_id', '=', $factura->id)->delete();
+                for($i = 0; $i < count($request->producto_id); $i++){
+                    $nuevo_detalle = new Detalle();
+                    $nuevo_detalle->factura_id = $factura->id;
+                    $nuevo_detalle->producto_id = $request->producto_id[$i];
+                    $nuevo_detalle->cantidad = $request->producto_cantidad[$i];
+                    $nuevo_detalle->precio_unidad = $request->producto_precio[$i];
+                    $nuevo_detalle->save();
+                }
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                DB::rollback();
+                return redirect()->back()->withErrors('No se pudo continuar con la compra.'); 
             }
+            DB::commit();
+
             return redirect()->action('FacturaController@confirmar', ['id' => $factura->id]);
         }
     }

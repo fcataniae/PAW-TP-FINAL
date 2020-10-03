@@ -27,6 +27,8 @@ class CreateFacturasTables extends Migration
             $table->timestamps();
         });
 
+        DB::statement("ALTER TABLE facturas AUTO_INCREMENT = 1000;");
+
         Schema::create('detalles', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('cantidad');
@@ -37,6 +39,8 @@ class CreateFacturasTables extends Migration
             $table->foreign('producto_id')->references('id')->on('productos');
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE detalles AUTO_INCREMENT = 1000;");
     }
 
     /**

@@ -37,6 +37,8 @@ class CreatePersonasTables extends Migration
             $table->timestamps();
         });
 
+        DB::statement("ALTER TABLE empleados AUTO_INCREMENT = 1000;");
+
         Schema::create('telefonos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('empleado_id')->unsigned();
