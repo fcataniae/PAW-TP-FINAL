@@ -25,6 +25,8 @@ class CreatePersonasTables extends Migration
             $table->timestamps();
         });
 
+        DB::statement("ALTER TABLE clientes AUTO_INCREMENT = 1000;");
+
         Schema::create('empleados', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');

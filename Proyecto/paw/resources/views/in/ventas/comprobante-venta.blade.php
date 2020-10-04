@@ -73,9 +73,9 @@
 						<th>Tipo</th>
 				        <th>Producto</th>
 				        <th>Talle</th>
-				        <th>Precio ($)</th>
+				        <th>Precio</th>
 						<th>Cantidad</th>
-				        <th>Subtotal ($)</th>
+				        <th>Subtotal</th>
 				    </tr>
 	   			</thead>
 				    <!-- contenido de la tabla -->

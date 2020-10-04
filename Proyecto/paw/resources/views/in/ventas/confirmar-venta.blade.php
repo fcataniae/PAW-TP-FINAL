@@ -49,7 +49,7 @@
 				</div>
 				<div class="group-inline required" id="datos_cliente" style="display:none">
 					<label for="nro_cliente"> Cliente: </label>
-					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data" onChange="cargarCliente()" class="input">
+					<input type="text" id="nro_cliente" name="nro_cliente" list="clientes_data" onChange="cargarCliente()" class="input" autocomplete="off">
 					<datalist id="clientes_data"></datalist>
 				</div>
 				<br>
@@ -65,11 +65,11 @@
 				</div>
 				<div class="group-inline">
 					<label for="nombre"> Nombre: </label>
-					<input type="text" id="nombre" name="nombre" class="input">
+					<input type="text" id="nombre" name="nombre" class="input" autocomplete="off">
 				</div>
 				<div class="group-inline">
 					<label for="apellido"> Apellido: </label>
-					<input type="text" id="apellido" name="apellido" class="input">
+					<input type="text" id="apellido" name="apellido" class="input" autocomplete="off">
 				</div>
 				<button id="btnAddCliente" type="button" onClick="agregarCliente()" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
 			</fieldset>

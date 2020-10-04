@@ -153,6 +153,13 @@ function enviar(event){
 				indicarError("El pago debe ser mayor al total.");
 				return false;
 			}
+			
+			var esCliente = document.getElementById("es_cliente").value;
+			var nro_doc = document.getElementById("nro_documento").value;
+			if(esCliente == "SI" && (nro_doc == null || nro_doc == "")){
+				indicarError("Se debe ingresar el cliente.");
+				return false;
+			}
 		}
 
 		// Se remueve el hidden creado para mercado pago en caso q exista
@@ -175,6 +182,13 @@ function enviar(event){
 		//return true;
 	}else{
 		console.log("Se agrega mercado pago.");
+
+		var esCliente = document.getElementById("es_cliente").value;
+		var nro_doc = document.getElementById("nro_documento").value;
+		if(esCliente == "SI" && (nro_doc == null || nro_doc == "")){
+			indicarError("Se debe ingresar el cliente.");
+			return false;
+		}
 		
 		// Es necesario el hidden para que el back sepa que es una confirmacion, de lo contrario no recibe cual es la accion tomada
 		var input = document.createElement("input");
