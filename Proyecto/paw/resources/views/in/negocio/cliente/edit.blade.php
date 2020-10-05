@@ -61,7 +61,7 @@
 			<br>
 			<div align="center">
 				<input type="reset" name="Restablecer" value="Restablecer" class="button btn-form btn-gris">
-				<input type="submit" name="Guardar" value="Guardar" class="button btn-form btn-azul">
+				<input type="submit" name="Guardar" value="Guardar" class="button btn-form btn-azul" onclick="window.onbeforeunload = null">
 			</div>
 		</form>
 	</section>

@@ -41,7 +41,7 @@
 			<br>
 			<div align="center">
 				<input type="reset" name="Borrar" value="Borrar" class="button btn-form btn-gris">
-				<input type="submit" name="Crear" value="Crear" class="button btn-form btn-azul">
+				<input type="submit" name="Crear" value="Crear" class="button btn-form btn-azul" onclick="window.onbeforeunload = null">
 			</div>
 		</form>
 	</section>
