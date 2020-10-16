@@ -34,20 +34,17 @@ function agregarProducto(){
 	var valor_a_buscar = document.getElementById("valor_a_buscar").value;
 	if(valor_a_buscar){
 		producto = productosAll.find(p => p.codigo == valor_a_buscar);
-		if(producto.stock <= 0){
-			indicarError("Producto sin stock.");
+		
+		producto.cantidad = 0;
+		var seleccionado = controlarProductoSeleccionado(producto);
+		if(!seleccionado){
+			nroDetalle++;
+			agregarFila(producto,nroDetalle);
+			limpiarCampos();
+			var error = document.getElementById('msjError');
+			error.innerHTML = "";
 		}else{
-			producto.cantidad = 0;
-			var seleccionado = controlarProductoSeleccionado(producto);
-			if(!seleccionado){
-				nroDetalle++;
-				agregarFila(producto,nroDetalle);
-				limpiarCampos();
-				var error = document.getElementById('msjError');
-				error.innerHTML = "";
-			}else{
-				indicarError("Producto ya seleccionado.");
-			}
+			indicarError("Producto ya seleccionado.");
 		}
 	}
 }

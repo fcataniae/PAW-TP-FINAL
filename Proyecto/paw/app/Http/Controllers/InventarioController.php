@@ -38,6 +38,7 @@ class InventarioController extends Controller
         return view('in.inventario.stock')
           ->with('subtitle','Inventario')
           ->with('title','Control de Stock')
+          ->with('ruta', 'in.inventario.stock')
           ->with('columnas', json_encode($data['columnas']))
           ->with('registros',json_encode($data['registros']));
       }else{
@@ -73,6 +74,7 @@ class InventarioController extends Controller
         return view('in.inventario.reposicion')
         ->with('subtitle','Inventario')
         ->with('title','Actualizar Stock')
+        ->with('ruta', 'in.inventario.stock')
         ->with('productos',$productos);
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
@@ -81,14 +83,15 @@ class InventarioController extends Controller
 
     public function guardarRemito(Request $request){
       if(Auth::user()->can('gestionar_inventario')){
-        $this->saveRemito($request);
-        return redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
+        
+        return $this->saveRemito($request);
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }
     }
 
     private function saveRemito(Request $request){
+
       $allowedMimeTypes = ['image/jpeg','image/png','image/jpg','application/pdf'];
       if($request->producto_id == null || count($request->producto_id) == 0){
           return redirect()->back()->withErrors('No se encontraron productos asociado a la compra.');
@@ -100,7 +103,7 @@ class InventarioController extends Controller
           }
       }
       if(!$request->hasFile('remito_img') || !$request->file('remito_img')->isValid() || !in_array($request->file('remito_img')->getMimeType(),$allowedMimeTypes)){
-        return redirect()->back()->withErrors('La cargada imagen no es valida.'); 
+        return redirect()->back()->withErrors('La imagen cargada no es valida.'); 
       }
       
       $remito = new Remito();
@@ -121,5 +124,6 @@ class InventarioController extends Controller
           $nuevo_detalle->save();
         }
       }
+      redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
     }
 }

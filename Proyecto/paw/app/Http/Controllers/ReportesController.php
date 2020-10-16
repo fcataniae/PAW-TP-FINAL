@@ -9,9 +9,10 @@ class ReportesController extends Controller
 {
     public function index(){
     	if(Auth::user()->can('gestionar_reporte')){
-    		return view('in.reportes.index')
+    		return view('in.reportes.reporte')
 				->with('title','Reportes')
-				->with('subtitle','');
+				->with('ruta', 'in.reportes')
+				->with('subtitle','Reportes');
     	}else{
     		return redirect()->route('in.sinpermisos.sinpermisos');
 	    }
