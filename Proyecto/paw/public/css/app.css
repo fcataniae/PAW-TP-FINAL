@@ -83,7 +83,7 @@
 	}
 	
 	.container-table{
-		margin-left: 26vh;
+		margin-left: max(26vh, 200px);
 		padding-top: 1rem;
 		margin-right: 0.75rem;
 	}
