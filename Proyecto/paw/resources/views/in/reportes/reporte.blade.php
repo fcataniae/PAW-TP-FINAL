@@ -7,13 +7,92 @@
 @endsection
 
 @section('head-js')
+	<script src="{{asset('js/filtros.js')}}"></script>
 	<script src="{{asset('js/tabla.js')}}"></script>
 	<script src="{{asset('js/ajax.js')}}"></script>
-	<script src="{{asset('js/reportes.js')}}"></script>
 	<script src="{{asset('js/utils.js')}}"></script>
 	<script>
 		var columnas;
 		var datos;
+		var filtros = '{!! $filtros !!}';
+		document.addEventListener("DOMContentLoaded", () => {
+			filters = filtros;
+			filterUrl = '/in/factura';
+			drawFilters();
+
+			
+			async function showDetails(nroFac){
+				
+				let response = await fetch(`/in/factura/get/detalles/${nroFac}`);
+				let detalles = await response.json();
+				let table,thead,tbody,tr,td,th;
+				const headers = ['producto','codigo','talle','precio','cantidad'];
+				table = document.createElement('table');
+				table.classList.add('table');
+				tbody = document.createElement('tbody');
+				thead = document.createElement('thead');
+				for(let i = 0; i< headers.length ;i++){
+				th = document.createElement('th');
+				th.innerHTML = headers[i];
+				thead.appendChild(th);
+				}
+				table.appendChild(thead);
+				for(let i = 0; i< detalles.length ;i++){
+				tr = document.createElement('tr');
+				td = document.createElement('td');
+				td.innerHTML = detalles[i].producto;
+				tr.appendChild(td);
+				td = document.createElement('td');
+				td.innerHTML = detalles[i].codigo;
+				tr.appendChild(td);
+				td = document.createElement('td');
+				td.innerHTML = detalles[i].talle;
+				tr.appendChild(td);
+				td = document.createElement('td');
+				td.innerHTML = detalles[i].precio;
+				tr.appendChild(td);
+				td = document.createElement('td');
+				td.innerHTML = detalles[i].cantidad;
+				tr.appendChild(td);
+				tbody.appendChild(tr);
+				}
+				table.appendChild(tbody);
+				let container = document.createElement('div');
+				container.appendChild(table);
+				return container.outerHTML;
+			}
+
+			function getDetails(nroFac){
+				return () => {
+					return showDetails(nroFac);
+				}
+			}
+			
+			function addJsHandler(res){
+				res.columnas.push({headerName: 'Detalle', field: 'accion', width: '10%'});
+				res.registros.forEach(res => {
+					nroFac = res.id;
+					res['action'] = { js: true, content: getDetails(nroFac) };
+				});
+			}
+
+			callbackFn = function printTable(res){
+				res = JSON.parse(res);
+				destroyTabla();
+				addJsHandler(res);
+				encabezados = res.columnas;
+				registrosFiltrados = res.registros;
+				registros = res.registros;
+				construirTabla(encabezados, registros);
+				paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+			}
+
+			errorCalbackFn = function showError(res,stat){
+				console.log(res);
+				console.log(stat);
+			}
+		})
+
 	</script>
 	<style>
 		table{
@@ -42,95 +121,12 @@
 @section('body-main')
 	<section class="main">
 		@include('partials.menulayout')
-		<div class="container-reportes">
-			<div class="search-filters">
-				<dialog id="fac-details"></dialog>
-				<div class="filter-group ">
-						<label class="padding-top" for="id">Nro</label>
-						<input  class="form-input minified"
-									  id="id"
-									  name="id"
-									  placeholder="nro"
-										min="0"
-									  type="number">
-
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="importe_desde">Importe desde</label>
-						<input  class="form-input minified"
-										name="importe_desde"
-						 				id="importe_desde"
-										placeholder="importe desde"
-										type="number" min="0">
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="importe_hasta">Importe hasta</label>
-						<input  class="form-input minified"
-										name="importe_hasta"
-										id="importe_hasta"
-										placeholder="importe hasta" type="number" min="0">
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="fecha_desde">Fecha desde</label>
-						<input  class="form-input minified"
-										name="fecha_desde"
-										id="fecha_desde"
-										placeholder="fecha desde" type="date">
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="fecha_hasta">Fecha hasta</label>
-						<input  class="form-input minified"
-										name="fecha_hasta"
-										id="fecha_hasta"
-										placeholder="fecha hasta" type="date">
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="empleado_id">Empleado</label>
-						<input  class="form-input minified"
-										id="empleado_id"
-										name="empleado_id" list="empleados_data"
-										placeholder="empleado id" type="text">
-						<datalist id="empleados_data">
-						</datalist>
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="cliente_id">Cliente</label>
-						<input  class="form-input minified"
-										id="cliente_id"
-										name="cliente_id" list="cliente_data"
-										placeholder="cliente id" type="text">
-						<datalist id="cliente_data">
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="forma_pago_id">Forma de pago</label>
-						<input  class="form-input minified"
-										id="forma_pago_id"
-										name="forma_pago_id" list="forma_pago_data"
-										placeholder="forma pago" type="text">
-						<datalist id="forma_pago_data">
-						</datalist>
-				</div>
-				<div class="filter-group ">
-						<label class="padding-top" for="estado">Estado</label>
-						<input  class="form-input minified"
-										id="estado"
-										name="estado" list="estado_data"
-										placeholder="estado" type="text">
-						<datalist id="estado_data">
-							<option value="A">Anulada</option>
-							<option value="C">Creada</option>
-							<option value="F">Facturada</option>
-							<option value="R">Reservada</option>
-						</datalist>
-				</div>
-				<div class="filter-group ">
-					<input  type="submit" value="Filtrar" class="button-clean button btn-form btn-azul">
-				</div>
-				<br>
-				<div id="contenido"></div>
-				<br>
-				<div id="paginacion"></div>
-			</div>
+			<div id="filters"></div>
+			<br>
+		<div class="container-table">
+			<div id="contenido"></div>
+			<br>
+			<div id="paginacion"></div>
 		</div>
 	</section>
 @endsection

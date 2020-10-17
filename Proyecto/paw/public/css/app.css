@@ -64,6 +64,29 @@
 		border-radius: 4px;
 	}
 
+	#filters{
+        margin-right:auto;
+        height:auto; 
+		width:25vh;
+		min-width: 180px;
+		height:  100%;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		float: left;
+    }
+    div.filter-group{
+        float:left; 
+	}
+	
+	.filter-label{
+		font-size: 0.8rem;
+	}
+	
+	.container-table{
+		margin-left: 26vh;
+		padding-top: 1rem;
+		margin-right: 0.75rem;
+	}
 	.path > li {
 		display: inline-block;
 	}
@@ -88,10 +111,8 @@
 		border-bottom: 1px solid black;
 		min-width: 100px;
 		padding: 5px;
-		margin-left: 10px;
-		margin-top: 5px;
-		margin-bottom: 5px;
-		height: 40px;
+		margin-bottom: 0.4rem;
+		height: 1.3rem;
 	}
 	.minified, .minified:focus{
 		height: 1rem;
@@ -617,6 +638,10 @@
 		padding: 10px;
 		animation: margincanimation;
 		animation-duration: 1s;
+	}
+	section.main{
+		width: 100%;
+		height: 70vh;
 	}
 	.close{
 		animation: closeanimation;
