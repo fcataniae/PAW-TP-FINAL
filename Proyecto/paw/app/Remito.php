@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Remito extends Model
 {
     protected $table = "remito";
-    protected $fillable = ['id','importe','fecha_creacion','empleado_id','estado','image'];
+    protected $fillable = ['id','importe','fecha_creacion','empleado_id','estado','image', 'nro_remito'];
 
     public function empleado(){
       return $this->belongsTo('App\Empleado');

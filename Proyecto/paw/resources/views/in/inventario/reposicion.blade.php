@@ -57,8 +57,13 @@
 			</fieldset>
 			<br>
 			<fieldset name="Total">
+					
 				<legend>Remito</legend>
-				<div align="right" style="margin-right: 10px">
+				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto">
+					<label for="remito">Nro Remito : </label>
+					<input required type="text" name="nro_remito" id="nro_remito"  />
+				</div>
+				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto; ">
 					<label for="remito_img">Cargar Remito : </label>
 					<input required type="file" name="remito_img" id="remito_img" accept="application/pdf,image/*" />
 				<div>

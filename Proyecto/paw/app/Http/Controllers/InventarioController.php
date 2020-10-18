@@ -107,6 +107,7 @@ class InventarioController extends Controller
       }
       
       $remito = new Remito();
+      $remito->nro_remito = $request->nro_remito;
       $remito->importe = 0;
       $remito->fecha_creacion = Carbon::now();
       $remito->empleado_id =  Auth::user()->empleado->id;
@@ -124,6 +125,6 @@ class InventarioController extends Controller
           $nuevo_detalle->save();
         }
       }
-      redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
+      return redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
     }
 }
