@@ -116,6 +116,7 @@ class InventarioController extends Controller
       $base64 = base64_encode($logo);
       $remito->image = $base64;
       if($remito->save() ){
+        $this->saveArchivoRemito($remito, $request);
         for($i = 0; $i < count($request->producto_id); $i++){
           $nuevo_detalle = new RemitoDetalle();
           $nuevo_detalle->remito_id = $remito->id;;
@@ -126,5 +127,14 @@ class InventarioController extends Controller
         }
       }
       return redirect()->route('in.inventario.stock')->with('success','Se dio de alta el remito y se actualizo el stock!');
+    }
+
+    private function saveArchivoRemito($remito, $request){
+      if ($request->hasFile('remito_img')) {
+        $file = $request->file('remito_img');
+        $name = 'Remito_Id_' . $remito->id .'_Nro_'. $remito->nro_remito .'.'. $file->getClientOriginalExtension();
+        $path = public_path(). '/img/remitos/';
+        $file->move($path, $name);
+      }
     }
 }

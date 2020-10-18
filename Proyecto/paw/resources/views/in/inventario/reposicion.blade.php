@@ -32,7 +32,7 @@
 				<legend>Productos</legend>
 				<div style="margin: 10px">
 					<label for="buscar_por">Producto: </label>
-					<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input">
+					<input type="text" id="valor_a_buscar" name="valor_a_buscar" list="valor_a_buscar_data" class="input" autocomplete="off">
 					<datalist id="valor_a_buscar_data"></datalist>
 					<input type="button" id="agregar" onClick="agregarProducto()" name="Agregar" value="Agregar" class="button-table btn-azul">
 				</div>
@@ -59,11 +59,11 @@
 			<fieldset name="Total">
 					
 				<legend>Remito</legend>
-				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto">
+				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto;" class="required">
 					<label for="remito">Nro Remito : </label>
-					<input required type="text" name="nro_remito" id="nro_remito"  />
+					<input required type="text" name="nro_remito" id="nro_remito"  class="input" autocomplete="off"/>
 				</div>
-				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto; ">
+				<div align="right" style="margin-right: 10px;display: inline;margin-left: auto;" class="required">
 					<label for="remito_img">Cargar Remito : </label>
 					<input required type="file" name="remito_img" id="remito_img" accept="application/pdf,image/*" />
 				<div>

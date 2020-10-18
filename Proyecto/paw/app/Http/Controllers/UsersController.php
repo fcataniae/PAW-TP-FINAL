@@ -399,7 +399,7 @@ class UsersController extends Controller
             if ($request->hasFile('imagen_load')) {
                 File::delete(public_path().'/img/usuarios/'.$imagenVieja);
                 $file = $request->file('imagen_load');
-                $name = 'image_' . time().'.'. $file->getClientOriginalExtension();
+                $name = 'user_' . $usuario->id . '_image_' . time().'.'. $file->getClientOriginalExtension();
                 $path = public_path(). '/img/usuarios/';
                 $file->move($path, $name);
                 $usuario->imagen = $name;
