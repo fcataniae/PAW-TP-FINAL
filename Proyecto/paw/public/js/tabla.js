@@ -45,7 +45,7 @@ var csrf_token;
 var PREFIJO_FILTRO = "filtro_";
 var REGISTROS_POR_PAGINA = 10;
 var PAGINA_INICIAL = 0;
-
+const PREFIJO_PLACEHOLDER = "Filtro ";
 // LOGICA PARA TABLA
 
 function construirTabla(columns, values) {
@@ -79,11 +79,12 @@ function construirTabla(columns, values) {
   columns.forEach(function(el) {
     var td = document.createElement("td");
     if(el.field != "accion"){     
-      td.align = "center";
+      //td.align = "center";
       var input = document.createElement("input");
       input.type = "text";
       input.className = "input";
       input.id = PREFIJO_FILTRO + el.field;
+      input.placeholder = PREFIJO_PLACEHOLDER + el.headerName.toLowerCase();
       input.addEventListener("keyup", function(){
         registrosFiltrados = filtrar(filters, registros);
         paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);

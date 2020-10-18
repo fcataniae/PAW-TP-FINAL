@@ -19,6 +19,7 @@ const DATALIST_PREFIX = 'datalist_';
 const HTTP_GET = 'GET'
 const DATE_TYPE = 'date';
 const TEXT_TYPE = 'text';
+const PARAMS_QUERY = 'input.form-input';
 /*
   [
     {
@@ -110,7 +111,7 @@ function addFilterButton(){
 }
 function doSearch(){
   let params = [];
-  let filters = document.querySelectorAll('input.form-input');
+  let filters = document.querySelectorAll(PARAMS_QUERY);
   filters.forEach( filter => {
     let value = filter.value;
     if(value && value.trim() != ''){
