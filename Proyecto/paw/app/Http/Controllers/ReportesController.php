@@ -16,7 +16,7 @@ class ReportesController extends Controller
 				->with('filtros', $filtros)
 				->with('title','Reportes')
 				->with('ruta', 'in.reportes')
-				->with('subtitle','Reportes');
+				->with('subtitle','Reporte');
     	}else{
     		return redirect()->route('in.sinpermisos.sinpermisos');
 	    }

@@ -204,7 +204,7 @@ function drawInput(filter){
   label.innerText =  filter.description;
   label.classList.add('filter-label');
   input.classList.add('form-input');
-  input.type = document.dataType;
+  input.type = filter.dataType;
   input.placeholder = filter.description;
   input.id = filter.queryParam;
   input.name = filter.queryParam;
