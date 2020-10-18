@@ -7,6 +7,21 @@ var callbackFn ;
 var errorCalbackFn ;
 var filters ;
 
+callbackFn = function printTable(res){
+  res = JSON.parse(res);
+  destroyTabla();
+  encabezados = res.columnas;
+  registrosFiltrados = res.registros;
+  registros = res.registros;
+  construirTabla(encabezados, registros);
+  paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+}
+
+errorCalbackFn = function showError(res,stat){
+  console.log(res);
+  console.log(stat);
+}
+
 const CONTAINER = 'div#filters';
 const INPUT_TYPE = 'input';
 const DATALIST_TYPE = 'datalist';
