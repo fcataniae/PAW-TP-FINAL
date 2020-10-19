@@ -7,10 +7,17 @@
 
 @section('head-js')
 	<script src="{{asset('js/utils.js')}}"></script>
+	<script src="{{asset('js/filtros.js')}}"></script>
 	<script src="{{asset('js/tabla.js')}}"></script>
+	<script src="{{asset('js/ajax.js')}}"></script>
 	<script>
 		var columnas = '{!! $columnas !!}';
 		var datos = '{!! $facturas !!}';
+		var filterUrl = "filter";
+		var filters = '{!! $filtros !!}';
+		document.addEventListener("DOMContentLoaded", function () {
+	  		drawFilters();
+	  	});
 	</script>
 	<script type="application/ld+json">
 		{
@@ -30,8 +37,12 @@
 		@include('partials.alert-message')
 		@include('partials.menulayout')
 		<br>
-		<div id="contenido"></div>
+		<div id="filters"></div>
 		<br>
-		<div id="paginacion"></div>
+		<div class="container-table">
+			<div id="contenido"></div>
+			<br>
+			<div id="paginacion"></div>
+		</div>
 	</section>
 @endsection

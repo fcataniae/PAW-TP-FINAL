@@ -249,8 +249,11 @@ class FacturaController extends Controller
             array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
         );
         $columnas = json_encode($columnas);
-
-        $facturas = Factura::where('estado', '=', 'R')->orderBy('id','ASC')->get();
+        
+        $fecha_desde = date("Y-m-d",strtotime(date('Y-m-d')."- 2 month"));
+        $facturas = Factura::where('estado', '=', 'R')
+                                ->where('fecha_creacion', '>=', $fecha_desde)
+                                ->orderBy('id','ASC')->get();
         $array = array();
         $contador = 1;
         foreach($facturas as $f ){
@@ -267,12 +270,29 @@ class FacturaController extends Controller
         }
         $facturas = json_encode($array);
 
+        $filtros = json_encode($this->getFiltrosReserva());
+
         return view('in.ventas.reservas-venta')
             ->with('ruta', 'in.facturas.crear')
             ->with('subtitle', 'Ventas')
             ->with('title', 'Reservas')
+            ->with('filtros', $filtros)
             ->with('columnas', $columnas)
             ->with('facturas', $facturas);
+    }
+
+    private function getFiltrosReserva(){
+        $fecha_desde = date("Y-m-d",strtotime(date('Y-m-d')."- 2 month"));
+        $filtros = array(
+            array("type" => "input", "dataType" => "number", "description" => "Nro Factura", "queryParam" => "id"),
+            array("type" => "input", "dataType" => "number", "description" => "Importe hasta", "queryParam" => "importe_hasta", "min" => "0"),
+            array("type" => "input", "dataType" => "number", "description" => "Importe desde", "queryParam" => "importe_desde", "min" => "0"),
+            array("type" => "input", "dataType" => "date", "description" => "Fecha hasta", "queryParam" => "fecha_hasta", "min" => "0"),
+            array("type" => "input", "dataType" => "date", "description" => "Fecha desde", "queryParam" => "fecha_desde", "min" => "0", "value" => $fecha_desde),
+            array("type" => "input", "dataType" => "text", "description" => "Descripcion", "queryParam" => "descripcion"),
+        );
+
+        return $filtros;
     }
 
     public function confirmar($id){

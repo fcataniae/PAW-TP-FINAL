@@ -223,6 +223,9 @@ function drawInput(filter){
   input.placeholder = filter.description;
   input.id = filter.queryParam;
   input.name = filter.queryParam;
+  if(filter.value){
+    input.value = filter.value;
+  }
   if(filter.min){
     input.min = filter.min;
   }
