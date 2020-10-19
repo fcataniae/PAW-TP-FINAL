@@ -223,6 +223,7 @@ function drawInput(filter){
   input.placeholder = filter.description;
   input.id = filter.queryParam;
   input.name = filter.queryParam;
+  input.setAttribute("autocomplete","off");
   if(filter.value){
     input.value = filter.value;
   }

@@ -284,12 +284,12 @@ class FacturaController extends Controller
     private function getFiltrosReserva(){
         $fecha_desde = date("Y-m-d",strtotime(date('Y-m-d')."- 2 month"));
         $filtros = array(
-            array("type" => "input", "dataType" => "number", "description" => "Nro Factura", "queryParam" => "id"),
+            array("type" => "input", "dataType" => "number", "description" => "Nro Factura", "queryParam" => "id", "min" => "1000"),
             array("type" => "input", "dataType" => "number", "description" => "Importe hasta", "queryParam" => "importe_hasta", "min" => "0"),
             array("type" => "input", "dataType" => "number", "description" => "Importe desde", "queryParam" => "importe_desde", "min" => "0"),
             array("type" => "input", "dataType" => "date", "description" => "Fecha hasta", "queryParam" => "fecha_hasta", "min" => "0"),
             array("type" => "input", "dataType" => "date", "description" => "Fecha desde", "queryParam" => "fecha_desde", "min" => "0", "value" => $fecha_desde),
-            array("type" => "input", "dataType" => "text", "description" => "Descripcion", "queryParam" => "descripcion"),
+            array("type" => "input+datalist", "dataType" => "dinamic", "description" => "Empleado", "queryParam" => "empleado_id", "datalistUrl" => "/in/empleado")
         );
 
         return $filtros;
