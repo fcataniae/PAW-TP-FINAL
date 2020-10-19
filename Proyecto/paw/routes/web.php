@@ -44,7 +44,6 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('inventario/productos','ProductosController@showAll')->name('in.producto');
         Route::post('inventario/update','InventarioController@update')->name('in.inventario.update');
         Route::post('inventario/actualizar','InventarioController@guardarRemito')->name('in.inventario.submit');
-        Route::get('factura','FacturaController@doFilter');
         Route::get('forma_pago','FormaPagoController@getAll');
         Route::get('empleado','EmpleadosController@getAll');
         Route::get('cliente','ClientesController@getAll');
@@ -156,6 +155,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('facturas/reservas','FacturaController@reservas')->name('in.facturas.reservas');
         Route::put('facturas-ajax/{id}/reservar','FacturaController@reservarAjax')->name('in.facturas.reservarAjax');
         Route::put('facturas-ajax/{id}/anular','FacturaController@anularAjax')->name('in.facturas.anularAjax');
+        Route::get('facturas/{seccion}/filter','FacturaController@doFilter')->where('seccion', '(reservas|reportes)');
 
         Route::get('facturas/datos-configuracion-mp', 'FacturaController@getDatosConfiguracionMP');
 

@@ -5,7 +5,7 @@ var window = window || {},
 
 document.addEventListener("DOMContentLoaded", () => {
   filters = filtros;
-  filterUrl = '/in/factura';
+  filterUrl = '/in/facturas/reportes/filter';
   drawFilters();
 
   

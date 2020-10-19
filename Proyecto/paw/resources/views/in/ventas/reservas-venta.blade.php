@@ -13,7 +13,7 @@
 	<script>
 		var columnas = '{!! $columnas !!}';
 		var datos = '{!! $facturas !!}';
-		var filterUrl = "filter";
+		var filterUrl = "reservas/filter";
 		var filters = '{!! $filtros !!}';
 		document.addEventListener("DOMContentLoaded", function () {
 	  		drawFilters();

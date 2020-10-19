@@ -327,73 +327,108 @@ class FacturaController extends Controller
     }
 
 
-    public function doFilter(){
+    public function doFilter($seccion){
+        $seccionReservas = ($seccion == "reservas");
+        log::info("Seccion: " . $seccion);
+        log::info("esReserva: " . $seccionReservas);
 
         if(Auth::user()->can('gestionar_reporte')){
             $facturas = (new Factura())->newQuery();
 
             if(Input::get('id')){
-            $facturas->where('id', '=', Input::get('id'));
+                $facturas->where('id', '=', Input::get('id'));
             }
             if(Input::get('empleado_id')){
-            $facturas->where('empleado_id', '=', Input::get('empleado_id'));
+                $facturas->where('empleado_id', '=', Input::get('empleado_id'));
             }
             if(Input::get('importe_desde')){
-            $facturas->where('importe', '>', Input::get('importe_desde'));
+                $facturas->where('importe', '>=', Input::get('importe_desde'));
             }
             if(Input::get('importe_hasta')){
-            $facturas->where('importe', '<', Input::get('importe_hasta'));
+                $facturas->where('importe', '<=', Input::get('importe_hasta'));
             }
             if(Input::get('fecha_desde')){
-            $facturas->where('fecha_creacion', '>', date(Input::get('fecha_desde')));
+                $facturas->where('fecha_creacion', '>=', date(Input::get('fecha_desde')));
             }
             if(Input::get('fecha_hasta')){
-            $facturas->where('fecha_creacion', '<', date(Input::get('fecha_hasta')));
+                $facturas->where('fecha_creacion', '<=', date(Input::get('fecha_hasta')));
             }
             if(Input::get('cliente_id')){
-            $facturas->where('cliente_id', '=', Input::get('cliente_id'));
+                $facturas->where('cliente_id', '=', Input::get('cliente_id'));
             }
             if(Input::get('forma_pago_id')){
-            $facturas->where('forma_pago_id', '=', Input::get('forma_pago_id'));
+                $facturas->where('forma_pago_id', '=', Input::get('forma_pago_id'));
             }
             if(Input::get('estado')){
-            $facturas->where('estado', '=', Input::get('estado'));
+                $facturas->where('estado', '=', Input::get('estado'));
+            }else if($seccionReservas){
+               $facturas->where('estado', '=', "R"); 
             }
 
-            $columnas = array(
-                array('headerName' => "Nro", 'field' => "id", 'width' => '10%'),
-                array('headerName' => "Importe", 'field' => "importe", 'width' => '15%'),
-                array('headerName' => "Fecha Creacion", 'field' => "fecha_creacion", 'width' => '15%'),
-                array('headerName' => "Empleado", 'field' => "empleado_id", 'width' => '15%'),
-                array('headerName' => "Cliente", 'field' => "cliente_id", 'width' => '15%'),
-                array('headerName' => "Forma de Pago", 'field' => "forma_pago_id", 'width' => '10%'),
-                array('headerName' => "Estado", 'field' => "estado", 'width' => '10%'),
-            ); 
             $facturas = $facturas->get();
+            
+            $columnas = array(); 
             $array = array();
-            foreach ($facturas as $factu) {
-            $cliente = '';
-            $forma = '';
-            if($factu->cliente != null){
-                $cliente = $factu->cliente->nombre.' '.$factu->cliente->apellido;
+
+            if($seccionReservas){
+                $columnas = array(
+                    array('headerName' => "Nro Factura", 'field' => "nro_factura"),
+                    array('headerName' => "Importe", 'field' => "importe"),
+                    array('headerName' => "Fecha", 'field' => "fecha"),
+                    array('headerName' => "Empleado", 'field' => "empleado"),
+                    array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+                );
+
+                $contador = 1;
+                foreach($facturas as $f ){
+                    array_push($array,array(
+                            'id' =>  $contador,
+                            'dataJson' => array('nro_factura' => $f->id, 
+                                                'importe' => $f->importe, 
+                                                'fecha' => date("d / m / Y", strtotime($f->fecha_creacion)),
+                                                'empleado' => $f->empleado->nombre . " " . $f->empleado->apellido),
+                            'action' => array('update' => $f->id . "/editar")
+                        )
+                    );
+                    $contador++;
+                }
+            }else{
+                $columnas = array(
+                    array('headerName' => "Nro", 'field' => "id", 'width' => '10%'),
+                    array('headerName' => "Importe", 'field' => "importe", 'width' => '15%'),
+                    array('headerName' => "Fecha Creacion", 'field' => "fecha_creacion", 'width' => '15%'),
+                    array('headerName' => "Empleado", 'field' => "empleado_id", 'width' => '15%'),
+                    array('headerName' => "Cliente", 'field' => "cliente_id", 'width' => '15%'),
+                    array('headerName' => "Forma de Pago", 'field' => "forma_pago_id", 'width' => '10%'),
+                    array('headerName' => "Estado", 'field' => "estado", 'width' => '10%'),
+                ); 
+
+                foreach ($facturas as $factu) {
+                    $cliente = '';
+                    $forma = '';
+                    if($factu->cliente != null){
+                        $cliente = $factu->cliente->nombre.' '.$factu->cliente->apellido;
+                    }
+                    if($factu->forma_pago_id){
+                        $forma = $factu->formaPago->descripcion ;
+                    }
+                    array_push($array,array(
+                            'id' => $factu->id,
+                            'dataJson' => array(
+                                    'id' =>  $factu->id,
+                                    'importe' => $factu->importe,
+                                    'cliente_id' => $cliente,
+                                    'empleado_id' => $factu->empleado->nombre.' '.$factu->empleado->apellido,
+                                    'forma_pago_id' => $forma,
+                                    'estado' => $factu->estado,
+                                    'fecha_creacion' => $factu->fecha_creacion,
+                            ),
+                            'action' => ''
+                        )
+                    );
+                }
             }
-            if($factu->forma_pago_id){
-                $forma = $factu->formaPago->descripcion ;
-            }
-            array_push($array,array(
-                        'id' => $factu->id,
-                        'dataJson' => array(
-                            'id' =>  $factu->id,
-                            'importe' => $factu->importe,
-                            'cliente_id' => $cliente,
-                            'empleado_id' => $factu->empleado->nombre.' '.$factu->empleado->apellido,
-                            'forma_pago_id' => $forma,
-                            'estado' => $factu->estado,
-                            'fecha_creacion' => $factu->fecha_creacion,
-                        ),
-                        'action' => ''
-                    ));
-            }
+
             $data = array(
                 'registros' => $array,
                 'columnas' => $columnas
