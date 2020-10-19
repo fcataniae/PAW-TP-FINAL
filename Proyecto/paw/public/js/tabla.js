@@ -65,16 +65,32 @@ function construirTabla(columns, values) {
     th.innerHTML = el.headerName;
     th.id =el.field;
     filters.push(el.field);
+    
     if(el.width){
       th.width = el.width;
     }
+
     // se agrega funcion para ordenar
     if(el.field != "accion"){ 
+
+      // se agrega el font inicial a la columna correspondiente
+      var i = document.createElement("i");
+      i.className = "fa fa-sort";
+      i.setAttribute("aria-hidden", true);
+      i.setAttribute("style", "float: right; margin-right: 10px");
+      th.appendChild(i);
+      
+      // se setea la funcion para ordenar a la columna correspondiente
       let orderAsc = false;
       th.onclick = function(){
         orderAsc = !orderAsc;
+        if(orderAsc){
+          i.className ="fa fa-sort-asc";
+        }else{
+          i.className ="fa fa-sort-desc";
+        }
         ordenarTabla(el.field, orderAsc);
-      };
+      }
     }
 
     headRow.appendChild(th);
@@ -466,11 +482,24 @@ function modal(id, data, ok, cancel) {
 }
 
 function ordenarTabla(campo, asc) {
+
+    // se resetean fonts de columnas no ordenandas
+    table = document.getElementById("customTable");
+    headers = table.rows[0].getElementsByTagName("th");
+    for (i = 0; i < (headers.length - 1); i++) {
+      if(campo != headers[i].id){
+        headers[i].childNodes[1].className = "fa fa-sort";
+      }
+    }
+
+    // se ordena la columna indicada
     if(asc){
       registrosFiltrados.sort(dynamicSort(campo));
     }else{
       registrosFiltrados.sort(dynamicSort(campo)).reverse();
     }
+
+    // se vuelve a generar la tabla
     paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
 }
 
