@@ -41,9 +41,11 @@ var encabezados = [];
 var registros = [];
 var registrosFiltrados = [];
 var csrf_token;
+var columnas;
+var datos;
 
 var PREFIJO_FILTRO = "filtro_";
-var REGISTROS_POR_PAGINA = 10;
+var REGISTROS_POR_PAGINA = 8;
 var PAGINA_INICIAL = 0;
 const PREFIJO_PLACEHOLDER = "Filtro ";
 // LOGICA PARA TABLA

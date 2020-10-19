@@ -130,6 +130,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('productos/{id}/editar','ProductosController@edit')->name('in.productos.editar');
         Route::put('productos/{id}/actualizar','ProductosController@update')->name('in.productos.actualizar');
         Route::delete('productos/{id}/eliminar','ProductosController@destroy')->name('in.productos.eliminar');
+        Route::get('productos/filter','ProductosController@doFilter');
 
         Route::get('forma_pago/listar', 'FormaPagoController@index')->name('in.forma_pago.listar');
         Route::get('forma_pago/crear','FormaPagoController@create')->name('in.forma_pago.crear');

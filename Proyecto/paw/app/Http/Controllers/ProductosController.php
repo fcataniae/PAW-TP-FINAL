@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\Producto as Producto;
 use App\Talle as Talle;
@@ -21,6 +22,44 @@ class ProductosController extends Controller
     public function index()
     {
         if(Auth::user()->can('listar_producto')){
+            
+            $filtros = json_encode($this->getFiltros());
+
+            return view('in.negocio.producto.index')
+                    ->with('ruta', 'in.productos.listar')
+                    ->with('title','Tabla de productos')
+                    ->with('subtitle','Productos')
+                    ->with('filtros', $filtros);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+
+    private function getFiltros(){
+        $filtros = array(
+            array("type" => "input", "dataType" => "text", "description" => "Codigo", "queryParam" => "codigo"),
+            array("type" => "input", "dataType" => "text", "description" => "Descripcion", "queryParam" => "descripcion"),
+            array("type" => "input", "dataType" => "number", "description" => "Stock hasta", "queryParam" => "stock_hasta", "min" => "0"),
+            array("type" => "input", "dataType" => "number", "description" => "Stock desde", "queryParam" => "stock_desde", "min" => "0"),
+            array("type" => "input", "dataType" => "number", "description" => "Precio hasta", "queryParam" => "precio_hasta", "min" => "0"),
+            array("type" => "input", "dataType" => "number", "description" => "Precio desde", "queryParam" => "precio_desde", "min" => "0"),
+            array("type" => "input+datalist", "dataType" => "static", "description" => "Estado", "queryParam" => "estado", 
+                  "datalistData" => array(
+                    array("descripcion" => "Activo", "id" => "A"),
+                    array("descripcion" => "Inactivo", "id" => "I")
+                )
+            )
+        );
+
+        return $filtros;
+    }
+
+
+    public function doFilter(){
+
+        if(Auth::user()->can('listar_producto')){
+            
             $permisoEditar = false;
             if(Auth::user()->can('modificar_producto')){
                 $permisoEditar = true;
@@ -35,15 +74,40 @@ class ProductosController extends Controller
                 array('headerName' => "Codigo", 'field' => "codigo"),
                 array('headerName' => "Descripcion", 'field' => "descripcion"),
                 array('headerName' => "Stock", 'field' => "stock"),
-                array('headerName' => "Precio de venta ($)", 'field' => "precio_venta"),
+                array('headerName' => "Precio de venta", 'field' => "precio_venta"),
                 array('headerName' => "Estado", 'field' => "estado")
             );
             if($permisoEditar || $permisoEliminar){
               array_push($columnas,array('headerName' => "Accion", 'field' => "accion", 'width' => "100px"));
             }
-            $columnas = json_encode($columnas);
 
-            $registros = Producto::orderBy('id','ASC')->get();
+
+            $registros = (new Producto())->newQuery();
+            if(Input::get('codigo')){
+                $registros->where('codigo', 'LIKE', '%' . Input::get('codigo') . '%');
+            }
+            if(Input::get('descripcion')){
+                $registros->where('descripcion', 'LIKE', '%' . Input::get('descripcion') . '%');
+            }
+            if(Input::get('stock_desde')){
+                $registros->where('stock', '>=', Input::get('stock_desde'));
+            }
+            if(Input::get('stock_hasta')){
+                $registros->where('stock', '<=', Input::get('stock_hasta'));
+            }
+            if(Input::get('precio_desde')){
+                $registros->where('precio_venta', '>=', Input::get('precio_desde'));
+            }
+            if(Input::get('precio_hasta')){
+                $registros->where('precio_venta', '<=', Input::get('precio_hasta'));
+            }
+            if(Input::get('estado')){
+                $registros->where('estado', '=', Input::get('estado'));
+            }
+            $registros->orderBy('codigo','ASC');
+
+            $registros = $registros->get();
+
             $array = array();
             $contador = 1;
             foreach($registros as $r ){
@@ -72,16 +136,14 @@ class ProductosController extends Controller
                 );
                 $contador++;
             }
-            $registros = json_encode($array);
 
-            return view('in.negocio.producto.index')
-                    ->with('ruta', 'in.productos.listar')
-                    ->with('title','Tabla de productos')
-                    ->with('subtitle','Productos')
-                    ->with('columnas', $columnas)
-                    ->with('registros',$registros);
+            $data = array(
+                'registros' => $array,
+                'columnas' => $columnas
+            );
+            return json_encode($data);
         }else{
-            return redirect()->route('in.sinpermisos.sinpermisos');
+            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
     }
 
