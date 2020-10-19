@@ -49,7 +49,6 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('cliente','ClientesController@getAll');
         Route::get('factura/get/detalles/{id}','FacturaController@getDetalleById');
 
-
         // empleados, roles y clientes
 
         Route::get('empleados/listar', 'EmpleadosController@index')->name('in.empleados.listar');
@@ -92,6 +91,7 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::put('clientes/{id}/actualizar','ClientesController@update')->name('in.clientes.actualizar');
         Route::delete('clientes/{id}/eliminar','ClientesController@destroy')->name('in.clientes.eliminar');
         Route::post('clientes-ajax','ClientesController@storeAjax')->name('in.clientes.storeAjax');
+        Route::get('clientes/filter','ClientesController@doFilter');
 
         // parametria y productos
 

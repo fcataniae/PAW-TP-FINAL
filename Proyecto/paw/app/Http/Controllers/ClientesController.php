@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Exception;
 use App\Cliente as Cliente;
@@ -20,6 +21,39 @@ class ClientesController extends Controller
     {
         if(Auth::user()->can('listar_cliente')){
 
+            $filtros = json_encode($this->getFiltros());
+
+            return view('in.negocio.cliente.index')
+                    ->with('ruta', 'in.clientes.listar')
+                    ->with('title','Tabla de clientes')
+                    ->with('subtitle','Clientes')
+                    ->with('filtros', $filtros);
+        }else{
+            return redirect()->route('in.sinpermisos.sinpermisos');
+        }
+    }
+
+    private function getFiltros(){
+        $filtros = array(
+            array("type" => "input", "dataType" => "number", "description" => "Codigo", "queryParam" => "codigo", "min" => "1000"),
+            array("type" => "input", "dataType" => "text", "description" => "Nombre", "queryParam" => "nombre"),
+            array("type" => "input", "dataType" => "text", "description" => "Apellido", "queryParam" => "apellido"),
+            array("type" => "input", "dataType" => "number", "description" => "Documento", "queryParam" => "nro_documento", "min" => "0"),
+            array("type" => "input+datalist", "dataType" => "static", "description" => "Estado", "queryParam" => "estado", 
+                  "datalistData" => array(
+                    array("descripcion" => "Activo", "id" => "A"),
+                    array("descripcion" => "Inactivo", "id" => "I")
+                )
+            )
+        );
+
+        return $filtros;
+    }
+
+     public function doFilter(){
+
+        if(Auth::user()->can('listar_cliente')){
+            
             $permisoEditar = false;
             if(Auth::user()->can('modificar_cliente')){
                 $permisoEditar = true;
@@ -40,9 +74,31 @@ class ClientesController extends Controller
             if($permisoEditar || $permisoEliminar){
               array_push($columnas,array('headerName' => "Accion", 'field' => "accion", 'width' => "100px"));
             }
-            $columnas = json_encode($columnas);
 
-            $registros = Cliente::orderBy('id','ASC')->get();
+
+            $registros = (new Cliente())->newQuery();
+            if(Input::get('codigo')){
+                $registros->where('id', 'LIKE', '%' . Input::get('codigo') . '%');
+                $registros->orderBy('id','ASC');
+            }
+            if(Input::get('nombre')){
+                $registros->where('nombre', 'LIKE', '%' . Input::get('nombre') . '%');
+                $registros->orderBy('nombre','ASC');
+            }
+            if(Input::get('apellido')){
+                $registros->where('apellido', 'LIKE', '%' . Input::get('apellido') . '%');
+                $registros->orderBy('apellido','ASC');
+            }
+            if(Input::get('nro_documento')){
+                $registros->where('nro_documento', 'LIKE', '%' . Input::get('nro_documento') . '%');
+                $registros->orderBy('nro_documento','ASC');
+            }
+            if(Input::get('estado')){
+                $registros->where('estado', '=', Input::get('estado'));
+            }
+
+            $registros = $registros->get();
+
             $array = array();
             $contador = 1;
             foreach($registros as $r ){
@@ -71,16 +127,14 @@ class ClientesController extends Controller
                 );
                 $contador++;
             }
-            $registros = json_encode($array);
 
-            return view('in.negocio.cliente.index')
-                    ->with('ruta', 'in.clientes.listar')
-                    ->with('title','Tabla de clientes')
-                    ->with('subtitle','Clientes')
-                    ->with('columnas', $columnas)
-                    ->with('registros',$registros);
+            $data = array(
+                'registros' => $array,
+                'columnas' => $columnas
+            );
+            return json_encode($data);
         }else{
-            return redirect()->route('in.sinpermisos.sinpermisos');
+            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
     }
 
