@@ -85,26 +85,31 @@ class ProductosController extends Controller
             $registros = (new Producto())->newQuery();
             if(Input::get('codigo')){
                 $registros->where('codigo', 'LIKE', '%' . Input::get('codigo') . '%');
+                $registros->orderBy('codigo','ASC');
             }
             if(Input::get('descripcion')){
                 $registros->where('descripcion', 'LIKE', '%' . Input::get('descripcion') . '%');
-            }
-            if(Input::get('stock_desde')){
-                $registros->where('stock', '>=', Input::get('stock_desde'));
+                $registros->orderBy('descripcion','ASC');
             }
             if(Input::get('stock_hasta')){
                 $registros->where('stock', '<=', Input::get('stock_hasta'));
+                $registros->orderBy('stock','DESC');
             }
-            if(Input::get('precio_desde')){
-                $registros->where('precio_venta', '>=', Input::get('precio_desde'));
+            if(Input::get('stock_desde')){
+                $registros->where('stock', '>=', Input::get('stock_desde'));
+                $registros->orderBy('stock','ASC');
             }
             if(Input::get('precio_hasta')){
                 $registros->where('precio_venta', '<=', Input::get('precio_hasta'));
+                $registros->orderBy('precio_venta','DESC');
+            }
+            if(Input::get('precio_desde')){
+                $registros->where('precio_venta', '>=', Input::get('precio_desde'));
+                $registros->orderBy('precio_venta','ASC');
             }
             if(Input::get('estado')){
                 $registros->where('estado', '=', Input::get('estado'));
             }
-            $registros->orderBy('codigo','ASC');
 
             $registros = $registros->get();
 
