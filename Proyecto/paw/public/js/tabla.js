@@ -68,6 +68,15 @@ function construirTabla(columns, values) {
     if(el.width){
       th.width = el.width;
     }
+    // se agrega funcion para ordenar
+    if(el.field != "accion"){ 
+      let orderAsc = false;
+      th.onclick = function(){
+        orderAsc = !orderAsc;
+        ordenarTabla(el.field, orderAsc);
+      };
+    }
+
     headRow.appendChild(th);
   });
   thead.appendChild(headRow);
@@ -454,6 +463,34 @@ function modal(id, data, ok, cancel) {
   setTimeout(function(){
     mod.classList.add("modal-visible");
   },50);
+}
+
+function ordenarTabla(campo, asc) {
+    if(asc){
+      registrosFiltrados.sort(dynamicSort(campo));
+    }else{
+      registrosFiltrados.sort(dynamicSort(campo)).reverse();
+    }
+    paginarAndVisualizarRegistros(REGISTROS_POR_PAGINA, PAGINA_INICIAL);
+}
+
+function dynamicSort(property) {
+  console.log(property.indexOf("precio") );
+    var sortOrder = 1;
+    var result;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        // verifico si es un precio o el importe para hacer la comparacion correctamente
+        if((property.indexOf("precio") > -1) || (property.indexOf("importe") > -1)){
+          result = (parseFloat(a.dataJson[property]) < parseFloat(b.dataJson[property])) ? -1 : (parseFloat(a.dataJson[property]) > parseFloat(b.dataJson[property])) ? 1 : 0;
+        }else{
+          result = (a.dataJson[property] < b.dataJson[property]) ? -1 : (a.dataJson[property] > b.dataJson[property]) ? 1 : 0;
+        }
+        return result * sortOrder;
+    }
 }
 
 function jsonToObject(json){
