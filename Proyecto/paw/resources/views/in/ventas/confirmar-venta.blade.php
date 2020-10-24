@@ -71,7 +71,7 @@
 					<label for="apellido"> Apellido: </label>
 					<input type="text" id="apellido" name="apellido" class="input" autocomplete="off">
 				</div>
-				<button id="btnAddCliente" type="button" onClick="agregarCliente()" class="button-table"><i class="fa fa-plus" aria-hidden="true"></i></button>
+				<button id="btnAddCliente" type="button" onClick="agregarCliente()" class="button-table"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
 			</fieldset>
 			<br>
 			<fieldset name="Detalles">
