@@ -78,10 +78,12 @@ function cargarCliente(){
 	if(nro_cliente){
 		cliente = clientesAll.find(c => c.id == nro_cliente);
 		console.log(cliente);
-		document.getElementById("tipo_documento").value = cliente.tipo_documento_id;
-		document.getElementById("nro_documento").value = cliente.nro_documento;
-		document.getElementById("nombre").value = cliente.nombre;
-		document.getElementById("apellido").value = cliente.apellido;
+		if(cliente){
+			document.getElementById("tipo_documento").value = cliente.tipo_documento_id;
+			document.getElementById("nro_documento").value = cliente.nro_documento;
+			document.getElementById("nombre").value = cliente.nombre;
+			document.getElementById("apellido").value = cliente.apellido;
+		}
 	}
 }
 

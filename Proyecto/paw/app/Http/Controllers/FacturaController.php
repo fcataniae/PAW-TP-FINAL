@@ -127,20 +127,24 @@ class FacturaController extends Controller
                 "email" => env("MP_MAIL_REFERENCIA")
             );
 
-            // Guarda y postea el pago
+            // Guarda el pago
             try{
                 $payment->save();
             }catch(\Exception $e){
                 log::info($e->getMessage()); 
                 return redirect()->back()->withErrors('Error al cobrar por Mercado Pago.'); 
             }
+            log::info("Payment->id:" . $payment->id . " | Payment->status: " . $payment->status); 
 
             if($payment->id == null){
                 return redirect()->back()->withErrors("Error al obtener el ID del pago.");
-            }else if($payment->status != "approved"){
-                $payment = MercadoPago\Payment::find_by_id($payment->id);
-                $payment->status = "cancelled";
-                $payment->update();
+            }else if($payment->status != "approved" ){
+                // Si el pago no esta rechazado lo cancelo
+                if($payment->status != "rejected"){
+                    $payment = MercadoPago\Payment::find_by_id($payment->id);
+                    $payment->status = "cancelled";
+                    $payment->update();
+                }
                 return redirect()->back()->withErrors("El pago no fue aprobado.");
             }
 
