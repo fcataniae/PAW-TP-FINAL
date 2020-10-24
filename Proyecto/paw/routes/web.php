@@ -48,6 +48,8 @@ Route::group(['prefix' => 'in', 'middleware' => 'auth'], function(){
         Route::get('empleado','EmpleadosController@getAll');
         Route::get('cliente','ClientesController@getAll');
         Route::get('factura/get/detalles/{id}','FacturaController@getDetalleById');
+        Route::get('inventario/filter', 'InventarioController@doFilter');
+
 
         // empleados, roles y clientes
 

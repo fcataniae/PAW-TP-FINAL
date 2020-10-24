@@ -33,14 +33,43 @@ class InventarioController extends Controller
 
       if(Auth::user()->can('gestionar_inventario')){
 
-        $data = $this->controller->showAll();
+        $filtros = json_encode($this->getFiltros());
 
         return view('in.inventario.stock')
           ->with('subtitle','Inventario')
           ->with('title','Control de Stock')
           ->with('ruta', 'in.inventario.stock')
-          ->with('columnas', json_encode($data['columnas']))
-          ->with('registros',json_encode($data['registros']));
+          ->with('filtros', $filtros);
+      }else{
+        return redirect()->route('in.sinpermisos.sinpermisos');
+      }
+    }
+
+    private function getFiltros(){
+      
+      $filtros = array(
+        array("type" => "input", "dataType" => "text", "description" => "Codigo", "queryParam" => "codigo"),
+        array("type" => "input", "dataType" => "text", "description" => "Descripcion", "queryParam" => "descripcion"),
+        array("type" => "input", "dataType" => "number", "description" => "Stock hasta", "queryParam" => "stock_hasta", "min" => "0"),
+        array("type" => "input", "dataType" => "number", "description" => "Stock desde", "queryParam" => "stock_desde", "min" => "0"),
+        array("type" => "input+datalist", "dataType" => "static", "description" => "Estado", "queryParam" => "estado", 
+              "datalistData" => array(
+                array("descripcion" => "Activo", "id" => "A"),
+                array("descripcion" => "Inactivo", "id" => "I")
+            )
+        )
+    );
+
+    return $filtros;
+    }
+
+    public function doFilter(Request $request){
+
+      if(Auth::user()->can('gestionar_inventario')){
+
+        $data = $this->controller->doFilter2($request);
+
+        return $data;
       }else{
         return redirect()->route('in.sinpermisos.sinpermisos');
       }

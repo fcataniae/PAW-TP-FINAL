@@ -285,7 +285,71 @@ class ProductosController extends Controller
           );
           return $data;
       }
+    
+    public function doFilter2()
+    {
 
+        $registros = (new Producto())->newQuery();
+        if(Input::get('codigo')){
+            $registros->where('codigo', 'LIKE', '%' . Input::get('codigo') . '%');
+            $registros->orderBy('codigo','ASC');
+        }
+        if(Input::get('descripcion')){
+            $registros->where('descripcion', 'LIKE', '%' . Input::get('descripcion') . '%');
+            $registros->orderBy('descripcion','ASC');
+        }
+        if(Input::get('stock_hasta')){
+            $registros->where('stock', '<=', Input::get('stock_hasta'));
+            $registros->orderBy('stock','DESC');
+        }
+        if(Input::get('stock_desde')){
+            $registros->where('stock', '>=', Input::get('stock_desde'));
+            $registros->orderBy('stock','ASC');
+        }
+        if(Input::get('estado')){
+            $registros->where('estado', '=', Input::get('estado'));
+        }
+
+        $productos = $registros->get();
+
+        $columnas = array(
+        array('headerName' => "Codigo", 'field' => "codigo"),
+        array('headerName' => "Descripcion", 'field' => "descripcion"),
+        array('headerName' => "Stock", 'field' => "stock"),
+        array('headerName' => "Talle", 'field' => "talle_id"),
+        array('headerName' => "Tipo", 'field' => "tipo_id"),
+        array('headerName' => "Categoria", 'field' => "categoria")#,
+        # array('headerName' => "Accion", 'field' => "accion", 'width' => "100px")
+        );  
+
+        $array =array();
+        foreach($productos as $producto ){
+        $estado = "Inactivo";
+        if($producto->estado == "A"){
+            $estado = "Activo";
+        }
+        # $action = array();
+        # $action['update'] = route('in.inventario.reposicion', ['id' => $producto->id]);
+
+        array_push($array,array(
+                'id' =>   $producto->id,
+                'dataJson' => array('codigo' =>  $producto->codigo, 
+                                    'descripcion' =>  $producto->descripcion,
+                                    'stock' =>  $producto->stock,
+                                    'talle_id'=> $producto->talle->descripcion,
+                                    'tipo_id' => $producto->tipo->descripcion,
+                                    'categoria' => $producto->tipo->categoria->descripcion
+                                )#,
+            #    'action' => $action
+            )
+        );
+        }
+        $data = array(
+            'columnas' => $columnas,
+            'registros' => $array
+        );
+        return $data;
+    }
     /**
      * Show the form for editing the specified resource.
      *
