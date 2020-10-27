@@ -45,7 +45,7 @@ var columnas;
 var datos;
 
 var PREFIJO_FILTRO = "filtro_";
-var REGISTROS_POR_PAGINA = 8;
+var REGISTROS_POR_PAGINA = 6;
 var PAGINA_INICIAL = 0;
 const PREFIJO_PLACEHOLDER = "Filtro ";
 // LOGICA PARA TABLA
