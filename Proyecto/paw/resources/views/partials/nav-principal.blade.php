@@ -1,6 +1,6 @@
 @if(Auth::user() != null)
 	<a href={{ route('in') }}>
-		<img class="logo" src="/img/logo.png" alt="" width="40" height="40"/>
+		<img class="logo" src="/img/logo_nombre.png" alt="" width="40" height="40"/>
 	</a>
 @endif
 
