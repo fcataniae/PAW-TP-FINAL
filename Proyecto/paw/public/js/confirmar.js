@@ -38,6 +38,7 @@ function cargarConfiguracionMP(){
 
 function cargarListaClientes(){
 	var datalist = document.getElementById("clientes_data");
+	datalist.innerHTML = "";
 	clientesAll.forEach(c => {
 		option = document.createElement('option');
 	    option.value =  c.id;

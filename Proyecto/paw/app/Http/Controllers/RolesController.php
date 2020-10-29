@@ -224,7 +224,12 @@ class RolesController extends Controller
     {
         if(Auth::user()->can('eliminar_rol')){
             $rol = Rol::find($id);
-            $rol->delete();
+            try{
+                $rol->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el rol.'); 
+            }
             return redirect()->route('in.roles.listar')->with('success', 'Rol ' . $rol->display_name . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

@@ -227,8 +227,13 @@ class UsersController extends Controller
     {
         if(Auth::user()->can('eliminar_usuario')){
             $usuario = Usuario::find($id);
-            File::delete(public_path().'/img/usuarios/'.$usuario->imagen);
-            $usuario->delete();
+            try{
+                $usuario->delete();
+                File::delete(public_path().'/img/usuarios/'.$usuario->imagen);
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el usuario.'); 
+            }
             return redirect()->route('in.users.listar')->with('success', 'Usuario ' . $usuario->name . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

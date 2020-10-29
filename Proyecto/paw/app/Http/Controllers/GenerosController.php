@@ -180,7 +180,12 @@ class GenerosController extends Controller
     {
         if(Auth::user()->can('eliminar_genero')){
             $genero = Genero::find($id);
-            $genero->delete();
+            try{
+                $genero->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el genero.'); 
+            }
             return redirect()->route('in.generos.listar')->with('success', 'Genero ' . $genero->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

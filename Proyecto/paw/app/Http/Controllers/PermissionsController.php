@@ -187,7 +187,12 @@ class PermissionsController extends Controller
     {
         if(Auth::user()->can('eliminar_permiso')){
             $permiso = Permiso::find($id);
-            $permiso->delete();
+            try{
+                $permiso->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el permiso.'); 
+            }
             return redirect()->route('in.permissions.listar')->with('success', 'Permiso ' . $permiso->display_name . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

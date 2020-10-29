@@ -187,7 +187,12 @@ class CategoriasController extends Controller
     {
         if(Auth::user()->can('eliminar_categoria_producto')){
             $categoria = Categoria::find($id);
-            $categoria->delete();
+            try{
+                $categoria->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar la categoria.'); 
+            }
             return redirect()->route('in.categorias.listar')->with('success', 'Categoria ' . $categoria->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

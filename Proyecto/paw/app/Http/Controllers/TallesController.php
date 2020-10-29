@@ -178,7 +178,12 @@ class TallesController extends Controller
     {
         if(Auth::user()->can('eliminar_talle_producto')){
             $talle = Talle::find($id);
-            $talle->delete();
+            try{
+                $talle->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el talle.'); 
+            }
             return redirect()->route('in.talles.listar')->with('success', 'Talle ' . $talle->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

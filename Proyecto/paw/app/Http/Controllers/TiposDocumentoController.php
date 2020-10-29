@@ -180,7 +180,12 @@ class TiposDocumentoController extends Controller
     {
         if(Auth::user()->can('eliminar_tipo_documento')){
             $tipo_documento = Tipo_Documento::find($id);
-            $tipo_documento->delete();
+            try{
+                $tipo_documento->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el tipo de documento.'); 
+            }
             return redirect()->route('in.tipos_documento.listar')->with('success', 'TIpos de documento ' . $tipo_documento->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

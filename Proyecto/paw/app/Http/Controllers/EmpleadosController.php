@@ -340,7 +340,12 @@ class EmpleadosController extends Controller
     {
         if(Auth::user()->can('eliminar_empleado')){
             $empleado = Empleado::find($id);
-            $empleado->delete();
+            try{
+                $empleado->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el empleado.'); 
+            }
             return redirect()->route('in.empleados.listar')->with('success', 'Empleado ' . $empleado->nombre . " " . $empleado->apellido . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

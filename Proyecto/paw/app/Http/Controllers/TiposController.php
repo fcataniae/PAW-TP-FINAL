@@ -187,7 +187,12 @@ class TiposController extends Controller
     {
         if(Auth::user()->can('eliminar_tipo_producto')){
             $tipo = Tipo::find($id);
-            $tipo->delete();
+            try{
+                $tipo->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el tipo.'); 
+            }
             return redirect()->route('in.tipos.listar')->with('success', 'Tipo ' . $tipo->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

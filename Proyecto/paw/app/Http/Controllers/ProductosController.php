@@ -433,7 +433,12 @@ class ProductosController extends Controller
     {
         if(Auth::user()->can('eliminar_producto')){
             $producto = Producto::find($id);
-            $producto->delete();
+            try{
+                $producto->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el producto.'); 
+            }
             return redirect()->route('in.productos.listar')->with('success', 'Producto ' . $producto->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

@@ -298,7 +298,12 @@ class ClientesController extends Controller
     {
         if(Auth::user()->can('eliminar_cliente')){
             $cliente = Cliente::find($id);
-            $cliente->delete();
+            try{
+                $cliente->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar el cliente.'); 
+            }
             return redirect()->route('in.clientes.listar')->with('success', 'Cliente ' . $cliente->nombre . ' ' . $cliente->apellido . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');

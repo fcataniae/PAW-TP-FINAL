@@ -191,7 +191,12 @@ class FormaPagoController extends Controller
     {
         if(Auth::user()->can('eliminar_forma_pago')){
             $formapago = Forma_Pago::find($id);
-            $formapago->delete();
+            try{
+                $formapago->delete();
+            }catch(\Exception $e){
+                log::info($e->getMessage()); 
+                return redirect()->back()->withErrors('No se puede eliminar la forma de pago.'); 
+            }
             return redirect()->route('in.forma_pago.listar')->with('success', 'Forma de pago ' . $formapago->descripcion . ' eliminado.');
         }else{
             return redirect()->route('in.sinpermisos.sinpermisos');
